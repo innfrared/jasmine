@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "types": ["node", "@react-three/fiber"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "../node_modules"
+  ]
+}

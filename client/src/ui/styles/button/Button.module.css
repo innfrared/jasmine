@@ -1,0 +1,96 @@
+.primary {
+    --color: #CC0C5C;
+    font-family: inherit;
+    display: inline-block;
+    line-height: 2.5em;
+    margin: 10px 0;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid var(--color);
+    transition: color 0.5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: var(--color);
+    background-color: white;
+    padding-inline: 20px;
+}
+
+.primary:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.primary:hover {
+    color: #fff;
+}
+
+.primary:before {
+    top: 100%;
+    left: 100%;
+    transition: all 0.7s;
+}
+
+.primary:hover:before {
+    top: -30px;
+    left: -30px;
+}
+
+.primary:active:before {
+    background: #CC0C5C;
+    transition: background 0s;
+}
+
+.secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.tertiary {
+    font-size: 18px;
+    color: #000000;
+    font-family: inherit;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color;
+}
+
+.tertiary:focus,
+.tertiary:hover {
+    color: #000000;
+}
+
+.tertiary:focus:after,
+.tertiary:hover:after {
+    width: 100%;
+    left: 0%;
+}
+
+.tertiary:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #CC0C5C;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
+}
