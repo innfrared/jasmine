@@ -5,6 +5,7 @@
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
     position: fixed;
@@ -516,4 +517,20 @@
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #CC0C5C darkgrey;
+}
+
+@media (max-width: 480px) {
+    .header_details > img {
+        max-width: 100px;
+    }
+
+    .categoryText {
+        display: none;
+        width: 0;
+    }
+
+    .menuIcon,
+    .cartIcon {
+        font-size: 18px;
+    }
 }

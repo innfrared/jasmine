@@ -10,7 +10,8 @@ const Breadcrumb: React.FC = () => {
         <nav className={styles.breadcrumb}>
             <Link to="/" className={styles.crumb}>Գլխավոր էջ</Link>
             {pathnames.map((value, index) => {
-                if (value === "category") return null; // Skip 'category'
+                if (value === "category") return null;
+                if (value === "details") return null;
 
                 const path = `/${pathnames.slice(0, index + 1).join("/")}`;
                 let label = decodeURIComponent(value);

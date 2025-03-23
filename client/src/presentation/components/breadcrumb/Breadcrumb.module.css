@@ -1,7 +1,10 @@
 .breadcrumb {
     display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     font-size: 14px;
+    white-space: nowrap;
+    overflow-x: hidden;
     color: #666;
     padding: 10px 25px;
     background-color: #eeeeee;

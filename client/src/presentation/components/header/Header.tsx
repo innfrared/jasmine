@@ -162,7 +162,7 @@ export default function Header() {
                     </div>
                 </div>
                 <div className={styles.header_actions}>
-                    <div className={styles.scaleButton} onClick={handleComparisonNavigation}>
+                <div className={styles.scaleButton} onClick={handleComparisonNavigation}>
                         <svg
                             width="25px"
                             height="25px"

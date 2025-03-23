@@ -92,6 +92,7 @@ h1 {
 .specifications {
     margin-top: 20px;
     width: 60%;
+    margin-bottom: 50px;
 }
 
 .specifications h2 {
@@ -342,4 +343,65 @@ h1 {
 
 .available {
     background-color: #28a745 !important; /* Green if available */
+}
+
+@media (max-width: 768px) {
+    .topPartProductDetails {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .productDetailsImageContainer,
+    .productDetailsTopInfo {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .productDetailsTopInfo > h1 {
+        font-size: 1.6em;
+    }
+
+    .mainImage {
+        max-width: 60%;
+    }
+
+    .priceContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttonContainer {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .specifications {
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .productInfoContainer {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .thumbnailWrapper {
+        max-width: 100%;
+    }
+
+    .thumbnailContainer {
+        max-width: 80%;
+    }
+
+    .price {
+        font-size: 2em;
+        font-weight: 700;
+        margin-right: 10px;
+        color: #000000;
+    }
+    .oldPrice {
+        font-size: 1em;
+        text-decoration: line-through;
+        color: #757575;
+    }
 }
