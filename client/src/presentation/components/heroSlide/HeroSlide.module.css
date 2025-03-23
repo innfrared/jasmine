@@ -180,3 +180,17 @@
     overflow: hidden;
     background: none;
 }
+
+@media (max-width: 768px) {
+    .heroContainer {
+        height: 50vh;
+    }
+
+    .centralText > h1 {
+        font-size: 2rem;
+    }
+
+    .centralText > h3 {
+        font-size: 1.5rem;
+    }
+}

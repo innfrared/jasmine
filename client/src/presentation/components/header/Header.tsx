@@ -19,12 +19,17 @@ export default function Header() {
     const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
     const [isRegisterPopupOpen, setIsRegisterPopupOpen] = useState(false);
     const [headerTop, setHeaderTop] = useState("5vh");
-    const [comparisonCount, setComparisonCount] = useState(3);
+    const [comparisonCount, setComparisonCount] = useState(0);
     const [isCatalogExpanded, setIsCatalogExpanded] = useState(false);
     const { categories, subcategories, hoveredCategory, handleCategoryHover } = useHeaderModel();
+    const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
 
     const toggleAccountBox = () => {
         setIsAccountBoxVisible((prev) => !prev);
+    };
+
+    const handleCategoryClick = (categoryId: number) => {
+        setActiveCategoryId(prev => (prev === categoryId ? null : categoryId));
     };
 
     const closeAccountBox = () => {
@@ -82,9 +87,28 @@ export default function Header() {
     };
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
+        const updateCount = () => {
+            const stored = localStorage.getItem("compareProducts");
+            try {
+                const products = stored ? JSON.parse(stored) : [];
+                setComparisonCount(Array.isArray(products) ? products.length : 0);
+            } catch (e) {
+                setComparisonCount(0);
+            }
+        };
+
+        // Initial load
+        updateCount();
+
+        // Listen for changes in localStorage (in case updates come from other tabs)
+        window.addEventListener("storage", updateCount);
+
+        // Listen for custom "compareUpdated" event dispatched after toggle
+        window.addEventListener("compareUpdated", updateCount);
+
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener("storage", updateCount);
+            window.removeEventListener("compareUpdated", updateCount);
         };
     }, []);
 
@@ -180,7 +204,7 @@ export default function Header() {
                                 ></path>
                             </g>
                         </svg>
-                        <span className={styles.count}>{getComparisonCount()}</span>
+                        <span className={styles.count}>{comparisonCount}</span>
                     </div>
                     <div className={styles.searchIcon} onClick={handleExpand}>
                         <svg

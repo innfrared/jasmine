@@ -131,3 +131,39 @@
     width: 0;
     transition: width 0.2s;
 }
+
+@media (max-width: 768px) {
+    .scrollableSwiper {
+        margin: 0 10px;
+        padding: 20px 5px;
+        gap: 10px;
+    }
+
+    .swiperCell {
+        width: 30vw;
+        padding: 1rem;
+    }
+
+    .swiperCell p {
+        font-size: 14px;
+    }
+
+    .arrowTopRight {
+        width: 20px;
+        height: 20px;
+    }
+
+    .arrowButton {
+        width: 30px;
+        height: 30px;
+    }
+
+    .arrowSvg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .scrollProgress {
+        width: 90%;
+    }
+}

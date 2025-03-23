@@ -31,13 +31,15 @@ const ProductDetailsScreen: React.FC = () => {
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!product) return <p>No product found</p>;
 
-    const handleCompareClick = () => {
+    const handleCompareClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         const stored = JSON.parse(localStorage.getItem("compareProducts") || "[]");
         const exists = stored.find((p: any) => p.id === product.id);
         const updated = exists
             ? stored.filter((p: any) => p.id !== product.id)
             : [...stored, product];
         localStorage.setItem("compareProducts", JSON.stringify(updated));
+        window.dispatchEvent(new Event("compareUpdated"));
     };
 
     return (

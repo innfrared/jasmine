@@ -262,3 +262,36 @@
     color: #e60000;
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .card {
+        width: 40vw;
+        height: 230px;
+    }
+
+    .cardImage {
+        width: 130px;
+        height: 90px;
+    }
+
+    .wrapper {
+        gap: 10px;
+    }
+
+    .buttonWrapper > div {
+        display: none;
+    }
+
+    .icon {
+        top: 0;
+    }
+
+    .textCompare {
+        display: none;
+    }
+
+    .buttonCompare {
+        background-color: #CC0C5C;
+        border: none;
+    }
+}

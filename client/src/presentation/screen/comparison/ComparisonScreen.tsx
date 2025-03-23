@@ -46,7 +46,7 @@ const ComparisonScreen = () => {
     };
 
     const handleProductDetailNavigation = (product: Product) => {
-        navigate(`/products/details/${encodeURIComponent(product.name)}`); // Adjust the path as per your route setup
+        navigate(`/products/details/${encodeURIComponent(product.name)}?id=${product.id}`); // Adjust the path as per your route setup
     };
 
     return (

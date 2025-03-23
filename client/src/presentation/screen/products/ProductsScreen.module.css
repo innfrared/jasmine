@@ -184,3 +184,17 @@
     padding: 20px;
     box-sizing: border-box;
 }
+
+@media (max-width: 768px) {
+    .products {
+        width: 100%;
+    }
+
+    .filters {
+        display: none;
+    }
+
+    .gridContainer {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+    }
+}
