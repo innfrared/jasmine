@@ -6,7 +6,7 @@ export const fetchProducts = async (
     filters?: Record<string, string[]>
 ) => {
     if (category && filters && Object.keys(filters).length > 0) {
-        const res = await fetch("http://localhost:5001/api/products/filter", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products/filter`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ category, subcategory, filters }),
@@ -16,7 +16,7 @@ export const fetchProducts = async (
     }
 
     // Build correct URL for non-filtered products
-    let url = "http://localhost:5001/api/products";
+    let url = `${import.meta.env.VITE_API_URL}/api/products`;
     if (category && subcategory) {
         url += `/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`;
     } else if (category) {
@@ -31,7 +31,7 @@ export const fetchProducts = async (
 };
 
 export const fetchProductById = async (id: number): Promise<Product> => {
-    const response = await fetch(`http://localhost:5001/api/products/details/${id}`);
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/details/${id}`);
     if (!response.ok) {
         throw new Error("Failed to fetch product details");
     }
@@ -39,7 +39,7 @@ export const fetchProductById = async (id: number): Promise<Product> => {
 };
 
 export const fetchBestDeals = async () => {
-    const response = await fetch('http://localhost:5001/api/products/best-deals');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/best-deals`);
     if (!response.ok) {
         throw new Error('Failed to fetch best deals');
     }
@@ -47,7 +47,7 @@ export const fetchBestDeals = async () => {
 };
 
 export const fetchTopSellers = async () => {
-    const response = await fetch('http://localhost:5001/api/products/top-sellers');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/top-sellers`);
     if (!response.ok) {
         throw new Error('Failed to fetch top sellers');
     }
@@ -55,7 +55,7 @@ export const fetchTopSellers = async () => {
 };
 
 export const fetchNewAdded = async () => {
-    const response = await fetch('http://localhost:5001/api/products/new-added');
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/new-added`);
     if (!response.ok) {
         throw new Error('Failed to fetch newly added');
     }
@@ -67,7 +67,7 @@ export const getCategorySpecifications = async (category: string, subcategory?: 
     params.append("category", encodeURIComponent(category));
     if (subcategory) params.append("subcategory", encodeURIComponent(subcategory));
 
-    const res = await fetch(`http://localhost:5001/api/products/specifications?${params.toString()}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products/specifications?${params.toString()}`);
     if (!res.ok) throw new Error("Failed to fetch specifications");
 
     return await res.json();
@@ -78,7 +78,7 @@ export const filterProducts = async (
     subcategory: string | undefined,
     filters: Record<string, string[]>
 ) => {
-    const res = await fetch(`http://localhost:5001/api/products/filter`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/products/filter`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ category, subcategory, filters }), // POST body is safe, no encode needed
