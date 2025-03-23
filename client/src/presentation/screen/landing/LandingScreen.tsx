@@ -9,6 +9,8 @@ import ProductsBestDeals from "../../components/productsBestDeals/ProductsBestDe
 import ProductsNew from "../../components/productsNew/ProductsNew";
 import TopNavBar from "../../components/topNavBar/TopNavBar";
 export default function LandingScreen() {
+    console.log("✅ ENV:", import.meta.env.VITE_API_URL);
+
     return (
         <div className={styles.landingScreenContainer}>
             <TopNavBar/>
