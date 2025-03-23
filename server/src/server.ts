@@ -1,39 +1,23 @@
-import express, { Request, Response } from 'express';
-import { TrackController } from './presentation/controller/similarTracksController';
-import authRoutes from "./presentation/route/authRoutes";
-import userRoutes from "./presentation/route/userRoutes";
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
 import cors from 'cors';
-import authMiddleware from "./middleware/authMiddleware";
+
+import productRoutes from './presentation/route/productRoutes';
+import uploadRoutes from './upload';
 
 const app = express();
-const port = process.env.PORT || 3000;
-dotenv.config();
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.get('/api/similar-tracks', TrackController.fetchSimilarTracks);
-
-app.get('/', (req: Request, res: Response) => {
-    const html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>API Link</title>
-        </head>
-        <body>
-            <h1>API Link</h1>
-            <div>
-                <a href="/api/similar-tracks?search=believe" target="_blank">http://localhost:3000/api/similar-tracks?search=believe</a>
-            </div>
-        </body>
-        </html>
-    `;
-    res.send(html);
+app.use((req, res, next) => {
+    req.url = decodeURIComponent(req.url);
+    next();
 });
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+app.use('/api/products', productRoutes);
+app.use("/api", uploadRoutes);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log("Using DB URL:", process.env.DATABASE_URL); // ✅ Debug print
 });

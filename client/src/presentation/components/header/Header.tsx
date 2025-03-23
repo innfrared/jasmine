@@ -6,6 +6,7 @@ import AccountBox from "../accountBox/AccountBox";
 import RegisterPopup from "../registerPopup/RegisterPopup";
 import LoginPopup from "../loginPopup/LoginPopup";
 import {useNavigate} from "react-router-dom";
+import {useHeaderModel} from "../header/HeaderModel";
 
 export default function Header() {
     const { t } = useTranslation<'translation'>();
@@ -14,15 +15,13 @@ export default function Header() {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isAccountBoxVisible, setIsAccountBoxVisible] = useState(false);
     const [visibleCategories, setVisibleCategories] = useState<number>(0);
-    const categories: Category[] = useCategories();
-    const subcategories: Category[] = useCategories();
     const headerRef = useRef<HTMLDivElement>(null);
     const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
     const [isRegisterPopupOpen, setIsRegisterPopupOpen] = useState(false);
     const [headerTop, setHeaderTop] = useState("5vh");
     const [comparisonCount, setComparisonCount] = useState(3);
     const [isCatalogExpanded, setIsCatalogExpanded] = useState(false);
-    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+    const { categories, subcategories, hoveredCategory, handleCategoryHover } = useHeaderModel();
 
     const toggleAccountBox = () => {
         setIsAccountBoxVisible((prev) => !prev);
@@ -71,6 +70,17 @@ export default function Header() {
         }
     };
 
+    const handleSubcategoryClick = (subcategoryName: string) => {
+        if (!hoveredCategory) return;
+        setIsCatalogExpanded(false);
+        setTimeout(() => {
+            navigate(`/products/category/${hoveredCategory.name}/${subcategoryName}`);
+        }, 100);    };
+
+    const handleCategoryNavigation = (category: string) => {
+        navigate(`/products/category/${encodeURIComponent(category)}`);
+    };
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -116,8 +126,15 @@ export default function Header() {
         navigate("/comparison"); // Adjust the path as per your route setup
     };
 
-    const handleCategoryHover = (categoryName: string) => {
-        setHoveredCategory(categoryName);
+    const getComparisonCount = () => {
+        const stored = localStorage.getItem("compareProducts");
+        if (!stored) return 0;
+        try {
+            const products = JSON.parse(stored);
+            return Array.isArray(products) ? products.length : 0;
+        } catch (e) {
+            return 0;
+        }
     };
 
     return (
@@ -163,7 +180,7 @@ export default function Header() {
                                 ></path>
                             </g>
                         </svg>
-                        <span className={styles.count}>{comparisonCount}</span>
+                        <span className={styles.count}>{getComparisonCount()}</span>
                     </div>
                     <div className={styles.searchIcon} onClick={handleExpand}>
                         <svg
@@ -251,19 +268,42 @@ export default function Header() {
                     ))}
                 </ul>
             </div>
-            <div className={`${styles.catalogContent} ${isCatalogExpanded ? styles.visible : ""}`}>
+
+            <div className={`${styles.catalogContent} ${isCatalogExpanded ? styles.visible : ""}`}
+                 onMouseEnter={() => setIsCatalogExpanded(true)}
+                 onMouseLeave={() => setIsCatalogExpanded(false)}
+            >
                 <div className={styles.catalogCategories} ref={containerRef}>
-                    {categories.map((category) => (
-                        <div
-                            className={styles.swiperCell}
-                            key={category.id}
-                        >
-                            <img src={category.svg} alt={category.name}/>
-                            <p>{category.name}</p>
-                        </div>
-                    ))}
+                    {categories
+                        .filter((category) => !category.parent_id)
+                        .map((category) => (
+                            <div
+                                key={category.id}
+                                className={styles.swiperCell}
+                                onMouseEnter={() => handleCategoryHover(category)}
+                                onClick={() => category.url ? handleCategoryNavigation(category.url) : null}
+                            >
+                                <img src={category.svg} alt={category.name}/>
+                                <p>{category.name}</p>
+                            </div>
+                        ))}
                 </div>
                 <div className={styles.verticalLine}></div>
+
+                {/* ✅ Show Subcategories If Available */}
+                {subcategories.length > 0 && (
+                    <div className={styles.subcategoryList}>
+                        {subcategories.map((sub) => (
+                            <div
+                                key={sub.id}
+                                className={styles.subcategoryItem}
+                                onClick={() => sub.name && handleSubcategoryClick(sub.name)}
+                            >
+                                <p className={styles.subcategoryItemP}>{sub.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

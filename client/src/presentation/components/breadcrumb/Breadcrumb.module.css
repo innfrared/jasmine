@@ -1,0 +1,27 @@
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    padding: 10px 25px;
+    background-color: #eeeeee;
+    border-radius: 10px;
+    width: 80vw;
+    margin-bottom: 30px;
+    margin-top: 80px;
+}
+
+.crumb {
+    text-decoration: none;
+    color: #CC0C5C;
+    transition: 0.3s;
+}
+
+.crumb:hover {
+    text-decoration: underline;
+}
+
+.separator {
+    margin: 0 8px;
+    color: #000000;
+}

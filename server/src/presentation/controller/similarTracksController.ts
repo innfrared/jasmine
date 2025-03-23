@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { TrackService } from '../../service/similarTracksService';
+import { TrackService } from '../../service/productService';
 
 export class TrackController {
     static async fetchSimilarTracks(req: Request, res: Response): Promise<void> {

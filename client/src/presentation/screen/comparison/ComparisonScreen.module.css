@@ -14,6 +14,7 @@
     overflow-x: auto;
     align-items: flex-end;
     padding: 30px;
+    width: 90vw;
 }
 
 .characteristic {
@@ -48,22 +49,15 @@
     font-size: 2rem;
 }
 
-.comparisonTable {
-    display: flex;
-    overflow-x: auto;
-}
-
 .tableLeft {
     min-width: 250px;
-    background-color: #ffffff;
+    background-color: #CC0C5C;
     padding: 20px;
     border-radius: 15px;
     text-align: left;
     height: fit-content;
     position: relative;
-    top: 10px;
-    right: 20px;
-    margin-bottom: 55px;
+    margin-bottom: 60px;
 }
 
 .productTitle {
@@ -93,9 +87,10 @@
 .featureRow {
     display: flex;
     align-items: center;
+    color: #FFFFFF;
     font-size: 0.9rem;
     padding: 10px;
-    border-bottom: 2px solid #CC0C5C;
+    border-bottom: 2px solid #ffffff;
 }
 
 .featureRow:last-child {
@@ -108,24 +103,64 @@
 }
 
 .productColumn {
-    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 350px;
     text-align: center;
-    padding: 10px;
+    padding: 0 20px;
 }
 
 .productHeader {
     font-size: 0.9rem;
     margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.productHeader > div {
+    font-weight: bold;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+
+.comparisonText {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #CC0C5C;
+}
+
+.productHeader > img {
+    width: 200px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
 .featureCell {
+    display: flex;
+    flex-direction: column;
     padding: 10px;
     font-size: 0.9rem;
     border-bottom: 2px solid #b6b6b6;
 }
 
-.featureCell:nth-last-child(2) {
+.featureCell:last-child {
     border-bottom: none;
+}
+
+.featureCellTable {
+    background-color: #efefef;
+    padding: 20px;
+    width: 80%;
+}
+
+.featureCellTableBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .productCellContainer {
@@ -215,4 +250,31 @@
 .button:hover:after {
     opacity: 1;
     visibility: visible;
+}
+
+.removeButton {
+    background: #d3d3d3;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7c7c7c;
+    border-radius: 50px;
+    transition: color 0.2s ease;
+    width: 50px;
+    height: 50px;
+}
+
+.removeButton:hover {
+    color: #dc1515;
+    background-color: #efcaca;
+}
+
+.verticalLine {
+    width: 90%;
+    background-color: #dcdcdc;
+    height: 2px;
+    margin: 0 16px;
 }

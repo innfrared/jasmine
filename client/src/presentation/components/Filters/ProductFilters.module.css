@@ -1,0 +1,30 @@
+.filters {
+    width: 250px;
+}
+
+.filters > h3 {
+    color: #CC0C5C;
+    font-size: 1.6rem;
+}
+
+.filterGroup {
+    margin-bottom: 1.5rem;
+}
+
+.filterTitle {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.checkbox {
+    display: block;
+    margin: 5px 0;
+    text-align: left;
+}
+
+.checkboxGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 0.5rem;
+}

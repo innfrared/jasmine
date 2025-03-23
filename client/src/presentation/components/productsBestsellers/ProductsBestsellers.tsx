@@ -1,14 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useTranslation } from "react-i18next";
 import styles from './ProductsBestsellers.module.css';
-import {Category, useCategories} from '../../../types/CategoryTypes';
 import ProductCell from "../../../ui/styles/productCell/ProductCell";
+import {Product} from "model/productModel";
+import {fetchBestDeals, fetchTopSellers} from "../../../service/productService";
 
 const ProductsBestsellers = () => {
     const { t } = useTranslation<'translation'>();
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollProgress, setScrollProgress] = useState(0);
-    const categories: Category[] = useCategories();
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        const getDeals = async () => {
+            try {
+                const data = await fetchTopSellers();
+                setProducts(data);
+            } catch (error) {
+                console.error("Error fetching best deals:", error);
+            }
+        };
+
+        getDeals();
+    }, []);
 
     const handleScroll = () => {
         if (containerRef.current) {
@@ -45,8 +59,8 @@ const ProductsBestsellers = () => {
                 </svg>
             </button>
             <div className={styles.scrollableSwiper} ref={containerRef} onScroll={handleScroll}>
-                {categories.map((category) => (
-                    <ProductCell/>
+                {products.map((product) => (
+                    <ProductCell key={product.id} product={product}/>
                 ))}
             </div>
             <button

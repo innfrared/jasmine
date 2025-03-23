@@ -26,8 +26,8 @@ const CustomScrollableSwiper = () => {
         }
     };
 
-    const handleCategoryNavigation = () => {
-        navigate("/allProducts"); // Adjust the path as per your route setup
+    const handleCategoryNavigation = (category: string) => {
+        navigate(`products/category/${encodeURIComponent(category)}`);
     };
 
     return (
@@ -58,7 +58,7 @@ const CustomScrollableSwiper = () => {
                     <div
                         className={styles.swiperCell}
                         key={category.id}
-                        onClick={handleCategoryNavigation}
+                        onClick={() => handleCategoryNavigation(category.url)}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
