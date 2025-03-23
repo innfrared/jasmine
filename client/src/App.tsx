@@ -7,17 +7,16 @@ import ProductDetailsScreen from "./presentation/screen/productDetails/ProductDe
 
 const App: React.FC = () => {
     return (
-        <div style={{fontSize: "2rem", padding: "2rem"}}>🟢 No i18n, No crash</div>
-        // <Router>
-        //     <Routes>
-        //         <Route path="/" element={<Landing />} />
-        //         <Route path="/comparison" element={<Comparison />} />
-        //         <Route path="/products" element={<Products />} />
-        //         <Route path="/products/category/:category" element={<Products />} />
-        //         <Route path="/products/category/:category/:subcategory" element={<Products />} />
-        //         <Route path="/products/details/:productName" element={<ProductDetailsScreen />} />
-        //     </Routes>
-        // </Router>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/comparison" element={<Comparison />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/products/category/:category" element={<Products />} />
+                <Route path="/products/category/:category/:subcategory" element={<Products />} />
+                <Route path="/products/details/:productName" element={<ProductDetailsScreen />} />
+            </Routes>
+        </Router>
     );
 };
 
