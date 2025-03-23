@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/pg": "^8.11.11"
+    "@types/pg": "^8.11.11",
+    "typescript": "^5.8.2"
   }
 }
