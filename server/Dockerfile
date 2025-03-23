@@ -17,5 +17,7 @@ RUN npm run build
 # Expose the port your app runs on
 EXPOSE 5001
 
+RUN echo "Listing /app contents:" && ls -la && echo "Listing /app/dist:" && ls -la dist
+
 # Start the app
 CMD ["node", "dist/index.js"]
