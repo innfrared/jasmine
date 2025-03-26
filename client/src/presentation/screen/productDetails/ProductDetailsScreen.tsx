@@ -31,6 +31,16 @@ const ProductDetailsScreen: React.FC = () => {
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!product) return <p>No product found</p>;
 
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const stored = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+        const exists = stored.find((p: any) => p.id === product.id);
+        const updated = exists
+            ? stored.filter((p: any) => p.id !== product.id)
+            : [...stored, product];        localStorage.setItem("cartProducts", JSON.stringify(updated));
+        window.dispatchEvent(new Event("cartUpdated"));
+    };
+
     const handleCompareClick = (e: React.MouseEvent) => {
         e.stopPropagation();
         const stored = JSON.parse(localStorage.getItem("compareProducts") || "[]");
@@ -108,7 +118,7 @@ const ProductDetailsScreen: React.FC = () => {
                             </span>
                                 </div>
                             </div>
-                            <div className={styles.button}>
+                            <div className={styles.button} onClick={handleAddToCart}>
                                 <div className={styles.buttonWrapper}>
                                     <div className={styles.text}>{t('addToCart')}</div>
                                     <span className={styles.icon}>

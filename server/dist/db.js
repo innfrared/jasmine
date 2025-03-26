@@ -1,11 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const pg_1 = require("pg");
-const pool = new pg_1.Pool({
-    user: 'inmkn',
-    host: 'localhost',
-    database: 'rhymee',
-    password: 'ims4b7b9',
-    port: 5432,
+exports.query = void 0;
+const pg_1 = require("pg"); // ✅ Use Client instead of Pool
+require('dotenv').config();
+console.log("Connecting to DB:", process.env.DATABASE_URL); // ✅ Debug print
+const client = new pg_1.Client({
+    connectionString: process.env.DATABASE_URL,
 });
-exports.default = pool;
+client.connect()
+    .then(() => console.log("✅ Successfully connected to PostgreSQL"))
+    .catch(err => console.error("❌ PostgreSQL Connection Error:", err));
+const query = (text, params) => client.query(text, params);
+exports.query = query;

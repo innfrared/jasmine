@@ -19,6 +19,8 @@ const Breadcrumb: React.FC = () => {
                     label = "Ապրանքներ"
                 } else if (value === "comparison") {
                     label = "Համեմատություն"
+                } else if (value === "cart") {
+                    label = "Գնումների Զամբյուղ"
                 }
 
                 return (
