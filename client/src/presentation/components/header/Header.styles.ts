@@ -1,0 +1,631 @@
+import styled, { css } from 'styled-components';
+
+export const HeaderContainer = styled.div<{
+  expanded: boolean;
+  secondaryColor: string;
+  isScrolled: boolean;
+}>`
+  width: 100%;
+  padding-bottom: 1rem;
+  height: auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  overflow: visible;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: ${({ isScrolled }) => (isScrolled ? '0.8' : '1')};
+
+  ${({ expanded }) =>
+    expanded &&
+    css`
+      height: auto;
+    `}
+`;
+
+export const HeaderMainContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  height: 8vh;
+  align-items: center;
+`;
+
+export const HeaderLogo = styled.div`
+  cursor: pointer;
+
+  img {
+    width: 7rem;
+  }
+
+  @media (max-width: 480px) {
+    img {
+      max-width: 100px;
+    }
+  }
+`;
+
+export const HeaderDetails = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const HeaderActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+export const CategoryContainer = styled.div<{ open?: boolean }>`
+  border-radius: 10px;
+  mix-blend-mode: luminosity;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  ${({ open }) =>
+    open &&
+    css`
+      background-color: #e3e3e3;
+    `}
+
+  &:hover {
+    background-color: #e3e3e3;
+  }
+`;
+
+export const CategoryText = styled.p`
+  margin: 0 10px 0 5px;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+`;
+
+export const MenuIcon = styled.button`
+  width: 32px;
+  height: 32px;
+  padding: 4px 5px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  span {
+    display: block;
+    width: 100%;
+    height: 0.125rem;
+    border-radius: 2px;
+    background-color: black;
+    position: relative;
+    transition: all 0.4s ease;
+  }
+
+  span + span {
+    margin-top: 0.375rem;
+  }
+`;
+
+export const SearchContent = styled.div<{ visible: boolean }>`
+  border-radius: 0 0 10px 10px;
+  z-index: 1000;
+  overflow: hidden;
+  max-height: ${({ visible }) => (visible ? '600px' : '0')};
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
+  padding: ${({ visible }) => (visible ? '15px' : '0')};
+`;
+
+export const CatalogContent = styled.div<{ visible: boolean }>`
+  border-radius: 0 0 10px 10px;
+  z-index: 1000;
+  overflow: hidden;
+  max-height: ${({ visible }) => (visible ? '600px' : '0')};
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
+  padding: ${({ visible }) => (visible ? '15px' : '0')};
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+`;
+
+export const SearchBar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
+`;
+
+export const SearchIconLarge = styled.svg`
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+export const SearchInput = styled.input`
+  font-size: 18px;
+  padding: 5px;
+  border: none;
+  outline: none;
+  width: 100%;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+
+  &:focus,
+  &:hover {
+    border-bottom: 2px solid #cc0c5c;
+  }
+
+  &::placeholder {
+    color: #888;
+    font-weight: bold;
+  }
+`;
+
+export const CategoryList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cc0c5c transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cc0c5c;
+    border-radius: 10px;
+  }
+`;
+
+export const CategoryItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+`;
+
+export const CategoryArrow = styled.svg`
+  width: 16px;
+  height: 16px;
+  stroke: #a4a4a4;
+  transition: transform 0.3s ease;
+
+  ${CategoryItem}:hover & {
+    transform: translateX(5px);
+    stroke: #cc0c5c;
+  }
+`;
+
+export const CatalogCategories = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 0 20px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #cc0c5c darkgrey;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: pink;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+`;
+
+export const SwiperCell = styled.div`
+  position: relative;
+  flex: 0 0 auto;
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.3s,
+    background 0.3s;
+  padding: 10px 13px;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 30px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #cc0c5c, #ff3366);
+
+    p {
+      color: #ffffff;
+    }
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: start;
+    font-size: 14px;
+    padding-left: 10px;
+  }
+`;
+
+export const VerticalLine = styled.div`
+  background-color: #cc0c5c;
+  width: 2px;
+  height: 600px;
+  margin-left: 20px;
+`;
+
+export const SubcategoryList = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 30px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #cc0c5c darkgrey;
+`;
+
+export const SubcategoryItem = styled.div`
+  color: #cc0c5c;
+  text-align: start;
+  padding: 0 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #efefef;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration-color: #cc0c5c;
+  }
+`;
+
+export const AccountIcon = styled.div`
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: none;
+    color: #cc0c5c;
+  }
+
+  svg path {
+    transition: fill 0.3s ease;
+  }
+
+  &:hover svg path {
+    stroke: #cc0c5c;
+  }
+`;
+
+export const ScaleButton = styled.div`
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: none;
+    color: #cc0c5c;
+
+    svg path {
+      stroke: #cc0c5c;
+    }
+  }
+`;
+
+export const CountBadge = styled.span`
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  background-color: greenyellow;
+  color: black;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+
+export const MobileMenuContent = styled.div<{ isVisible: boolean }>`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
+  pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transform: ${({ isVisible }) => (isVisible ? 'translateY(0)' : 'translateY(-10px)')};
+  transition: all 0.3s ease;
+  z-index: 1000;
+  max-height: 500px;
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    max-height: calc(100vh - 60px);
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const MobileMenuCard = styled.div<{ bgImage?: string; textColor?: string }>`
+  background: ${({ bgImage }) => 
+    bgImage 
+      ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${bgImage})`
+      : 'linear-gradient(135deg, #ffffff, #f7f7f7)'
+  };
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: ${({ textColor }) => textColor || '#333'};
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+export const MobileMenuLabel = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+`;
+
+export const MobileMenuLinks = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: auto;
+`;
+
+export const MobileMenuLink = styled.a`
+  font-size: 12px;
+  color: white;
+  text-decoration: none;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+  }
+`;
+
+export const MobileMenuIcon = styled.span`
+  font-size: 12px;
+  transform: rotate(45deg);
+`;
+
+export const ProductCategories = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ProductCategory = styled.div`
+  padding: 4px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border-left: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:first-child {
+    border-left: none;
+  }
+`;
+
+export const ProductCategoryName = styled.span`
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+
+  ${ProductCategory}:hover & {
+    color: #666;
+  }
+`;
+
+export const CurrencySwitcher = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+`;
+
+export const CurrencyText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+`;
+
+export const CurrencyArrow = styled.span`
+  font-size: 12px;
+  color: #666;
+  transition: transform 0.3s ease;
+
+  ${CurrencySwitcher}:hover & {
+    transform: rotate(180deg);
+  }
+`;
+
+export const CountrySwitcher = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+`;
+
+export const CountryFlag = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const CountryText = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+`;
+
+export const Contacts = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const ContactItem = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+  }
+`;
+
+export const ContactIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #666;
+`;
+
+export const ContactText = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+`;

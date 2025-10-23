@@ -1,36 +1,38 @@
-import React, {useEffect, useState} from 'react';
-import styles from './HeroSlide.module.css';
-import {useTranslation} from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  HeroContainer,
+  CentralText,
+  Title,
+  Line,
+  Subtitle,
+} from './HeroSlide.styles';
 
-const HeroSlide: React.FC = () => {
-    const { t } = useTranslation<'translation'>();
-    const [isLoaded, setIsLoaded] = useState(false);
+type HeroSlideProps = {
+  primaryColor: string;
+  secondaryColor: string;
+};
 
-    useEffect(() => {
-        // Trigger the animation after a small delay to ensure page load
-        const timer = setTimeout(() => setIsLoaded(true), 100);
-        return () => clearTimeout(timer); // Cleanup
-    }, []);
+const HeroSlide: React.FC<HeroSlideProps> = ({ secondaryColor }) => {
+  const { t } = useTranslation<'translation'>();
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    const models = [
-        '/assets/modelsGLTF/fridge/scene.gltf',
-        '/assets/modelsGLTF/sofa/scene.gltf',
-        '/assets/modelsGLTF/laptop/scene.gltf',
-        '/assets/modelsGLTF/monitor/scene.gltf',
-        '/assets/modelsGLTF/furniture/scene.gltf',
-        '/assets/modelsGLTF/wardrobe/scene.gltf',
-        '/assets/modelsGLTF/washing_machine/scene.gltf',
-    ];
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-    return (
-        <div className={styles.heroContainer}>
-            <div className={`${styles.centralText} ${isLoaded ? styles.loaded : ''}`}>
-                <h1>{t('slogan_part_1')}</h1>
-                <div className={styles.horizontalLine}></div>
-                <h3>{t('slogan_part_2')}</h3>
-            </div>
-        </div>
-    );
+  return (
+    <HeroContainer>
+      <CentralText isLoaded={isLoaded}>
+        <Title secondaryColor={secondaryColor}>{t('slogan_part_1')}</Title>
+        <Line isLoaded={isLoaded} secondaryColor={secondaryColor} />
+        <Subtitle secondaryColor={secondaryColor}>
+          {t('slogan_part_2')}
+        </Subtitle>
+      </CentralText>
+    </HeroContainer>
+  );
 };
 
 export default HeroSlide;

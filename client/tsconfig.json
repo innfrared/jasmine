@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["node", "@react-three/fiber"],
+    "types": ["node"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

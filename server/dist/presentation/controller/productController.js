@@ -16,14 +16,24 @@ const categoryRepository_1 = require("../../repository/categoryRepository");
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const category = req.query.category;
-        let result;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const offset = (page - 1) * limit;
+        let result, total;
         if (category) {
-            result = yield (0, db_1.query)("SELECT * FROM products WHERE category = $1", [category]);
+            total = yield (0, db_1.query)("SELECT COUNT(*) FROM products WHERE category = $1", [category]);
+            result = yield (0, db_1.query)("SELECT * FROM products WHERE category = $1 LIMIT $2 OFFSET $3", [category, limit, offset]);
         }
         else {
-            result = yield (0, db_1.query)("SELECT * FROM products");
+            total = yield (0, db_1.query)("SELECT COUNT(*) FROM products");
+            result = yield (0, db_1.query)("SELECT * FROM products LIMIT $1 OFFSET $2", [limit, offset]);
         }
-        res.json(result.rows);
+        res.json({
+            total: parseInt(total.rows[0].count),
+            page,
+            limit,
+            data: result.rows,
+        });
     }
     catch (error) {
         console.error("Error fetching products:", error);
@@ -56,21 +66,26 @@ const getProductsByCategory = (req, res) => __awaiter(void 0, void 0, void 0, fu
             res.status(400).json({ error: "Category name is required" });
             return;
         }
-        // ✅ Step 1: Get Main Category ID
         const mainCategoryId = yield (0, categoryRepository_1.getCategoryIdByName)(categoryReq.categoryName);
         console.log("🔵 Main category ID:", mainCategoryId);
         if (!mainCategoryId) {
             res.status(404).json({ error: "Category not found" });
             return;
         }
-        // ✅ Step 2: Get IDs of Subcategories under the Main Category
         const subcategoryIds = yield (0, categoryRepository_1.getSubcategoryIds)(mainCategoryId);
         subcategoryIds.push(mainCategoryId);
         console.log("🟡 All category IDs to filter products:", subcategoryIds);
-        // ✅ Step 3: Fetch Products Matching the Category or Subcategories
-        const products = yield (0, categoryRepository_1.getProductsByCategoryIds)(subcategoryIds);
-        console.log("✅ Fetched products:", products);
-        res.json(products);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const offset = (page - 1) * limit;
+        const totalResult = yield (0, db_1.query)(`SELECT COUNT(*) FROM products WHERE category_id = ANY($1)`, [subcategoryIds]);
+        const paginatedProducts = yield (0, db_1.query)(`SELECT * FROM products WHERE category_id = ANY($1) LIMIT $2 OFFSET $3`, [subcategoryIds, limit, offset]);
+        res.json({
+            total: parseInt(totalResult.rows[0].count),
+            page,
+            limit,
+            data: paginatedProducts.rows
+        });
     }
     catch (error) {
         console.error("❌ Error fetching products:", error);
@@ -87,15 +102,22 @@ const getProductsBySubcategory = (req, res) => __awaiter(void 0, void 0, void 0,
             res.status(400).json({ error: "Category and Subcategory are required" });
             return;
         }
-        console.log(`🟢 Fetching products for category: ${categoryName}, subcategory: ${subcategoryName}`);
-        // ✅ Call the service function
-        const products = yield (0, productService_1.getProductsBySubcategoryService)(categoryName, subcategoryName);
-        if (!products) {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const offset = (page - 1) * limit;
+        const allProducts = yield (0, productService_1.getProductsBySubcategoryService)(categoryName, subcategoryName);
+        if (!allProducts) {
             res.status(404).json({ error: "Subcategory not found" });
             return;
         }
-        console.log(`✅ ${products.length} products found for subcategory: ${subcategoryName}`);
-        res.json(products);
+        const paginated = allProducts.slice(offset, offset + limit);
+        console.log(`✅ ${paginated.length} products returned from ${allProducts.length} total`);
+        res.json({
+            total: allProducts.length,
+            page,
+            limit,
+            data: paginated
+        });
     }
     catch (error) {
         console.error("❌ Error fetching products by subcategory:", error);
@@ -135,10 +157,10 @@ const getNewAdded = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getNewAdded = getNewAdded;
 const getSpecificationsByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const category = decodeURIComponent(req.query.category);
-    const subcategory = req.query.subcategory
-        ? decodeURIComponent(req.query.subcategory)
-        : undefined;
+    const category = req.query.category;
+    const subcategory = req.query.subcategory;
+    console.log('Category for specs ', category);
+    console.log('Subcategory for specs ', subcategory);
     try {
         const specs = yield (0, productService_1.getSpecificationsByCategoryService)(category, subcategory);
         res.json(specs);
@@ -151,10 +173,19 @@ const getSpecificationsByCategory = (req, res) => __awaiter(void 0, void 0, void
 exports.getSpecificationsByCategory = getSpecificationsByCategory;
 const filterProductsBySpecifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { category, subcategory, filters } = req.body;
-    console.log(category, subcategory, filters);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const offset = (page - 1) * limit;
+    console.log(filters);
     try {
         const products = yield (0, productService_1.filterProductsBySpecificationsService)(category, subcategory, filters);
-        res.json(products);
+        const paginated = products.slice(offset, offset + limit);
+        res.json({
+            total: products.length,
+            page,
+            limit,
+            data: paginated
+        });
     }
     catch (err) {
         console.error(err);

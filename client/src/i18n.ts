@@ -5,17 +5,17 @@ import am from './locales/am/translation.json';
 import ru from './locales/ru/translation.json';
 
 i18n.use(initReactI18next).init({
-    resources: {
-        en: { translation: en },
-        am: { translation: am },
-        ru: { translation: ru },
-    },
-    lng: 'am',
-    fallbackLng: 'ru',
-    interpolation: {
-        escapeValue: false,
-    },
-    debug: false
+  resources: {
+    en: { translation: en },
+    am: { translation: am },
+    ru: { translation: ru },
+  },
+  lng: 'en',
+  fallbackLng: 'ru',
+  interpolation: {
+    escapeValue: false,
+  },
+  debug: false,
 });
 
 export default i18n;

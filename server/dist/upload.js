@@ -18,7 +18,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const router = express_1.default.Router();
 // ✅ Helper Function to Get Category ID (Handles Optional Subcategory)
-const getCategoryId = (categoryName_1, ...args_1) => __awaiter(void 0, [categoryName_1, ...args_1], void 0, function* (categoryName, parentCategory = null) {
+const getCategoryId = (categoryName, parentCategory = null) => __awaiter(void 0, void 0, void 0, function* () {
     let categoryResult = yield (0, db_1.query)(`SELECT id FROM categories WHERE name = $1`, [categoryName]);
     if (categoryResult.rows.length > 0) {
         return categoryResult.rows[0].id; // ✅ Category exists

@@ -77,26 +77,26 @@ const getSpecificationsByCategoryService = (category, subcategory) => __awaiter(
         JOIN products p ON p.id = ps.product_id
         JOIN categories c ON c.id = p.category_id
     `;
-    // 🔹 Subcategory filter (direct match)
     if (subcategory) {
-        conditions.push(`(c.name = $${paramIndex++} AND c.parent_id IS NOT NULL)`);
+        conditions.push(`(LOWER(c.name) = LOWER($${paramIndex++}) AND c.parent_id IS NOT NULL)`);
         values.push(subcategory);
     }
-    // 🔹 Category filter (match children of the main category)
     else if (category) {
         conditions.push(`
-            c.parent_id = (
+        (
+            LOWER(c.name) = LOWER($${paramIndex}) AND c.parent_id IS NULL
+            OR c.parent_id = (
                 SELECT id FROM categories 
-                WHERE name = $${paramIndex++} AND parent_id IS NULL
+                WHERE LOWER(name) = LOWER($${paramIndex}) AND parent_id IS NULL
             )
-        `);
+        )
+    `);
         values.push(category);
     }
     if (conditions.length > 0) {
         queryText += ` WHERE ` + conditions.join(" OR ");
     }
     const result = yield (0, db_1.query)(queryText, values);
-    // Group and format results
     const specMap = {};
     result.rows.forEach(row => {
         if (!specMap[row.key]) {
@@ -121,28 +121,33 @@ const filterProductsBySpecificationsService = (category, subcategory, filters) =
     `;
     let paramIndex = 1;
     if (subcategory) {
-        // Direct subcategory match
-        queryText += `(c.name = $${paramIndex} AND c.parent_id IS NOT NULL)`;
+        queryText += `(LOWER(c.name) = LOWER($${paramIndex}) AND c.parent_id IS NOT NULL)`;
         values.push(subcategory);
         paramIndex++;
     }
-    else {
-        // No subcategory → include all subcategories under this main category
-        queryText += `c.parent_id = (
-            SELECT id FROM categories WHERE name = $${paramIndex} AND parent_id IS NULL
-        )`;
+    else if (category) {
+        queryText += `(
+        (LOWER(c.name) = LOWER($${paramIndex}) AND c.parent_id IS NULL)
+        OR c.parent_id = (
+            SELECT id FROM categories
+            WHERE LOWER(name) = LOWER($${paramIndex}) AND parent_id IS NULL
+        )
+    )`;
         values.push(category);
         paramIndex++;
     }
-    // Filter specs
     const filterClauses = [];
     for (const [key, selectedValues] of Object.entries(filters)) {
         if (selectedValues.length === 0)
             continue;
-        const keyParam = `$${paramIndex++}`;
+        const keyParam = `$${paramIndex}`;
+        values.push(key);
+        paramIndex++;
         const valuePlaceholders = [];
-        for (let i = 0; i < selectedValues.length; i++) {
-            valuePlaceholders.push(`$${paramIndex++}`);
+        for (const value of selectedValues) {
+            valuePlaceholders.push(`$${paramIndex}`);
+            values.push(value);
+            paramIndex++;
         }
         filterClauses.push(`
             EXISTS (
@@ -152,11 +157,12 @@ const filterProductsBySpecificationsService = (category, subcategory, filters) =
                 AND ps.value IN (${valuePlaceholders.join(", ")})
             )
         `);
-        values.push(key, ...selectedValues);
     }
     if (filterClauses.length > 0) {
         queryText += ` AND ` + filterClauses.join(" AND ");
     }
+    console.log("🔍 Final SQL:", queryText);
+    console.log("📦 Bound Params:", values);
     const result = yield (0, db_1.query)(queryText, values);
     return result.rows;
 });

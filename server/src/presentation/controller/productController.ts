@@ -13,20 +13,32 @@ import {CategoryRequest} from "../../types/CustomRequest";
 export const getProducts = async (req: Request, res: Response) => {
     try {
         const category = req.query.category;
-        let result;
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 20;
+        const offset = (page - 1) * limit;
+
+        let result, total;
 
         if (category) {
-            result = await query("SELECT * FROM products WHERE category = $1", [category]);
+            total = await query("SELECT COUNT(*) FROM products WHERE category = $1", [category]);
+            result = await query("SELECT * FROM products WHERE category = $1 LIMIT $2 OFFSET $3", [category, limit, offset]);
         } else {
-            result = await query("SELECT * FROM products");
+            total = await query("SELECT COUNT(*) FROM products");
+            result = await query("SELECT * FROM products LIMIT $1 OFFSET $2", [limit, offset]);
         }
 
-        res.json(result.rows);
+        res.json({
+            total: parseInt(total.rows[0].count),
+            page,
+            limit,
+            data: result.rows,
+        });
     } catch (error) {
         console.error("Error fetching products:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 
 export const getProductDetails = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -56,7 +68,6 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             return;
         }
 
-        // ✅ Step 1: Get Main Category ID
         const mainCategoryId = await getCategoryIdByName(categoryReq.categoryName);
         console.log("🔵 Main category ID:", mainCategoryId);
 
@@ -65,16 +76,30 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             return;
         }
 
-        // ✅ Step 2: Get IDs of Subcategories under the Main Category
         const subcategoryIds = await getSubcategoryIds(mainCategoryId);
         subcategoryIds.push(mainCategoryId);
         console.log("🟡 All category IDs to filter products:", subcategoryIds);
 
-        // ✅ Step 3: Fetch Products Matching the Category or Subcategories
-        const products = await getProductsByCategoryIds(subcategoryIds);
-        console.log("✅ Fetched products:", products);
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 20;
+        const offset = (page - 1) * limit;
 
-        res.json(products);
+        const totalResult = await query(
+            `SELECT COUNT(*) FROM products WHERE category_id = ANY($1)`,
+            [subcategoryIds]
+        );
+
+        const paginatedProducts = await query(
+            `SELECT * FROM products WHERE category_id = ANY($1) LIMIT $2 OFFSET $3`,
+            [subcategoryIds, limit, offset]
+        );
+
+        res.json({
+            total: parseInt(totalResult.rows[0].count),
+            page,
+            limit,
+            data: paginatedProducts.rows
+        });
     } catch (error) {
         console.error("❌ Error fetching products:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -93,23 +118,32 @@ export const getProductsBySubcategory = async (req: CategoryRequest, res: Respon
             return;
         }
 
-        console.log(`🟢 Fetching products for category: ${categoryName}, subcategory: ${subcategoryName}`);
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 20;
+        const offset = (page - 1) * limit;
 
-        // ✅ Call the service function
-        const products = await getProductsBySubcategoryService(categoryName, subcategoryName);
+        const allProducts = await getProductsBySubcategoryService(categoryName, subcategoryName);
 
-        if (!products) {
+        if (!allProducts) {
             res.status(404).json({ error: "Subcategory not found" });
-            return
+            return;
         }
 
-        console.log(`✅ ${products.length} products found for subcategory: ${subcategoryName}`);
-        res.json(products);
+        const paginated = allProducts.slice(offset, offset + limit);
+
+        console.log(`✅ ${paginated.length} products returned from ${allProducts.length} total`);
+        res.json({
+            total: allProducts.length,
+            page,
+            limit,
+            data: paginated
+        });
     } catch (error) {
         console.error("❌ Error fetching products by subcategory:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 export const getTopSellers = async (req: Request, res: Response): Promise<void> => {
     try {
         const products = await fetchTopSellers();
@@ -139,10 +173,11 @@ export const getNewAdded = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getSpecificationsByCategory = async (req: Request, res: Response) => {
-    const category = decodeURIComponent(req.query.category as string);
-    const subcategory = req.query.subcategory
-        ? decodeURIComponent(req.query.subcategory as string)
-        : undefined;
+    const category = req.query.category as string;
+    const subcategory = req.query.subcategory as string | undefined;
+
+    console.log('Category for specs ', category)
+    console.log('Subcategory for specs ', subcategory)
 
     try {
         const specs = await getSpecificationsByCategoryService(category, subcategory);
@@ -155,11 +190,22 @@ export const getSpecificationsByCategory = async (req: Request, res: Response) =
 
 export const filterProductsBySpecifications = async (req: Request, res: Response) => {
     const { category, subcategory, filters } = req.body;
-    console.log(category, subcategory, filters);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const offset = (page - 1) * limit;
 
+    console.log(filters)
     try {
         const products = await filterProductsBySpecificationsService(category, subcategory, filters);
-        res.json(products);
+
+        const paginated = products.slice(offset, offset + limit);
+
+        res.json({
+            total: products.length,
+            page,
+            limit,
+            data: paginated
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Failed to filter products" });

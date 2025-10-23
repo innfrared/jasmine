@@ -1,7 +1,7 @@
 {
-  "slogan": "Affordable Perfection. Designed for Your Modern Life.",
-  "slogan_part_1": "Affordable Perfection",
-  "slogan_part_2": "Designed for Your Modern Life",
+  "slogan": "Every Stitch Tells a Story.",
+  "slogan_part_1": "Every Stitch Tells a Story",
+  "slogan_part_2": "Handcrafted for Dreamers",
   "catalog": "Catalog",
   "type_1": "Televisions",
   "type_2": "Air Conditioners",
@@ -20,12 +20,15 @@
   "login": "Log in",
   "signup": "Sign up",
   "about_us": "About Us",
+  "support": "Support",
+  "social": "Social",
+  "trending": "Trending Now",
   "quick_links": "Quick Links",
   "contact_us": "Contact Us",
   "not_logged_in": "You are not logged in.",
   "loginField1": "Email, username or phone",
   "loginField2": "Password",
-  "copyrightNotice": "Digital City. All rights reserved.",
+  "copyrightNotice": "Jasmine Collection. All rights reserved.",
   "bestsellers": "Bestseller Products",
   "newProducts": "Newest Products",
   "bestDeals": "Hot Deals",
@@ -42,5 +45,9 @@
   "brand": "Brand",
   "product_code": "Product Code",
   "description": "Description",
-  "products": "Products"
+  "products": "Products",
+  "price_asc": "Գին: ցածրից բարձր",
+  "price_desc": "Գին: բարձրից ցածր",
+  "name_asc": "Անվանում: Ա-Ֆ",
+  "name_desc": "Անվանում: Ֆ-Ա"
 }
