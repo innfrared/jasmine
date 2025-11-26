@@ -11,7 +11,7 @@ import {
   OptionIcon,
   NoResults,
   VisuallyHiddenLabel,
-} from './dropdown.styles';
+} from './Dropdown.styles';
 
 export type DropdownOption = {
   value: string;
