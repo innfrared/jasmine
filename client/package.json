@@ -12,6 +12,8 @@
     "format:check": "prettier --check src/**/*.{ts,tsx,js,jsx,json,css,md}"
   },
   "dependencies": {
+    "vite": "^6.2.2",
+    "@vitejs/plugin-react": "^4.3.4",
     "@stripe/react-stripe-js": "^3.5.1",
     "@stripe/stripe-js": "^6.1.0",
     "i18next": "^23.2.3",
