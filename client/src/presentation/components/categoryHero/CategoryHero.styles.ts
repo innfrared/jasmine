@@ -1,18 +1,17 @@
 import styled from 'styled-components';
 
 export const HeroWrapper = styled.section`
-  width: 100%;
+  width: 75vw;
   height: 90vh;
   display: flex;
   justify-content: center;
-  background: #f7f5f3; /* subtle warm canvas like in the mock */
 `;
 
 export const HeroInner = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 40% 60%; /* 40:60 ratio */
-  gap: 0; /* Remove gap so items touch */
+  grid-template-columns: 40% 60%;
+  gap: 0;
   height: 100%;
 
   @media (max-width: 1024px) {
@@ -23,8 +22,6 @@ export const HeroInner = styled.div`
 
 export const LeftPanel = styled.div`
   background: #ffffff;
-  border: 1px solid #e6e3df;
-  border-right: none; /* Remove right border so panels touch */
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -35,7 +32,6 @@ export const LeftPanel = styled.div`
 
   @media (max-width: 1024px) {
     min-height: 360px;
-    border-right: 1px solid #e6e3df; /* Restore border on mobile */
   }
 `;
 
@@ -48,10 +44,8 @@ export const MainImage = styled.img`
 
 export const RightPanel = styled.div`
   background: #ffffff;
-  border: 1px solid #e6e3df;
-  border-left: none; /* Remove left border so panels touch */
   display: grid;
-  grid-template-rows: auto auto 1fr auto; /* title, subtext, products, cta */
+  grid-template-rows: auto auto 1fr auto;
   padding: 70px;
   width: 100%;
   height: 100%;
@@ -59,7 +53,6 @@ export const RightPanel = styled.div`
   @media (max-width: 1024px) {
     padding: 60px 40px;
     min-height: unset;
-    border-left: 1px solid #e6e3df; /* Restore border on mobile */
   }
 `;
 
@@ -98,11 +91,11 @@ export const InfoRow = styled.div`
   flex-direction: row;
   gap: 10%;
   padding: 0 15px;
-  
+
   > *:first-child {
     flex: 0 0 50%;
   }
-  
+
   > *:last-child {
     flex: 0 0 40%;
   }

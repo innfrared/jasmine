@@ -1,36 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  HeroContainer,
-  CentralText,
-  Title,
-  Line,
-  Subtitle,
-} from './HeroSlide.styles';
+import { HeroContainer, CentralImage } from './HeroSlide.styles';
 
-type HeroSlideProps = {
-  primaryColor: string;
-  secondaryColor: string;
-};
-
-const HeroSlide: React.FC<HeroSlideProps> = ({ secondaryColor }) => {
-  const { t } = useTranslation<'translation'>();
-  const [isLoaded, setIsLoaded] = useState(false);
+const HeroSlide: React.FC = () => {
+  const [phase, setPhase] = useState<
+    'idle' | 'animating-out' | 'done' | 'animating-in'
+  >('idle');
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+    const onScroll = () => {
+      const current = window.scrollY;
+      const scrollingDown = current > lastScrollY;
+      if (scrollingDown && phase !== 'animating-out' && phase !== 'done') {
+        setPhase('animating-out');
+        setTimeout(() => setPhase('done'), 500);
+      } else if (
+        !scrollingDown &&
+        phase !== 'animating-in' &&
+        phase !== 'idle'
+      ) {
+        setPhase('animating-in');
+        setTimeout(() => setPhase('idle'), 500);
+      }
+      setLastScrollY(current);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [phase]);
 
   return (
     <HeroContainer>
-      <CentralText isLoaded={isLoaded}>
-        <Title secondaryColor={secondaryColor}>{t('slogan_part_1')}</Title>
-        <Line isLoaded={isLoaded} secondaryColor={secondaryColor} />
-        <Subtitle secondaryColor={secondaryColor}>
-          {t('slogan_part_2')}
-        </Subtitle>
-      </CentralText>
+      {/*<CentralImage*/}
+      {/*  src={'assets/logobig.svg'}*/}
+      {/*  $phase={phase}*/}
+      {/*  beforeInjection={svg => {*/}
+      {/*    svg.querySelectorAll('[stroke]').forEach(el => {*/}
+      {/*      el.setAttribute('stroke', 'currentColor');*/}
+      {/*    });*/}
+      {/*  }}*/}
+      {/*/>*/}
     </HeroContainer>
   );
 };

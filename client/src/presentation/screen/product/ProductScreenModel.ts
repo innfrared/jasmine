@@ -17,9 +17,9 @@ export const useProductScreenModel = (
 
       try {
         let data = null;
-        console.log(id);
         if (id) {
           data = await fetchProductById(id);
+          console.log(data);
           setProduct(data);
           setMainImage(data.image_main);
         }

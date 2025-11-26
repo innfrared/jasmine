@@ -58,13 +58,16 @@ export const fetchProducts = async (
 };
 
 export const fetchProductById = async (id: number): Promise<Product> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/products/product/${id}`
-  );
-  if (!response.ok) {
-    throw new Error('Failed to fetch product details');
-  }
-  return response.json();
+  // const response = await fetch(
+  //   `${import.meta.env.VITE_API_URL}/api/products/product/${id}`
+  // );
+  // if (!response.ok) {
+  //   throw new Error('Failed to fetch product details');
+  // }
+  // return response.json();
+  await Promise.resolve();
+  const byId = mockTrendingInBags.find(p => p.id === id);
+  return byId ?? mockTrendingInBags[0];
 };
 
 export const fetchBestDeals = async () => {

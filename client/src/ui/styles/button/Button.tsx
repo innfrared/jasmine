@@ -12,6 +12,7 @@ type ButtonProps = {
   onClick?: () => void;
   icon?: React.ReactNode;
   badgeContent?: string | number;
+  iconColor?: string;
 };
 
 const getColorsFromStorage = () => {
@@ -37,6 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   icon,
   badgeContent,
+  iconColor,
 }) => {
   const { primaryColor, primaryColorFlat, secondaryColor } =
     getColorsFromStorage();
@@ -80,7 +82,11 @@ const Button: React.FC<ButtonProps> = ({
             {children}
           </TextWrapper>
           {displayIcon && (
-            <IconWrapper variant={variant} secondaryColor={secondaryColor}>
+            <IconWrapper
+              variant={variant}
+              secondaryColor={secondaryColor}
+              iconColor={iconColor}
+            >
               {displayIcon}
             </IconWrapper>
           )}
@@ -88,7 +94,11 @@ const Button: React.FC<ButtonProps> = ({
       ) : (
         <>
           {displayIcon && (
-            <IconWrapper variant={variant} secondaryColor={secondaryColor}>
+            <IconWrapper
+              variant={variant}
+              secondaryColor={secondaryColor}
+              iconColor={iconColor}
+            >
               {displayIcon}
             </IconWrapper>
           )}

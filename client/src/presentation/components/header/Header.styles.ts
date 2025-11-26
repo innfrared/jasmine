@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+import { ReactSVG } from 'react-svg';
+import { keyframes } from 'styled-components';
 
 export const HeaderContainer = styled.div<{
   expanded: boolean;
@@ -8,20 +10,20 @@ export const HeaderContainer = styled.div<{
   width: 100%;
   padding-bottom: 1rem;
   height: auto;
-  background-color: #ffffff;
+  background-color: ${({ isScrolled }) =>
+    isScrolled ? '#ffffff' : 'transparent'};
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   z-index: 1000;
-  transition: all 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   overflow: visible;
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  opacity: ${({ isScrolled }) => (isScrolled ? '0.8' : '1')};
 
   ${({ expanded }) =>
     expanded &&
@@ -29,28 +31,150 @@ export const HeaderContainer = styled.div<{
       height: auto;
     `}
 `;
+const HEADER_CENTER_VH = 1.5;
+
+const toHeaderDesktop = keyframes`
+  0% {
+    top: 30vh;
+    width: 40vw;
+    transform: translateX(-50%) scale(1);;
+    opacity: 1;
+  }
+  100% {
+    top: ${HEADER_CENTER_VH}vh;
+    width: 120px;
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+`;
+
+const fromHeaderDesktop = keyframes`
+  0% {
+    top: ${HEADER_CENTER_VH}vh;
+    width: 120px;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    top: 30vh;
+    width: 40vw;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+`;
+
+const toHeaderMobile = keyframes`
+  0% {
+    top: 30vh;
+    width: 70vw;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    top: ${HEADER_CENTER_VH}vh;
+    width: 20vw;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+`;
+
+const fromHeaderMobile = keyframes`
+  0% {
+    top: ${HEADER_CENTER_VH}vh;
+    width: 20vw;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    top: 30vh;
+    width: 70vw;
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+`;
+
+export const AnimatedLogo = styled(ReactSVG)<{
+  $phase: 'idle' | 'animating-out' | 'done' | 'animating-in';
+}>`
+  left: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  color: ${({ $phase }) =>
+    $phase === 'done' || $phase === 'animating-out' ? '#9A8300' : '#ffffff'};
+  transition: color 0.5s ease;
+  transform-origin: top center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  ${({ $phase }) => {
+    switch ($phase) {
+      case 'idle':
+        return css`
+          position: fixed;
+          top: 30vh;
+          width: 40vw;
+          transform: translateX(-50%);
+          opacity: 1;
+
+          @media (max-width: 768px) {
+            width: 70vw;
+          }
+        `;
+      case 'animating-out':
+        return css`
+          position: fixed;
+          animation: ${toHeaderDesktop} 0.5s ease forwards;
+
+          @media (max-width: 768px) {
+            animation: ${toHeaderMobile} 0.5s ease forwards;
+          }
+        `;
+      case 'animating-in':
+        return css`
+          position: fixed;
+          animation: ${fromHeaderDesktop} 0.5s ease forwards;
+
+          @media (max-width: 768px) {
+            animation: ${fromHeaderMobile} 0.5s ease forwards;
+          }
+        `;
+      case 'done':
+        return css`
+          position: fixed;
+          top: 33%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 120px;
+          z-index: 2;
+
+          @media (max-width: 768px) {
+            width: 20vw;
+          }
+        `;
+    }
+  }}
+`;
 
 export const HeaderMainContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 75vw;
   justify-content: space-between;
-  height: 8vh;
+  min-height: 80px;
   align-items: center;
 `;
 
 export const HeaderLogo = styled.div`
+  position: relative;
+  overflow: visible;
+  width: 120px;
+  height: 60px;
   cursor: pointer;
-
-  img {
-    width: 7rem;
-  }
-
-  @media (max-width: 480px) {
-    img {
-      max-width: 100px;
-    }
-  }
+  margin-left: 0;
 `;
 
 export const HeaderDetails = styled.div`
@@ -388,7 +512,6 @@ export const CountBadge = styled.span`
   justify-content: center;
 `;
 
-
 export const MobileMenuContent = styled.div<{ isVisible: boolean }>`
   position: absolute;
   left: 0;
@@ -404,7 +527,8 @@ export const MobileMenuContent = styled.div<{ isVisible: boolean }>`
   visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  transform: ${({ isVisible }) => (isVisible ? 'translateY(0)' : 'translateY(-10px)')};
+  transform: ${({ isVisible }) =>
+    isVisible ? 'translateY(0)' : 'translateY(-10px)'};
   transition: all 0.3s ease;
   z-index: 1000;
   max-height: 500px;
@@ -421,12 +545,14 @@ export const MobileMenuContent = styled.div<{ isVisible: boolean }>`
   }
 `;
 
-export const MobileMenuCard = styled.div<{ bgImage?: string; textColor?: string }>`
-  background: ${({ bgImage }) => 
-    bgImage 
+export const MobileMenuCard = styled.div<{
+  bgImage?: string;
+  textColor?: string;
+}>`
+  background: ${({ bgImage }) =>
+    bgImage
       ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${bgImage})`
-      : 'linear-gradient(135deg, #ffffff, #f7f7f7)'
-  };
+      : 'linear-gradient(135deg, #ffffff, #f7f7f7)'};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -491,7 +617,6 @@ export const ProductCategories = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: #fff;
   padding: 0;
   margin: 0;
   justify-content: center;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useHeaderModel } from '../header/HeaderModel';
 import AccountBox from '../accountBox/AccountBox';
 import RegisterPopup from '../registerPopup/RegisterPopup';
@@ -11,8 +11,6 @@ import {
   HeaderMainContainer,
   HeaderDetails,
   HeaderActions,
-  CategoryContainer,
-  MenuIcon,
   SearchContent,
   CatalogContent,
   SearchBar,
@@ -23,7 +21,6 @@ import {
   CategoryArrow,
   CatalogCategories,
   SwiperCell,
-  VerticalLine,
   SubcategoryList,
   SubcategoryItem,
   HeaderLogo,
@@ -36,17 +33,9 @@ import {
   ProductCategories,
   ProductCategory,
   ProductCategoryName,
-  CurrencySwitcher,
-  CurrencyText,
-  CurrencyArrow,
-  CountrySwitcher,
-  CountryFlag,
-  CountryText,
-  Contacts,
-  ContactItem,
-  ContactIcon,
-  ContactText,
+  AnimatedLogo,
 } from './Header.styles';
+import CurrencyDropdown from '../../../ui/styles/dropdown/CurrencyDropdown';
 
 type HeaderProps = {
   primaryColor: string;
@@ -55,8 +44,14 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   const navigate = useNavigate();
-  const { categories, subcategories, hoveredCategory, handleCategoryHover: handleCategoryHoverFromModel } =
-    useHeaderModel();
+  const location = useLocation();
+  const forceScrolled = location.pathname !== '/';
+  const {
+    categories,
+    subcategories,
+    hoveredCategory,
+    handleCategoryHover: handleCategoryHoverFromModel,
+  } = useHeaderModel();
 
   const headerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,6 +65,9 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   const [, setCartCount] = useState(0);
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [phase, setPhase] = useState<
+    'idle' | 'animating-out' | 'done' | 'animating-in'
+  >('idle');
 
   const toggleAccountBox = () => setIsAccountBoxVisible(prev => !prev);
   const closeAccountBox = () => setIsAccountBoxVisible(false);
@@ -108,7 +106,46 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   };
 
   const handleCartNavigation = () => navigate('/cart');
-  const handleHomeNavigation = () => navigate('/');
+
+  useEffect(() => {
+    if (forceScrolled) return;
+    const animLockRef = { current: false };
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      const atTop = y <= 2;
+      setIsScrolled(!atTop);
+
+      if (animLockRef.current) return;
+
+      if (!atTop && phase === 'idle') {
+        animLockRef.current = true;
+        setPhase('animating-out');
+        setTimeout(() => {
+          setPhase('done');
+          animLockRef.current = false;
+        }, 500);
+      } else if (atTop && phase === 'done') {
+        animLockRef.current = true;
+        setPhase('animating-in');
+        setTimeout(() => {
+          setPhase('idle');
+          animLockRef.current = false;
+        }, 500);
+      }
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [phase, forceScrolled]);
+
+  useEffect(() => {
+    if (forceScrolled) {
+      setIsScrolled(true);
+      setPhase('done');
+    }
+  }, [forceScrolled]);
 
   useEffect(() => {
     const updateCartCount = () => {
@@ -121,20 +158,13 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
       }
     };
 
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 0);
-    };
-
     updateCartCount();
     window.addEventListener('storage', updateCartCount);
     window.addEventListener('cartUpdated', updateCartCount);
-    window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('storage', updateCartCount);
       window.removeEventListener('cartUpdated', updateCartCount);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -160,39 +190,25 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
     >
       <HeaderMainContainer>
         <HeaderDetails>
-          <CurrencySwitcher>
-            <CurrencyText>USD</CurrencyText>
-            <CurrencyArrow>▼</CurrencyArrow>
-          </CurrencySwitcher>
-          <CountrySwitcher>
-            <CountryFlag>🇺🇸</CountryFlag>
-            <CountryText>USA</CountryText>
-          </CountrySwitcher>
-          <Contacts>
-            <ContactItem href="tel:+1234567890">
-              <ContactIcon>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-              </ContactIcon>
-            </ContactItem>
-            <ContactItem href="mailto:info@example.com">
-              <ContactIcon>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </ContactIcon>
-            </ContactItem>
-          </Contacts>
+          <Button
+            variant="tertiary"
+            icon={<img src="/assets/globe.svg" alt="globe" />}
+            onClick={handleCartNavigation}
+            iconColor={isScrolled ? '#001f3f' : '#ffffff'}
+          ></Button>
+          <CurrencyDropdown isScrolled={isScrolled} />
         </HeaderDetails>
 
-        <HeaderLogo>
-          <img
-            src="/assets/logo.png"
-            alt="logo"
-            width="180px"
-            onClick={handleHomeNavigation}
+        <HeaderLogo onClick={() => navigate('/')}>
+          <AnimatedLogo
+            src="/assets/logobig.svg"
+            $phase={phase}
+            beforeInjection={svg => {
+              svg
+                .querySelectorAll('[stroke]')
+                .forEach(el => el.setAttribute('stroke', 'currentColor'));
+            }}
+            onClick={() => navigate('/')}
           />
         </HeaderLogo>
 
@@ -201,24 +217,21 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
             variant="tertiary"
             icon={<img src="/assets/heart.svg" alt="cart" />}
             onClick={handleCartNavigation}
-          >
-            Liked
-          </Button>
+            iconColor={isScrolled ? '#001f3f' : '#ffffff'}
+          ></Button>
           <Button
             variant="tertiary"
             icon={<img src="/assets/cart.svg" alt="cart" />}
             badgeContent={5}
             onClick={handleCartNavigation}
-          >
-            Cart
-          </Button>
+            iconColor={isScrolled ? '#001f3f' : '#ffffff'}
+          ></Button>
           <Button
             variant="tertiary"
             icon={<img src="/assets/account.svg" alt="account" />}
             onClick={toggleAccountBox}
-          >
-            Profile
-          </Button>
+            iconColor={isScrolled ? '#001f3f' : '#ffffff'}
+          ></Button>
 
           {isAccountBoxVisible && (
             <AccountBox
@@ -300,8 +313,6 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
             ))}
         </CatalogCategories>
 
-        {/* <VerticalLine /> */}
-
         {subcategories.length > 0 && (
           <SubcategoryList>
             {subcategories.map(sub => (
@@ -320,7 +331,7 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
         {categories.map((category, index) => {
           const backgroundImages = [
             '/assets/bag1.webp',
-            '/assets/dress1.webp', 
+            '/assets/dress1.webp',
             '/assets/bag2.jpg',
             '/assets/bag3.webp',
             '/assets/bag4.webp',
@@ -332,9 +343,9 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
             '/assets/dress7.webp',
             '/assets/bg.webp',
             '/assets/fridgeSample.jpeg',
-            '/assets/logo.png'
+            '/assets/logo.png',
           ];
-          
+
           return (
             <MobileMenuCard
               key={category.id}
@@ -351,7 +362,7 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
               <MobileMenuLinks>
                 <MobileMenuLink
                   href="#"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
                     if (category.url) {
                       handleCategoryNavigation(category.url);
@@ -365,7 +376,7 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
                 </MobileMenuLink>
                 <MobileMenuLink
                   href="#"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
                     handleCartNavigation();
                     closeMobileMenu();

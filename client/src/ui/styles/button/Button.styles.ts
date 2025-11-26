@@ -127,6 +127,7 @@ export const ButtonBase = styled.button<VariantProps>`
 export const IconWrapper = styled.div<{
   variant: 'primary' | 'secondary' | 'tertiary' | 'link';
   secondaryColor: string;
+  iconColor?: string;
 }>`
   display: flex;
   justify-content: center;
@@ -136,9 +137,24 @@ export const IconWrapper = styled.div<{
 
   svg,
   img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
     object-fit: contain;
+  }
+
+  svg,
+  svg * {
+    stroke: currentColor !important;
+    fill: currentColor !important;
+  }
+
+  img {
+    ${({ iconColor }) =>
+      iconColor === '#ffffff'
+        ? 'filter: brightness(0) invert(1);'
+        : iconColor === '#001f3f'
+          ? 'filter: invert(11%) sepia(33%) saturate(3111%) hue-rotate(178deg) brightness(98%) contrast(104%);'
+          : ''};
   }
 
   ${({ variant }) =>
@@ -173,8 +189,6 @@ export const IconWrapper = styled.div<{
     css`
       svg,
       img {
-        color: #001f3f;
-        fill: #001f3f;
         width: 1rem;
         height: 1rem;
       }
