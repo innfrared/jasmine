@@ -7,12 +7,11 @@ const slideInTop = keyframes`
 
 export const FooterContainer = styled.footer<{ secondaryColor: string }>`
   color: ${({ secondaryColor }) => secondaryColor};
-  width: 90%;
+  background-color: #421d2b;
+  width: 100%;
   padding: 4rem 6rem;
   font-family: inherit;
   box-sizing: border-box;
-  margin: 20px auto;
-  border-top: solid 0.06rem ${({ secondaryColor }) => secondaryColor};
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -191,11 +190,4 @@ export const SocialSvg = styled.svg`
 export const FooterBottom = styled.div`
   text-align: left;
   font-size: 12px;
-`;
-
-export const FooterLine = styled.div<{ color: string }>`
-  width: 100%;
-  height: 0.05rem;
-  margin: 3rem 0 1rem 0;
-  background-color: ${({ color }) => color};
 `;

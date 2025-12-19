@@ -49,13 +49,13 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
         </LeftPanel>
 
         <RightPanel>
-            <InfoRow>
-              <SuperTitle>{categoryTagline}</SuperTitle>
-              <Description>{categoryDescription}</Description>
-            </InfoRow>
+          <InfoRow>
+            <SuperTitle>{categoryTagline}</SuperTitle>
+            <Description>{categoryDescription}</Description>
+          </InfoRow>
 
           <ProductsStrip>
-            {(featuredProducts || []).slice(0, 3).map(product => (
+            {(featuredProducts || []).slice(0, 4).map(product => (
               <ProductCell key={String(product.id)} product={product} />
             ))}
           </ProductsStrip>

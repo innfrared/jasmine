@@ -69,13 +69,11 @@ export const ArrowButton = styled.button<{
     css`
       right: 8px;
     `}
-
   &:hover {
     background-color: ${({ primaryColor }) => primaryColor};
 
     svg {
-      filter: brightness(0) invert(1);
-      stroke: #ff3366;
+      stroke: #001f3f;
     }
   }
 `;
@@ -83,7 +81,7 @@ export const ArrowButton = styled.button<{
 export const ArrowSvg = styled.svg`
   width: 24px;
   height: 24px;
-  color: #cc0c5c;
+  color: #b7b7b7;
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;

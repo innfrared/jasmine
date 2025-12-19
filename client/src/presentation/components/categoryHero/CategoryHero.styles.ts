@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const HeroWrapper = styled.section`
-  width: 75vw;
-  height: 90vh;
+  width: 100vw;
+  height: 80vh;
   display: flex;
   justify-content: center;
 `;
@@ -29,6 +29,7 @@ export const LeftPanel = styled.div`
   overflow: hidden;
   width: 100%;
   min-height: 520px;
+  max-height: 80vh;
 
   @media (max-width: 1024px) {
     min-height: 360px;
@@ -46,7 +47,7 @@ export const RightPanel = styled.div`
   background: #ffffff;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
-  padding: 70px;
+  padding: 13vh 10vh 7vh 10vh;
   width: 100%;
   height: 100%;
 
@@ -103,7 +104,7 @@ export const InfoRow = styled.div`
 
 export const ProductsStrip = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 30px;
   margin: 24px 0;
   overflow-x: auto;
   padding: 8px 0;

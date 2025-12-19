@@ -85,8 +85,8 @@ export default function LandingScreen() {
       <CategoryHero
         categoryTagline="Carry Elegance"
         categoryDescription="Discover our curated collection of premium bags and accessories that blend style with functionality."
-        featuredProducts={trendingBagsProducts.slice(0, 3)}
-        mainImage="/assets/bag1.webp"
+        featuredProducts={trendingBagsProducts.slice(0, 4)}
+        mainImage="/assets/bag2.jpg"
         mainImageAlt="Premium bag collection"
         categoryLabel="Featured Collection"
         ctaText="Shop Bags"

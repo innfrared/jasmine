@@ -9,7 +9,7 @@ const Breadcrumb: React.FC = () => {
   return (
     <nav className={styles.breadcrumb}>
       <Link to="/" className={styles.crumb}>
-        Գլխավոր էջ
+        Catalog
       </Link>
       {pathnames.map((value, index) => {
         if (value === 'category') return null;
@@ -17,13 +17,6 @@ const Breadcrumb: React.FC = () => {
 
         const path = `/${pathnames.slice(0, index + 1).join('/')}`;
         let label = decodeURIComponent(value);
-        if (value === 'products') {
-          label = 'Ապրանքներ';
-        } else if (value === 'comparison') {
-          label = 'Համեմատություն';
-        } else if (value === 'cart') {
-          label = 'Գնումների Զամբյուղ';
-        }
 
         return (
           <span key={index}>

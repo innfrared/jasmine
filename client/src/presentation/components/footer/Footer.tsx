@@ -12,7 +12,6 @@ import {
   LinkItem,
   FooterBottom,
   FooterContent,
-  FooterLine,
 } from './Footer.styles';
 import { footerLinksData } from '../../../types/footerLinks';
 
@@ -23,13 +22,13 @@ const getColorsFromStorage = () => {
       'linear-gradient(135deg, #a67c00 0%, #bf9b30 25%, #ffd700 50%, #d4af37 75%, #b8860b 100%)';
     const primaryColorFlat =
       localStorage.getItem('theme_primary_flat') || '#d4af37';
-    const secondaryColor = localStorage.getItem('theme_secondary') || '#001f3f';
+    const secondaryColor = localStorage.getItem('theme_secondary') || '#ffffff';
     return { primaryColor, primaryColorFlat, secondaryColor };
   }
   return {
     primaryColor: '#d4af37',
     primaryColorFlat: '#d4af37',
-    secondaryColor: '#001f3f',
+    secondaryColor: '#ffffff',
   };
 };
 
@@ -43,7 +42,7 @@ export default function Footer() {
         <FooterLinkSection>
           {footerLinksData.map((section, idx) => (
             <LinksSection key={idx}>
-              <SectionTitle color={primaryColorFlat}>
+              <SectionTitle color={secondaryColor}>
                 {t(section.title)}
               </SectionTitle>
               <LinksList>
@@ -61,7 +60,6 @@ export default function Footer() {
           <LogoDescription>{t('slogan')}</LogoDescription>
         </LogoSection>
       </FooterContent>
-      <FooterLine color={secondaryColor}></FooterLine>
       <FooterBottom>
         <p>
           &copy; {new Date().getFullYear()} {t('copyrightNotice')}
