@@ -23,7 +23,7 @@ type CurrencyDropdownProps = {
 };
 
 const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
-  width = '80px',
+  width = '60px',
   searchable = false,
   onChange,
   isScrolled = false,

@@ -8,6 +8,7 @@ export const Card = styled.div`
   transition: all 0.3s;
   position: relative;
   box-sizing: border-box;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 40vw;
@@ -41,6 +42,7 @@ export const HoverButtons = styled.div`
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  z-index: 10;
 `;
 
 export const FindSimilar = styled.div`
@@ -50,6 +52,7 @@ export const FindSimilar = styled.div`
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
+  z-index: 10;
 `;
 
 export const CardImage = styled.div`
@@ -61,7 +64,6 @@ export const CardImage = styled.div`
   justify-content: center;
   overflow: hidden;
   background: #ffffff;
-  cursor: pointer;
 
   img {
     width: 100%;
@@ -132,10 +134,12 @@ export const CardImage = styled.div`
 
   &:hover ${HoverButtons} {
     opacity: 1;
+    pointer-events: auto;
   }
 
   &:hover ${FindSimilar} {
     opacity: 1;
+    pointer-events: auto;
   }
 
   @media (max-width: 768px) {

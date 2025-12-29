@@ -7,10 +7,10 @@ const slideInTop = keyframes`
 
 export const FooterContainer = styled.footer<{ secondaryColor: string }>`
   color: ${({ secondaryColor }) => secondaryColor};
-  background-color: #421d2b;
+  background-color: #001f3f;
   width: 100%;
   padding: 4rem 6rem;
-  font-family: inherit;
+  font-family: 'Questrial', sans-serif;
   box-sizing: border-box;
 
   @media (max-width: 768px) {

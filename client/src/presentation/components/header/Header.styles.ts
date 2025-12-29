@@ -3,18 +3,14 @@ import { ReactSVG } from 'react-svg';
 import { keyframes } from 'styled-components';
 
 export const HeaderContainer = styled.div<{
-  expanded: boolean;
   secondaryColor: string;
   isScrolled: boolean;
 }>`
   width: 100%;
-  padding-bottom: 1rem;
-  height: auto;
   background-color: ${({ isScrolled }) =>
     isScrolled ? '#ffffff' : 'transparent'};
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   z-index: 1000;
@@ -24,12 +20,6 @@ export const HeaderContainer = styled.div<{
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-
-  ${({ expanded }) =>
-    expanded &&
-    css`
-      height: auto;
-    `}
 `;
 const HEADER_CENTER_VH = 1.5;
 
@@ -753,4 +743,285 @@ export const ContactText = styled.span`
   font-size: 12px;
   font-weight: 500;
   color: #333;
+`;
+
+export const UserIconWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+`;
+
+export const UserIconButton = styled.button<{ $isScrolled: boolean }>`
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: ${({ $isScrolled }) => ($isScrolled ? '#1a1a1a' : '#ffffff')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  &:hover {
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')};
+    color: #d4af37;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const UserModal = styled.div`
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  padding: 1rem;
+  z-index: 10001;
+  animation: slideDown 0.2s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    right: 0;
+    left: auto;
+  }
+`;
+
+export const UserModalMessage = styled.p`
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: 'Questrial', sans-serif;
+`;
+
+export const UserModalItem = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Questrial', sans-serif;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-align: left;
+
+  &:hover {
+    background: #f5f5f5;
+    color: #d4af37;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+  }
+`;
+
+export const LikedIconWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+`;
+
+export const LikedButton = styled.button<{ $isScrolled: boolean }>`
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: ${({ $isScrolled }) => ($isScrolled ? '#1a1a1a' : '#ffffff')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  &:hover {
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')};
+    color: #cc0c5c;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const LikedBadge = styled.span`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #cc0c5c;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: 'Questrial', sans-serif;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+export const CartIconWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+`;
+
+export const CartButton = styled.button<{ $isScrolled: boolean }>`
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: ${({ $isScrolled }) => ($isScrolled ? '#1a1a1a' : '#ffffff')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+
+  &:hover {
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')};
+    color: #d4af37;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const CartBadge = styled.span`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #d4af37;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: 'Questrial', sans-serif;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+export const NavigationBar = styled.nav<{ $isScrolled: boolean }>`
+  width: 100%;
+  background: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : 'transparent')};
+  transition: background 0.3s ease;
+  border-top: ${({ $isScrolled }) => ($isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none')};
+  padding: 0.5rem 0;
+  margin-top: 0;
+
+  @media (max-width: 968px) {
+    display: none;
+  }
+`;
+
+export const NavContainer = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+`;
+
+export const NavLinks = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 1200px) {
+    gap: 1.25rem;
+  }
+`;
+
+export const NavLink = styled.button<{ $isScrolled: boolean }>`
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'Questrial', sans-serif;
+  cursor: pointer;
+  padding: 0.4rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+  text-transform: capitalize;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #d4af37;
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: #d4af37;
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    font-size: 0.9rem;
+  }
 `;

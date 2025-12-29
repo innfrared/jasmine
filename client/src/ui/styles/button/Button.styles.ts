@@ -180,6 +180,8 @@ export const IconWrapper = styled.div<{
     css`
       svg,
       img {
+        width: 1.25rem;
+        height: 1.25rem;
         color: ${secondaryColor};
         fill: ${secondaryColor};
       }

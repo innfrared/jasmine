@@ -18,24 +18,24 @@ export const Container = styled.div<{ $width?: string }>`
 
 export const Trigger = styled.button<{ $isScrolled?: boolean }>`
   width: 100%;
-  height: 38px;
+  height: 28px;
   padding: 0;
   border: none;
   border-bottom: 1px solid
-    ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : '#ffffff')};
+    ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 31, 63, 0.2)' : 'rgba(255, 255, 255, 0.3)')};
   background: transparent;
   color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : '#ffffff')};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
   cursor: pointer;
   transition:
-    border-color 0.3s ease,
-    color 0.3s ease;
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
-    border-color: ${({ $isScrolled }) => ($isScrolled ? '#9a8300' : '#ffffff')};
+    border-color: ${({ $isScrolled }) => ($isScrolled ? '#9a8300' : 'rgba(255, 255, 255, 0.6)')};
   }
 
   &:focus-visible {
@@ -46,30 +46,34 @@ export const Trigger = styled.button<{ $isScrolled?: boolean }>`
 
 export const ValueText = styled.span<{ $isScrolled?: boolean }>`
   color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : '#ffffff')};
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 export const PlaceholderText = styled.span<{ $isScrolled?: boolean }>`
-  color: ${({ $isScrolled }) => ($isScrolled ? '#8a8f98' : '#ffffffb3')};
+  color: ${({ $isScrolled }) => ($isScrolled ? '#8a8f98' : 'rgba(255, 255, 255, 0.7)')};
+  font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 export const Chevron = styled.span<{ $isScrolled?: boolean }>`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   transform: rotate(0deg);
   transition:
     transform 0.2s ease,
-    color 0.3s ease;
-  color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : '#ffffff')};
+    color 0.2s ease;
+  color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : 'rgba(255, 255, 255, 0.8)')};
+  opacity: 0.7;
 
   &[data-open='true'] {
     transform: rotate(180deg);
     color: ${({ $isScrolled }) => ($isScrolled ? '#9a8300' : '#ffffff')};
+    opacity: 1;
   }
 `;
 
@@ -82,16 +86,16 @@ export const Menu = styled.ul<{ $maxHeight?: string }>`
   position: absolute;
   left: 0;
   right: 0;
-  margin: 6px 0 0 0;
-  padding: 6px;
-  border-radius: 12px;
+  margin: 4px 0 0 0;
+  padding: 4px;
+  border-radius: 8px;
   background: #ffffff;
-  border: 1px solid #e6e6e6;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.08),
-    0 6px 12px rgba(0, 0, 0, 0.06);
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
   list-style: none;
-  max-height: ${({ $maxHeight }) => $maxHeight ?? '260px'};
+  max-height: ${({ $maxHeight }) => $maxHeight ?? '240px'};
   overflow: auto;
   z-index: 1000;
   animation: ${pop} 0.12s ease both;
@@ -100,23 +104,24 @@ export const Menu = styled.ul<{ $maxHeight?: string }>`
   scrollbar-width: thin;
   scrollbar-color: #c7c7c7 transparent;
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
   &::-webkit-scrollbar-thumb {
     background: #c7c7c7;
-    border-radius: 8px;
+    border-radius: 6px;
   }
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
-  height: 36px;
-  margin: 2px 2px 6px;
-  padding: 0 10px;
-  border-radius: 8px;
+  height: 32px;
+  margin: 2px 2px 4px;
+  padding: 0 8px;
+  border-radius: 6px;
   border: 1px solid #e2e2e2;
   background: #fafafa;
   color: #001f3f;
+  font-size: 0.875rem;
   &:focus {
     outline: 2px solid #9a8300;
     outline-offset: 1px;
@@ -126,12 +131,13 @@ export const SearchInput = styled.input`
 export const OptionRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 36px;
-  padding: 6px 8px;
-  margin-bottom: 6px;
-  border-radius: 8px;
+  gap: 8px;
+  min-height: 32px;
+  padding: 4px 8px;
+  margin-bottom: 2px;
+  border-radius: 6px;
   color: #001f3f;
+  font-size: 0.875rem;
   cursor: pointer;
   user-select: none;
   transition:
@@ -144,17 +150,17 @@ export const OptionRow = styled.div`
   }
 
   &[aria-selected='true'] {
-    background: rgba(154, 131, 0, 0.1);
+    background: rgba(154, 131, 0, 0.08);
     color: #9a8300;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &[data-highlighted] {
-    background: rgba(0, 31, 63, 0.08);
+    background: rgba(0, 31, 63, 0.06);
   }
 
   &:not([data-disabled]):hover {
-    background: rgba(0, 31, 63, 0.08);
+    background: rgba(0, 31, 63, 0.06);
   }
 `;
 
