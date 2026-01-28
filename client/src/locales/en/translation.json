@@ -46,6 +46,7 @@
   "brand": "Brand",
   "product_code": "Product Code",
   "description": "Description",
+  "specifications": "Specifications",
   "products": "Products",
   "price_asc": "Գին: ցածրից բարձր",
   "price_desc": "Գին: բարձրից ցածր",

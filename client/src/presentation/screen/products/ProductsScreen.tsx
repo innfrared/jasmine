@@ -6,7 +6,7 @@ import Footer from '../../components/footer/Footer';
 import Breadcrumb from '../../components/breadcrumb/Breadcrumb';
 import { useProductScreenModel } from './ProductsScreenModel';
 import { Product } from '../../../model/productModel';
-import { mockCategories } from '../../../mocks/categoriesMock';
+import { useCategories } from '../../hooks/useCategories';
 import {
   ProductsPageContainer,
   ProductsContent,
@@ -46,6 +46,7 @@ const ProductsScreen: React.FC = () => {
   });
   const [sortBy, setSortBy] = useState<string>('price_asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const { categories } = useCategories();
   const {
     products,
     loading,
@@ -66,13 +67,16 @@ const ProductsScreen: React.FC = () => {
     const decodedCategory = decodeURIComponent(categoryUrl);
     
     // Try to find by URL slug first
-    let categoryData = mockCategories.find(cat => cat.url === decodedCategory || cat.url === categoryUrl);
+    let categoryData = categories.find(
+      (cat) => cat.url === decodedCategory || cat.url === categoryUrl
+    );
     
     // If not found, try to find by category name
     if (!categoryData) {
-      categoryData = mockCategories.find(
-        cat => cat.name.toLowerCase() === decodedCategory.toLowerCase() ||
-               cat.name === decodedCategory
+      categoryData = categories.find(
+        (cat) =>
+          cat.name.toLowerCase() === decodedCategory.toLowerCase() ||
+          cat.name === decodedCategory
       );
     }
     

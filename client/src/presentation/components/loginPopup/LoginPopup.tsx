@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { login } from '../../../service/authService';
+import { useAuth } from '../../../context/AuthContext';
 import {
   Overlay,
   Modal,
@@ -23,6 +25,7 @@ type LoginPopupProps = {
 };
 
 const LoginPopup: React.FC<LoginPopupProps> = ({ onClose, onOpenRegister }) => {
+  const { login: authLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,11 +36,16 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onClose, onOpenRegister }) => {
     setError('');
     setIsLoading(true);
 
-    // TODO: Implement actual login logic
-    setTimeout(() => {
+    try {
+      const response = await login({ email, password });
+      await authLogin(response.tokens);
+      setError('');
+      onClose();
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign in. Please check your credentials.');
+    } finally {
       setIsLoading(false);
-      // onClose();
-    }, 1000);
+    }
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {

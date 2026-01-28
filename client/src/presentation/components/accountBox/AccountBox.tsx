@@ -1,7 +1,12 @@
 import React from 'react';
-import styles from './AccountBox.module.css';
 import { useTranslation } from 'react-i18next';
 import Button from '../../../ui/styles/button/Button';
+import {
+  AccountBoxContainer,
+  AccountDetails,
+  Actions,
+  VerticalLine,
+} from './AccountBox.styles';
 
 export default function AccountBox({
   isVisible,
@@ -18,18 +23,16 @@ export default function AccountBox({
   const isLoggedIn = false;
 
   return (
-    <div className={`${styles.accountBox} ${isVisible ? styles.visible : ''}`}>
+    <AccountBoxContainer $visible={isVisible}>
       {isLoggedIn ? (
-        <div className={styles.accountDetails}>
+        <AccountDetails>
           <p>{t('welcome_user')}</p>
-          <button className={styles.manageAccountButton}>
-            {t('manage_account')}
-          </button>
-        </div>
+          <button type="button">{t('manage_account')}</button>
+        </AccountDetails>
       ) : (
-        <div className={styles.accountDetails}>
+        <AccountDetails>
           <p>{t('not_logged_in')}</p>
-          <div className={styles.actions}>
+          <Actions>
             <Button
               variant={'primary'}
               onClick={() => {
@@ -39,7 +42,7 @@ export default function AccountBox({
             >
               {t('login')}
             </Button>
-            <div className={styles.verticalLine}></div>
+            <VerticalLine />
             <Button
               variant={'primary'}
               onClick={() => {
@@ -49,9 +52,9 @@ export default function AccountBox({
             >
               {t('signup')}
             </Button>
-          </div>
-        </div>
+          </Actions>
+        </AccountDetails>
       )}
-    </div>
+    </AccountBoxContainer>
   );
 }

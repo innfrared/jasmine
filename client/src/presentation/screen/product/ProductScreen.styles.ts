@@ -33,7 +33,7 @@ export const ImageSection = styled.div`
 
 export const MainImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
   border-radius: 8px;
   background: #f9f9f9;
@@ -43,7 +43,7 @@ export const MainImage = styled.img`
 export const ThumbnailContainer = styled.div`
   display: flex;
   gap: 0.75rem;
-  overflow-x: auto;
+  overflow-x: clip;
   padding: 0.5rem 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;

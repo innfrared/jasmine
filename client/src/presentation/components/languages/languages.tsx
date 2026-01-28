@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from './languages.module.css';
 import { useTranslation } from 'react-i18next';
+import { TopNavbar, LanguageSelector, LanguageButton } from './languages.styles';
 
 export default function Languages() {
   const { i18n } = useTranslation<'translation'>();
@@ -12,11 +12,12 @@ export default function Languages() {
   };
 
   return (
-    <div className={styles.topNavbar}>
-      <div className={styles.languageSelector}>
-        <button
-          className={`${styles.languageButton} ${language === 'am' ? styles.active : ''}`}
+    <TopNavbar>
+      <LanguageSelector>
+        <LanguageButton
+          $active={language === 'am'}
           onClick={() => changeLanguage('am')}
+          type="button"
         >
           <svg
             viewBox="0 0 36 36"
@@ -35,10 +36,11 @@ export default function Languages() {
               <path fill="#0033A0" d="M0 13h36v10H0z"></path>
             </g>
           </svg>
-        </button>
-        <button
-          className={`${styles.languageButton} ${language === 'ru' ? styles.active : ''}`}
+        </LanguageButton>
+        <LanguageButton
+          $active={language === 'ru'}
           onClick={() => changeLanguage('ru')}
+          type="button"
         >
           <svg
             viewBox="0 -4 28 28"
@@ -70,10 +72,11 @@ export default function Languages() {
               ></path>
             </g>
           </svg>
-        </button>
-        <button
-          className={`${styles.languageButton} ${language === 'en' ? styles.active : ''}`}
+        </LanguageButton>
+        <LanguageButton
+          $active={language === 'en'}
           onClick={() => changeLanguage('en')}
+          type="button"
         >
           <svg
             viewBox="0 -4 28 28"
@@ -91,8 +94,8 @@ export default function Languages() {
               <rect width="12" height="9.33333" fill="#46467F"></rect>
             </g>
           </svg>
-        </button>
-      </div>
-    </div>
+        </LanguageButton>
+      </LanguageSelector>
+    </TopNavbar>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Input.module.css';
+import { InputField, InputGroup, Label } from './Input.styles';
 
 interface InputProps {
   label: string;
@@ -10,15 +10,10 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({ label, type, value, onChange }) => {
   return (
-    <div className={styles.inputGroup}>
-      <label className={styles.label}>{label}</label>
-      <input
-        type={type}
-        value={value}
-        onChange={onChange}
-        className={styles.input}
-      />
-    </div>
+    <InputGroup>
+      <Label>{label}</Label>
+      <InputField type={type} value={value} onChange={onChange} />
+    </InputGroup>
   );
 };
 

@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import styles from './Breadcrumb.module.css';
+import {
+  BreadcrumbNav,
+  BreadcrumbLink,
+  BreadcrumbText,
+  BreadcrumbSeparator,
+} from './Breadcrumb.styles';
 
 type BreadcrumbProps = {
   categoryName?: string;
@@ -29,52 +34,69 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     new URLSearchParams(location.search).get('subcategory');
 
   // Build breadcrumb items
-  const breadcrumbItems: Array<{ label: string; path: string }> = [
-    { label: 'Catalog', path: '/' },
-  ];
+  const breadcrumbItems: Array<{ label: string; path: string }> = [];
 
-  // Add category if available
-  if (finalCategoryName) {
-    breadcrumbItems.push({
-      label: finalCategoryName,
-      path: `/products/category/${encodeURIComponent(finalCategoryName)}`,
-    });
-  }
+  if (pathnames.includes('profile') || pathnames.includes('orders') || pathnames.includes('shipping') || pathnames.includes('cart')) {
+    breadcrumbItems.push({ label: 'Home', path: '/' });
+    
+    if (pathnames.includes('profile')) {
+      breadcrumbItems.push({ label: 'Profile', path: '/profile' });
+    }
+    
+    if (pathnames.includes('orders')) {
+      breadcrumbItems.push({ label: 'Order History', path: '/orders' });
+    }
+    
+    if (pathnames.includes('shipping')) {
+      breadcrumbItems.push({ label: 'Shipping Information', path: '/shipping' });
+    }
+    
+    if (pathnames.includes('cart')) {
+      breadcrumbItems.push({ label: 'Cart', path: '/cart' });
+    }
+  } else {
+    breadcrumbItems.push({ label: 'Catalog', path: '/' });
+    
+    if (finalCategoryName) {
+      breadcrumbItems.push({
+        label: finalCategoryName,
+        path: `/products/category/${encodeURIComponent(finalCategoryName)}`,
+      });
+    }
 
-  // Add subcategory if available
-  if (finalSubcategoryName && finalCategoryName) {
-    breadcrumbItems.push({
-      label: finalSubcategoryName,
-      path: `/products/category/${encodeURIComponent(finalCategoryName)}/${encodeURIComponent(finalSubcategoryName)}`,
-    });
-  }
+    if (finalSubcategoryName && finalCategoryName) {
+      breadcrumbItems.push({
+        label: finalSubcategoryName,
+        path: `/products/category/${encodeURIComponent(finalCategoryName)}/${encodeURIComponent(finalSubcategoryName)}`,
+      });
+    }
 
-  // Add product name if on product details page
-  if (productName && pathnames.includes('details')) {
-    breadcrumbItems.push({
-      label: decodeURIComponent(productName),
-      path: location.pathname,
-    });
+    if (productName && pathnames.includes('product')) {
+      breadcrumbItems.push({
+        label: decodeURIComponent(productName),
+        path: location.pathname,
+      });
+    }
   }
 
   return (
-    <nav className={styles.breadcrumb}>
+    <BreadcrumbNav>
       {breadcrumbItems.map((item, index) => {
         const isLast = index === breadcrumbItems.length - 1;
         return (
           <React.Fragment key={index}>
-            {index > 0 && <span className={styles.separator}>/</span>}
+            {index > 0 && <BreadcrumbSeparator>/</BreadcrumbSeparator>}
             {isLast ? (
-              <span className={styles.crumb}>{item.label}</span>
+              <BreadcrumbText>{item.label}</BreadcrumbText>
             ) : (
-              <Link to={item.path} className={styles.crumb}>
+              <BreadcrumbLink to={item.path}>
                 {item.label}
-              </Link>
+              </BreadcrumbLink>
             )}
           </React.Fragment>
         );
       })}
-    </nav>
+    </BreadcrumbNav>
   );
 };
 

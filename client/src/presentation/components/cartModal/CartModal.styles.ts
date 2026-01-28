@@ -1,38 +1,61 @@
 import styled, { keyframes } from 'styled-components';
 
-const slideDown = keyframes`
+const modalSlideIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 `;
 
-export const CartModalContainer = styled.div<{ $isScrolled: boolean }>`
+const modalSlideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+export const CartModalContainer = styled.div<{ $isScrolled: boolean; $isClosing?: boolean }>`
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 0.75rem);
   right: 0;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 420px;
   max-width: calc(100vw - 2rem);
   max-height: 500px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
   z-index: 10001;
-  animation: ${slideDown} 0.2s ease-out;
+  animation: ${({ $isClosing }) => ($isClosing ? modalSlideOut : modalSlideIn)} 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  will-change: transform, opacity;
 
   @media (max-width: 768px) {
     right: 1rem;
     width: calc(100vw - 2rem);
     max-width: 420px;
     max-height: 70vh;
+    border-radius: 8px;
   }
 `;
 
@@ -40,8 +63,9 @@ export const CartModalHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  animation: ${fadeIn} 0.3s ease-out 0.1s both;
 `;
 
 export const CartModalTitle = styled.h2`
@@ -50,7 +74,7 @@ export const CartModalTitle = styled.h2`
   font-weight: 500;
   color: #1a1a1a;
   font-family: 'Questrial', sans-serif;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.1px;
 `;
 
 export const CloseButton = styled.button`
@@ -62,25 +86,32 @@ export const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.06);
     color: #1a1a1a;
+    transform: rotate(90deg);
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.95);
   }
 
   svg {
     display: block;
+    transition: transform 0.2s ease;
   }
 `;
 
 export const CartItemsList = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -99,24 +130,35 @@ export const CartItemsList = styled.div`
 export const CartItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
+  gap: 0.875rem;
+  padding: 0.875rem 1.25rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(212, 175, 55, 0.02);
   }
 `;
 
 export const CartItemImage = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   object-fit: cover;
   border-radius: 8px;
   background: #f5f5f5;
   flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+
+  ${CartItem}:hover & {
+    transform: scale(1.03);
+  }
 `;
 
 export const CartItemDetails = styled.div`
@@ -254,18 +296,18 @@ export const CartItemRemove = styled.button`
 `;
 
 export const CartFooter = styled.div`
-  padding: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1.25rem 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.875rem;
 `;
 
 export const CartTotal = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #1a1a1a;
   font-family: 'Questrial', sans-serif;
@@ -277,17 +319,17 @@ export const CartTotal = styled.div`
 
 export const CheckoutButton = styled.button`
   width: 100%;
-  padding: 0.875rem 1.5rem;
+  padding: 0.875rem 1.25rem;
   background: #1a1a1a;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Questrial', sans-serif;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 
   &:hover {
     background: #2a2a2a;

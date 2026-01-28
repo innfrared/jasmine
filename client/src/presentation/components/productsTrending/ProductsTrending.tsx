@@ -38,16 +38,16 @@ const ProductsTrending: React.FC<ProductsTrendingProps> = ({
   return (
     <BestsellerCarousel>
       <TitleContainer>
-        <BestsellerTitle secondaryColor={secondaryColor}>
+        <BestsellerTitle $secondaryColor={secondaryColor}>
           {t('trending')}
         </BestsellerTitle>
-        <ProductType secondaryColor={secondaryColor}>{productType}</ProductType>
+        <ProductType $secondaryColor={secondaryColor}>{productType}</ProductType>
       </TitleContainer>
 
       <ArrowButton
-        direction="left"
+        $direction="left"
         onClick={() => scroll('left')}
-        primaryColor={primaryColor}
+        $primaryColor={primaryColor}
         style={{ marginLeft: '8rem' }}
       >
         <ArrowSvg
@@ -72,9 +72,9 @@ const ProductsTrending: React.FC<ProductsTrendingProps> = ({
       </ScrollableSwiper>
 
       <ArrowButton
-        direction="right"
+        $direction="right"
         onClick={() => scroll('right')}
-        primaryColor={primaryColor}
+        $primaryColor={primaryColor}
         style={{ marginRight: '8rem' }}
       >
         <ArrowSvg

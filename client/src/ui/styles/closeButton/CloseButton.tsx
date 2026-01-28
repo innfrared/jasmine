@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CloseButton.module.css';
+import { CloseButtonBase, LineX, LineY } from './CloseButton.styles';
 
 type ButtonProps = {
   onClick?: () => void;
@@ -7,10 +7,10 @@ type ButtonProps = {
 
 const CloseButton: React.FC<ButtonProps> = ({ onClick }) => {
   return (
-    <button className={styles.closeButton} onClick={onClick}>
-      <span className={styles.X}></span>
-      <span className={styles.Y}></span>
-    </button>
+    <CloseButtonBase onClick={onClick} type="button">
+      <LineX />
+      <LineY />
+    </CloseButtonBase>
   );
 };
 

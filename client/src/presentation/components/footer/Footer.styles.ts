@@ -5,8 +5,8 @@ const slideInTop = keyframes`
     100% { transform: translateY(0); opacity: 1; }
 `;
 
-export const FooterContainer = styled.footer<{ secondaryColor: string }>`
-  color: ${({ secondaryColor }) => secondaryColor};
+export const FooterContainer = styled.footer<{ $secondaryColor: string }>`
+  color: ${({ $secondaryColor }) => $secondaryColor};
   background-color: #001f3f;
   width: 100%;
   padding: 4rem 6rem;
@@ -73,10 +73,10 @@ export const LinksSection = styled.div`
   }
 `;
 
-export const SectionTitle = styled.h3<{ color: string }>`
+export const SectionTitle = styled.h3<{ $color: string }>`
   font-size: 18px;
   margin: 0 0 10px;
-  color: ${({ color }) => color};
+  color: ${({ $color }) => $color};
 `;
 
 export const LinksList = styled.ul`
@@ -91,12 +91,12 @@ export const LinksList = styled.ul`
   }
 `;
 
-export const LinkItem = styled.li<{ color: string }>`
+export const LinkItem = styled.li<{ $color: string }>`
   margin-bottom: 8px;
 
   a {
     text-decoration: none;
-    color: ${({ color }) => color};
+    color: ${({ $color }) => $color};
     font-size: 14px;
     transition: color 0.3s ease;
 

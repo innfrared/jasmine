@@ -13,11 +13,11 @@ const moveGradient = keyframes`
 `;
 
 type VariantProps = {
-  variant: 'primary' | 'secondary' | 'tertiary' | 'link';
-  primaryColor: string;
-  primaryColorFlat: string;
-  secondaryColor: string;
-  hasIcon?: boolean;
+  $variant: 'primary' | 'secondary' | 'tertiary' | 'link';
+  $primaryColor: string;
+  $primaryColorFlat: string;
+  $secondaryColor: string;
+  $hasIcon?: boolean;
 };
 
 export const ButtonBase = styled.button<VariantProps>`
@@ -38,11 +38,11 @@ export const ButtonBase = styled.button<VariantProps>`
   transition: all 0.4s ease;
   border: none;
 
-  ${({ variant, primaryColor }) =>
-    variant === 'primary' &&
+  ${({ $variant, $primaryColor }) =>
+    $variant === 'primary' &&
     css`
       background-size: 300% 300% !important;
-      background: ${primaryColor} 0 center;
+      background: ${$primaryColor} 0 center;
       color: white;
       border: none;
 
@@ -51,34 +51,34 @@ export const ButtonBase = styled.button<VariantProps>`
       }
     `}
 
-  ${({ variant, primaryColorFlat, secondaryColor }) =>
-    variant === 'secondary' &&
+  ${({ $variant, $primaryColorFlat, $secondaryColor }) =>
+    $variant === 'secondary' &&
     css`
       background-color: white;
-      color: ${secondaryColor};
-      border: 1px solid ${secondaryColor};
+      color: ${$secondaryColor};
+      border: 1px solid ${$secondaryColor};
 
       &:hover {
         background-color: #f8f8f8;
-        color: ${primaryColorFlat};
+        color: ${$primaryColorFlat};
       }
     `}
 
-  ${({ variant, primaryColorFlat, secondaryColor }) =>
-    variant === 'tertiary' &&
+  ${({ $variant, $primaryColorFlat, $secondaryColor }) =>
+    $variant === 'tertiary' &&
     css`
       background: none;
-      color: ${secondaryColor};
+      color: ${$secondaryColor};
       border: none;
       transition: color 0.3s ease;
 
       &:hover {
-        color: ${primaryColorFlat};
+        color: ${$primaryColorFlat};
       }
     `}
 
-  ${({ variant }) =>
-    variant === 'link' &&
+  ${({ $variant }) =>
+    $variant === 'link' &&
     css`
       background: none;
       color: #001f3f;
@@ -125,8 +125,8 @@ export const ButtonBase = styled.button<VariantProps>`
 `;
 
 export const IconWrapper = styled.div<{
-  variant: 'primary' | 'secondary' | 'tertiary' | 'link';
-  secondaryColor: string;
+  $variant: 'primary' | 'secondary' | 'tertiary' | 'link';
+  $secondaryColor: string;
   iconColor?: string;
 }>`
   display: flex;
@@ -157,8 +157,8 @@ export const IconWrapper = styled.div<{
           : ''};
   }
 
-  ${({ variant }) =>
-    variant === 'primary' &&
+  ${({ $variant }) =>
+    $variant === 'primary' &&
     css`
       svg,
       img {
@@ -166,8 +166,8 @@ export const IconWrapper = styled.div<{
         fill: white;
       }
     `}
-  ${({ variant }) =>
-    variant === 'secondary' &&
+  ${({ $variant }) =>
+    $variant === 'secondary' &&
     css`
       svg,
       img {
@@ -175,19 +175,19 @@ export const IconWrapper = styled.div<{
         fill: white;
       }
     `}
-  ${({ variant, secondaryColor }) =>
-    variant === 'tertiary' &&
+  ${({ $variant, $secondaryColor }) =>
+    $variant === 'tertiary' &&
     css`
       svg,
       img {
         width: 1.25rem;
         height: 1.25rem;
-        color: ${secondaryColor};
-        fill: ${secondaryColor};
+        color: ${$secondaryColor};
+        fill: ${$secondaryColor};
       }
     `}
-  ${({ variant }) =>
-    variant === 'link' &&
+  ${({ $variant }) =>
+    $variant === 'link' &&
     css`
       svg,
       img {
@@ -198,23 +198,23 @@ export const IconWrapper = styled.div<{
 `;
 
 export const TextWrapper = styled.span<{
-  hasIcon?: boolean;
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
+  $hasIcon?: boolean;
+  $variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
 }>`
-  font-size: ${({ hasIcon, variant }) =>
-    variant === 'link' ? '1rem' : hasIcon ? '0.7rem' : '1rem'};
+  font-size: ${({ $hasIcon, $variant }) =>
+    $variant === 'link' ? '1rem' : $hasIcon ? '0.7rem' : '1rem'};
   margin: 0;
-  padding-top: ${({ variant }) => (variant === 'link' ? '0' : '0.1rem')};
+  padding-top: ${({ $variant }) => ($variant === 'link' ? '0' : '0.1rem')};
   text-align: center;
   line-height: 1.2;
   width: max-content;
 `;
 
-export const CountBadge = styled.span<{ primaryColor: string }>`
+export const CountBadge = styled.span<{ $primaryColor: string }>`
   position: absolute;
   top: 0.1rem;
   right: 0.1rem;
-  background: ${({ primaryColor }) => primaryColor};
+  background: ${({ $primaryColor }) => $primaryColor};
   color: black;
   font-size: 10px;
   font-weight: bold;

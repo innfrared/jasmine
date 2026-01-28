@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../../model/productModel';
 import { CartItem } from '../../../model/cartItemModel';
+import { getImageUrl } from '../../../utils/imageUtils';
 import {
   LikedModalContainer,
   LikedModalHeader,
@@ -28,8 +29,15 @@ type LikedModalProps = {
 const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) => {
   const [likedProducts, setLikedProducts] = useState<Product[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsClosing(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const updateLiked = () => {
@@ -84,13 +92,22 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
     };
   }, []);
 
+  // Handle close animation
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300); // Match animation duration
+  };
+
   // Close modal when clicking outside
   useEffect(() => {
     if (!isOpen) return;
     
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -153,23 +170,25 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
   };
 
   const handleProductClick = (product: Product) => {
-    navigate(
-      `/products/product/${encodeURIComponent(product.name)}?id=${product.id}`
-    );
-    onClose();
+    handleClose();
+    setTimeout(() => {
+      navigate(
+        `/products/product/${encodeURIComponent(product.name)}?id=${product.id}`
+      );
+    }, 300);
   };
 
   const formatPrice = (price: string) => {
     return price;
   };
 
-  if (!isOpen) return null;
+  if (!isOpen && !isClosing) return null;
 
   return (
-    <LikedModalContainer ref={modalRef} $isScrolled={isScrolled}>
+    <LikedModalContainer ref={modalRef} $isScrolled={isScrolled} $isClosing={isClosing}>
       <LikedModalHeader>
         <LikedModalTitle>Liked ({likedProducts.length})</LikedModalTitle>
-        <CloseButton onClick={onClose} aria-label="Close liked">
+        <CloseButton onClick={handleClose} aria-label="Close liked">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -185,7 +204,7 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
             const inCart = isProductInCart(product.id);
             return (
               <LikedItem key={product.id} onClick={() => handleProductClick(product)}>
-                <LikedItemImage src={product.image_main} alt={product.name} />
+                <LikedItemImage src={getImageUrl(product.variant_image)} alt={product.name} />
                 <LikedItemDetails>
                   <LikedItemName>{product.name}</LikedItemName>
                   <LikedItemPrice>{formatPrice(product.price_new || product.price)}</LikedItemPrice>

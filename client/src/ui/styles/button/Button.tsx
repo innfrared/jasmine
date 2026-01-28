@@ -66,25 +66,25 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <ButtonBase
-      variant={variant}
-      primaryColor={primaryColor}
-      primaryColorFlat={primaryColorFlat}
-      secondaryColor={secondaryColor}
-      hasIcon={hasIcon}
+      $variant={variant}
+      $primaryColor={primaryColor}
+      $primaryColorFlat={primaryColorFlat}
+      $secondaryColor={secondaryColor}
+      $hasIcon={hasIcon}
       onClick={onClick}
     >
       {badgeContent !== undefined && (
-        <CountBadge primaryColor={primaryColor}>{badgeContent}</CountBadge>
+        <CountBadge $primaryColor={primaryColor}>{badgeContent}</CountBadge>
       )}
       {variant === 'link' ? (
         <>
-          <TextWrapper hasIcon={hasIcon} variant={variant}>
+          <TextWrapper $hasIcon={hasIcon} $variant={variant}>
             {children}
           </TextWrapper>
           {displayIcon && (
             <IconWrapper
-              variant={variant}
-              secondaryColor={secondaryColor}
+              $variant={variant}
+              $secondaryColor={secondaryColor}
               iconColor={iconColor}
             >
               {displayIcon}
@@ -95,14 +95,14 @@ const Button: React.FC<ButtonProps> = ({
         <>
           {displayIcon && (
             <IconWrapper
-              variant={variant}
-              secondaryColor={secondaryColor}
+              $variant={variant}
+              $secondaryColor={secondaryColor}
               iconColor={iconColor}
             >
               {displayIcon}
             </IconWrapper>
           )}
-          <TextWrapper hasIcon={hasIcon} variant={variant}>
+          <TextWrapper $hasIcon={hasIcon} $variant={variant}>
             {children}
           </TextWrapper>
         </>

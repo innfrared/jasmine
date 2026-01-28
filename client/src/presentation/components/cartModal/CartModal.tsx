@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../../model/productModel';
 import { CartItem as CartItemType } from '../../../model/cartItemModel';
+import { getImageUrl } from '../../../utils/imageUtils';
 import {
   CartModalContainer,
   CartModalHeader,
@@ -33,6 +34,7 @@ type CartModalProps = {
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -52,6 +54,12 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
       quantity: 1,
     }));
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsClosing(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const updateCart = () => {
@@ -83,13 +91,22 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
     };
   }, []);
 
+  // Handle close animation
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300); // Match animation duration
+  };
+
   // Close modal when clicking outside
   useEffect(() => {
     if (!isOpen) return;
     
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -125,8 +142,8 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
   };
 
   const handleCheckout = () => {
-    onClose();
-    navigate('/cart');
+    handleClose();
+    setTimeout(() => navigate('/cart'), 300);
   };
 
   const calculateTotal = () => {
@@ -145,13 +162,13 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
     return price;
   };
 
-  if (!isOpen) return null;
+  if (!isOpen && !isClosing) return null;
 
   return (
-    <CartModalContainer ref={modalRef} $isScrolled={isScrolled}>
+    <CartModalContainer ref={modalRef} $isScrolled={isScrolled} $isClosing={isClosing}>
       <CartModalHeader>
         <CartModalTitle>Cart ({getTotalItems()})</CartModalTitle>
-        <CloseButton onClick={onClose} aria-label="Close cart">
+        <CloseButton onClick={handleClose} aria-label="Close cart">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -171,7 +188,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
                 
                 return (
                   <CartItem key={item.bagId} onClick={() => handleProductClick(product)}>
-                    <CartItemImage src={product.image_main} alt={product.name} />
+                    <CartItemImage src={getImageUrl(product.variant_image)} alt={product.name} />
                     <CartItemDetails>
                       <CartItemBagId>ID: {item.bagId.split('-').slice(-2).join('-')}</CartItemBagId>
                       <CartItemName>{product.name}</CartItemName>

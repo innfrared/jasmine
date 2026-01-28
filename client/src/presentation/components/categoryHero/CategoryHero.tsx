@@ -61,7 +61,7 @@ const CategoryHero: React.FC<CategoryHeroProps> = ({
           </ProductsStrip>
 
           <CTARow>
-            <Button variant={'link'} onClick={() => window.history.back()}>
+            <Button variant={'link'} onClick={onCtaClick}>
               {ctaText}
             </Button>
           </CTARow>

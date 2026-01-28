@@ -3,12 +3,11 @@ import { ReactSVG } from 'react-svg';
 import { keyframes } from 'styled-components';
 
 export const HeaderContainer = styled.div<{
-  secondaryColor: string;
-  isScrolled: boolean;
+  $isScrolled: boolean;
 }>`
   width: 100%;
-  background-color: ${({ isScrolled }) =>
-    isScrolled ? '#ffffff' : 'transparent'};
+  background-color: ${({ $isScrolled }) =>
+    $isScrolled ? '#ffffff' : 'transparent'};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -866,20 +865,48 @@ export const LikedButton = styled.button<{ $isScrolled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(204, 12, 92, 0.1)' : 'rgba(204, 12, 92, 0.15)')};
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   &:hover {
-    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')};
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(204, 12, 92, 0.08)' : 'rgba(255, 255, 255, 0.12)')};
     color: #cc0c5c;
-    transform: scale(1.1);
+    transform: scale(1.08);
+  }
+
+  &:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &:active {
+    transform: scale(1.05);
   }
 
   svg {
     width: 20px;
     height: 20px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
   }
 `;
 
@@ -898,8 +925,8 @@ export const LikedBadge = styled.span`
   font-size: 0.7rem;
   font-weight: 600;
   font-family: 'Questrial', sans-serif;
-  border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 `;
 
 export const CartIconWrapper = styled.div`
@@ -917,20 +944,48 @@ export const CartButton = styled.button<{ $isScrolled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(212, 175, 55, 0.1)' : 'rgba(212, 175, 55, 0.15)')};
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   &:hover {
-    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')};
+    background: ${({ $isScrolled }) => ($isScrolled ? 'rgba(212, 175, 55, 0.08)' : 'rgba(255, 255, 255, 0.12)')};
     color: #d4af37;
-    transform: scale(1.1);
+    transform: scale(1.08);
+  }
+
+  &:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &:active {
+    transform: scale(1.05);
   }
 
   svg {
     width: 20px;
     height: 20px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
   }
 `;
 
@@ -949,8 +1004,8 @@ export const CartBadge = styled.span`
   font-size: 0.7rem;
   font-weight: 600;
   font-family: 'Questrial', sans-serif;
-  border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 `;
 
 export const NavigationBar = styled.nav<{ $isScrolled: boolean }>`
@@ -989,15 +1044,95 @@ export const NavLinks = styled.div`
   }
 `;
 
+export const NavItem = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  &:hover button::after,
+  &:focus-within button::after {
+    width: 100%;
+  }
+`;
+
+export const Submenu = styled.div`
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  transform: translate(-50%, 8px);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  min-width: 220px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+  z-index: 2000;
+
+  ${NavItem}:hover &,
+  ${NavItem}:focus-within & {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+`;
+
+export const SubmenuList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+`;
+
+export const SubmenuItem = styled.li`
+  width: 100%;
+`;
+
+export const SubmenuLink = styled.button`
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 0.4rem 0.35rem;
+  border-radius: 8px;
+  color: #001f3f;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(0, 31, 63, 0.08);
+    color: #d4af37;
+    outline: none;
+  }
+`;
+
+export const NavLinkDivider = styled.span`
+  width: 1px;
+  height: 20px;
+  background: #9A8300;
+  flex-shrink: 0;
+`;
+
 export const NavLink = styled.button<{ $isScrolled: boolean }>`
   background: none;
   border: none;
   color: #ffffff;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 500;
   font-family: 'Questrial', sans-serif;
   cursor: pointer;
-  padding: 0.4rem 0;
+  padding: 0.5rem 0;
   position: relative;
   transition: color 0.2s ease;
   text-transform: capitalize;
@@ -1022,6 +1157,6 @@ export const NavLink = styled.button<{ $isScrolled: boolean }>`
   }
 
   @media (max-width: 1200px) {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 `;

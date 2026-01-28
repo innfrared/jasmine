@@ -1,40 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product } from 'model/productModel';
-import {
-  mockTrendingInBags,
-  mockTrendingInDressesAndMatchingSets,
-} from '../../../mocks/productsMock';
-import { mockCategories } from '../../../mocks/categoriesMock';
-
-// Combine all mock products
-const allMockProducts: Product[] = [
-  ...mockTrendingInBags,
-  ...mockTrendingInDressesAndMatchingSets,
-];
-
-// Helper function to convert URL slug to category name
-const getCategoryNameFromUrl = (urlSlug: string): string | null => {
-  const decoded = decodeURIComponent(urlSlug);
-  const category = mockCategories.find(
-    cat => cat.url === decoded || cat.url === urlSlug
-  );
-  return category?.name || null;
-};
-
-// Helper function to convert URL slug to subcategory name
-const getSubcategoryNameFromUrl = (urlSlug: string, categoryUrl?: string): string | null => {
-  const decoded = decodeURIComponent(urlSlug);
-  for (const category of mockCategories) {
-    const subcategory = category.subcategories?.find(
-      sub => sub.url === decoded || sub.url === urlSlug
-    );
-    if (subcategory) {
-      return subcategory.name;
-    }
-  }
-  return null;
-};
+import { listProducts } from '../../../service/productService';
+import { apiClient } from '../../../service/apiClient';
+import { PaginatedResponse, ProductDto } from '../../../service/types';
 
 export const useProductScreenModel = (
   filters?: Record<string, string[]>,
@@ -50,69 +19,90 @@ export const useProductScreenModel = (
   const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
 
-    // Simulate async loading
-    setTimeout(() => {
       try {
-        // Filter products based on category and subcategory
-        let filteredProducts = allMockProducts;
+        let response: PaginatedResponse<ProductDto> | { data: ProductDto[]; total: number; page: number; limit: number };
+        let mappedProducts: Product[];
+        
+        // Use category/subcategory endpoints if available
+        if (category && subcategory) {
+          // Fetch products by category and subcategory
+          const categoryResponse = await apiClient.get<{ data: ProductDto[]; total: number; page: number; limit: number }>(
+            `products/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`,
+            { query: { page: page.toString(), limit: limit.toString() } }
+          );
+          mappedProducts = categoryResponse.data.map(item => ({
+            ...item,
+            category: item.category ?? null,
+            subcategory: item.subcategory ?? null,
+            variants: item.variants ?? [],
+            specifications: item.specifications ?? {},
+            specifications_detailed: item.specifications_detailed ?? [],
+          }));
+          response = {
+            items: categoryResponse.data,
+            total: categoryResponse.total,
+            page: categoryResponse.page,
+            page_size: categoryResponse.limit,
+            total_pages: Math.ceil(categoryResponse.total / categoryResponse.limit),
+            has_next: (categoryResponse.page * categoryResponse.limit) < categoryResponse.total,
+            has_previous: categoryResponse.page > 1,
+          };
+        } else if (category) {
+          // Fetch products by category
+          const categoryResponse = await apiClient.get<{ data: ProductDto[]; total: number; page: number; limit: number }>(
+            `products/category/${encodeURIComponent(category)}`,
+            { query: { page: page.toString(), limit: limit.toString() } }
+          );
+          mappedProducts = categoryResponse.data.map(item => ({
+            ...item,
+            category: item.category ?? null,
+            subcategory: item.subcategory ?? null,
+            variants: item.variants ?? [],
+            specifications: item.specifications ?? {},
+            specifications_detailed: item.specifications_detailed ?? [],
+          }));
+          response = {
+            items: categoryResponse.data,
+            total: categoryResponse.total,
+            page: categoryResponse.page,
+            page_size: categoryResponse.limit,
+            total_pages: Math.ceil(categoryResponse.total / categoryResponse.limit),
+            has_next: (categoryResponse.page * categoryResponse.limit) < categoryResponse.total,
+            has_previous: categoryResponse.page > 1,
+          };
+        } else {
+          // Fetch all products
+          response = await listProducts({ page, page_size: limit });
+          mappedProducts = response.items.map(item => ({
+            ...item,
+            category: item.category ?? null,
+            subcategory: item.subcategory ?? null,
+            variants: item.variants ?? [],
+            specifications: item.specifications ?? {},
+            specifications_detailed: item.specifications_detailed ?? [],
+          }));
+        }
 
-        // Filter by category name
-        if (category) {
-          const categoryName = getCategoryNameFromUrl(category);
-          if (categoryName) {
-            filteredProducts = filteredProducts.filter(
-              product => product.category_name === categoryName
+        // Apply client-side filtering for colors (if backend doesn't support it)
+        let filteredProducts = mappedProducts;
+        if (filters?.color && filters.color.length > 0) {
+          filteredProducts = mappedProducts.filter(product => {
+            // Check product's own color
+            if (product.variant_color_palette && filters.color!.includes(product.variant_color_palette)) {
+              return true;
+            }
+            // Check variant colors
+            return product.variants?.some(variant =>
+              variant.color_palette && filters.color!.includes(variant.color_palette)
             );
-          } else {
-            // Fallback: try direct matching if URL doesn't match
-            const categoryLower = category.toLowerCase().replace(/-/g, ' ');
-            filteredProducts = filteredProducts.filter(product => {
-              const productCategory = product.category_name?.toLowerCase() || '';
-              return productCategory.includes(categoryLower);
-            });
-          }
+          });
         }
 
-        // Filter by subcategory name
-        if (subcategory) {
-          const subcategoryName = getSubcategoryNameFromUrl(subcategory, category);
-          if (subcategoryName) {
-            filteredProducts = filteredProducts.filter(
-              product => product.subcategory_name === subcategoryName
-            );
-          } else {
-            // Fallback: try direct matching if URL doesn't match
-            const subcategoryLower = subcategory.toLowerCase().replace(/-/g, ' ');
-            filteredProducts = filteredProducts.filter(product => {
-              const productSubcategory = product.subcategory_name?.toLowerCase() || '';
-              return productSubcategory.includes(subcategoryLower);
-            });
-          }
-        }
-
-        // Apply filters (color and size)
-        if (filters) {
-          if (filters.color && filters.color.length > 0) {
-            filteredProducts = filteredProducts.filter(product => {
-              return product.variants?.some(variant =>
-                variant.colorPalette && filters.color!.includes(variant.colorPalette)
-              );
-            });
-          }
-
-          if (filters.size && filters.size.length > 0) {
-            filteredProducts = filteredProducts.filter(product => {
-              return product.variants?.some(variant =>
-                variant.sizes?.some(size => filters.size!.includes(size))
-              );
-            });
-          }
-        }
-
-        // Apply sorting
+        // Apply client-side sorting (if backend doesn't support it)
         if (sortBy) {
           filteredProducts = [...filteredProducts].sort((a, b) => {
             switch (sortBy) {
@@ -137,53 +127,60 @@ export const useProductScreenModel = (
         }
 
         setAllFilteredProducts(filteredProducts);
-
-        // Apply pagination
-        const total = filteredProducts.length;
-        const startIndex = (page - 1) * limit;
-        const endIndex = startIndex + limit;
-        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-
-        setProducts(paginatedProducts);
-        setTotalPages(Math.ceil(total / limit));
+        setProducts(filteredProducts);
+        setTotalPages(response.total_pages || Math.ceil((response.total || filteredProducts.length) / limit));
       } catch (err) {
-        console.error('❌ Mock data error:', err);
+        console.error('❌ Error fetching products:', err);
         setError('Failed to load products.');
+        setProducts([]);
+        setAllFilteredProducts([]);
       } finally {
         setLoading(false);
       }
-    }, 300); // Simulate network delay
+    };
+
+    fetchProducts();
   }, [category, subcategory, filters, page, limit, sortBy]);
 
-  // Get category and subcategory names for display
-  const categoryName = category ? getCategoryNameFromUrl(category) : undefined;
-  const subcategoryName = subcategory
-    ? getSubcategoryNameFromUrl(subcategory, category)
-    : undefined;
+  // Get category and subcategory names from URL params (decoded)
+  const categoryName = category ? decodeURIComponent(category) : undefined;
+  const subcategoryName = subcategory ? decodeURIComponent(subcategory) : undefined;
 
-  // Get available color palettes and sizes from filtered products
+  // Get available color palettes from filtered products
   const availableColors = Array.from(
     new Set(
-      allFilteredProducts
-        .flatMap(product => product.variants?.map(v => v.colorPalette).filter(Boolean) || [])
-        .filter(Boolean)
+      allFilteredProducts.flatMap(product => {
+        const colors: string[] = [];
+        // Add product's own color
+        if (product.variant_color_palette) {
+          colors.push(product.variant_color_palette);
+        }
+        // Add variant colors
+        if (product.variants) {
+          product.variants.forEach(variant => {
+            if (variant.color_palette) {
+              colors.push(variant.color_palette);
+            }
+          });
+        }
+        return colors;
+      }).filter(Boolean)
     )
   ).sort();
 
-  const availableSizes = Array.from(
-    new Set(
-      allFilteredProducts
-        .flatMap(product => product.variants?.flatMap(v => v.sizes || []) || [])
-        .filter(Boolean)
-    )
-  ).sort();
+  const availableSizes: string[] = []; // Sizes no longer available in new variant system
 
-  // Get color palette to representative color value map for display
+  // Get color palette to color name map for display
   const colorPaletteMap = new Map<string, string>();
   allFilteredProducts.forEach(product => {
+    // Add product's own color
+    if (product.variant_color_palette && product.variant_color_name) {
+      colorPaletteMap.set(product.variant_color_palette, product.variant_color_name);
+    }
+    // Add variant colors
     product.variants?.forEach(variant => {
-      if (variant.colorPalette && variant.value && !colorPaletteMap.has(variant.colorPalette)) {
-        colorPaletteMap.set(variant.colorPalette, variant.value);
+      if (variant.color_palette && variant.color_name && !colorPaletteMap.has(variant.color_palette)) {
+        colorPaletteMap.set(variant.color_palette, variant.color_name);
       }
     });
   });

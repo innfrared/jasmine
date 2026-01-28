@@ -1,16 +1,22 @@
 import Header from '../../components/header/Header';
-import styles from './LandingScreen.module.css';
 import HeroSlide from '../../components/heroSlide/HeroSlide';
 import Footer from '../../components/footer/Footer';
 import ProductsTrending from '../../components/productsTrending/ProductsTrending';
 import CategoryHero from '../../components/categoryHero/CategoryHero';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  fetchDressesTrending,
-  fetchTrending,
-} from '../../../service/productService';
+import { listProducts } from '../../../service/productService';
 import { Product } from '../../../model/productModel';
+import { LandingScreenContainer } from './LandingScreen.styles';
+import WhyJasmineCrafted from './WhyJasmineCrafted';
+import TemplateSection from '../../components/templateSection/TemplateSection';
+
+type HeaderProps = {
+  primaryColor: string;
+  secondaryColor: string;
+};
+
+const HeaderComponent = Header as ComponentType<HeaderProps>;
 
 const getColorsFromStorage = () => {
   if (typeof window !== 'undefined') {
@@ -63,10 +69,10 @@ export default function LandingScreen() {
   useEffect(() => {
     const getDeals = async () => {
       try {
-        const dataBags = (await fetchTrending()) as Product[];
-        const dataDresses = (await fetchDressesTrending()) as Product[];
-        setTrendingBagsProducts(dataBags);
-        setTrendingDressProducts(dataDresses);
+        const bagsResponse = await listProducts({ page: 1, page_size: 10 });
+        const dressesResponse = await listProducts({ page: 1, page_size: 10 });
+        setTrendingBagsProducts(bagsResponse.items as Product[]);
+        setTrendingDressProducts(dressesResponse.items as Product[]);
       } catch (error) {
         console.error('Error fetching best deals:', error);
       }
@@ -78,9 +84,13 @@ export default function LandingScreen() {
   const { primaryColor, secondaryColor } = getColorsFromStorage();
 
   return (
-    <div className={styles.landingScreenContainer}>
-      <Header primaryColor={primaryColor} secondaryColor={secondaryColor} />
-      <HeroSlide primaryColor={primaryColor} secondaryColor={secondaryColor} />
+    <LandingScreenContainer>
+      <HeaderComponent
+        primaryColor={primaryColor}
+        secondaryColor={secondaryColor}
+      />
+      <HeroSlide />
+      <WhyJasmineCrafted />
 
       <CategoryHero
         categoryTagline="Carry Elegance"
@@ -99,6 +109,10 @@ export default function LandingScreen() {
         productType={'in Bags'}
         data={trendingBagsProducts}
       />
+      <TemplateSection
+        title="Handmade"
+        description="Every stitch tells a story, crafted by hand with care and patience."
+      />
       <ProductsTrending
         primaryColor={primaryColor}
         secondaryColor={secondaryColor}
@@ -106,6 +120,6 @@ export default function LandingScreen() {
         data={trendingDressProducts}
       />
       <Footer />
-    </div>
+    </LandingScreenContainer>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { fetchProductById } from '../../../service/productService';
+import { getProduct, getProductBySlug } from '../../../service/productService';
 import { Product } from '../../../model/productModel';
+import { getImageUrl } from '../../../utils/imageUtils';
 
 export const useProductScreenModel = (
   productName: string | undefined,
@@ -10,18 +11,34 @@ export const useProductScreenModel = (
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [mainImage, setMainImage] = useState<string>('');
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
-      if (!productName) return;
+      if (!productName) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
 
       try {
-        let data = null;
         if (id) {
-          data = await fetchProductById(id);
-          console.log(data);
-          setProduct(data);
-          setMainImage(data.image_main);
+          const data = await getProduct(id);
+          setProduct(data as Product);
+          const mainImageUrl = getImageUrl(data.variant_image);
+          setMainImage(mainImageUrl);
+          setNotFound(false);
+        } else {
+          const data = await getProductBySlug(productName);
+          if (!data) {
+            setNotFound(true);
+            setProduct(null);
+            return;
+          }
+          setProduct(data as Product);
+          const mainImageUrl = getImageUrl(data.variant_image);
+          setMainImage(mainImageUrl);
+          setNotFound(false);
         }
       } catch {
         setError('Failed to load product details');
@@ -33,5 +50,5 @@ export const useProductScreenModel = (
     loadProduct();
   }, [productName, id]);
 
-  return { product, loading, error, mainImage, setMainImage };
+  return { product, loading, error, mainImage, setMainImage, notFound };
 };

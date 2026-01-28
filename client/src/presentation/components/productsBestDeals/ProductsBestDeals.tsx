@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './ProductsBestDeals.module.css';
 import ProductCell from '../../../ui/styles/productCell/ProductCell';
 import { Product } from 'model/productModel';
 import { fetchBestDeals } from '../../../service/productService';
+import {
+  CarouselContainer,
+  CarouselTitle,
+  ArrowButton,
+  ArrowSvg,
+  ScrollableSwiper,
+} from './ProductsBestDeals.styles';
 
 const ProductsBestDeals = () => {
   const { t } = useTranslation<'translation'>();
@@ -42,56 +48,44 @@ const ProductsBestDeals = () => {
   };
 
   return (
-    <div className={styles.bestsellerCarousel}>
-      <p className={styles.bestsellerTitle}>{t('bestDeals')}</p>
-      <button
-        className={`${styles.arrowButton} ${styles.left}`}
-        onClick={() => scroll('left')}
-      >
-        <svg
+    <CarouselContainer>
+      <CarouselTitle>{t('bestDeals')}</CarouselTitle>
+      <ArrowButton $direction="left" onClick={() => scroll('left')}>
+        <ArrowSvg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className={styles.arrowSvg}
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M15.75 19.5L8.25 12l7.5-7.5"
           />
-        </svg>
-      </button>
-      <div
-        className={styles.scrollableSwiper}
-        ref={containerRef}
-        onScroll={handleScroll}
-      >
+        </ArrowSvg>
+      </ArrowButton>
+      <ScrollableSwiper ref={containerRef} onScroll={handleScroll}>
         {products.map(product => (
           <ProductCell key={product.id} product={product} />
         ))}
-      </div>
-      <button
-        className={`${styles.arrowButton} ${styles.right}`}
-        onClick={() => scroll('right')}
-      >
-        <svg
+      </ScrollableSwiper>
+      <ArrowButton $direction="right" onClick={() => scroll('right')}>
+        <ArrowSvg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className={styles.arrowSvg}
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M8.25 4.5L15.75 12l-7.5 7.5"
           />
-        </svg>
-      </button>
-    </div>
+        </ArrowSvg>
+      </ArrowButton>
+    </CarouselContainer>
   );
 };
 

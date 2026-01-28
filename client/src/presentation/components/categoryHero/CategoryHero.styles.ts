@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const HeroWrapper = styled.section`
   width: 100vw;
-  height: 80vh;
   display: flex;
   justify-content: center;
 `;

@@ -7,24 +7,23 @@ export const footerLinksData: FooterLinkItem[] = [
   {
     title: 'about_us',
     links: [
-      { label: 'Mission', href: '#faq' },
-      { label: 'Team', href: '#privacy' },
-      { label: 'Newsletter', href: '#privacy' },
+      { label: 'Shipping Policy', href: '/shipping-policy' },
+      { label: 'Returns & Refunds', href: '/returns-refunds' },
     ],
   },
   {
     title: 'support',
     links: [
-      { label: 'Contact', href: '#faq' },
-      { label: "FAQ's", href: '#privacy' },
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms & Conditions', href: '/terms-conditions' },
     ],
   },
   {
     title: 'social',
     links: [
-      { label: 'Instagram', href: '#faq' },
-      { label: 'Facebook', href: '#privacy' },
-      { label: 'Tiktok', href: '#privacy' },
+      { label: 'Instagram', href: 'https://www.instagram.com' },
+      { label: 'Facebook', href: 'https://www.facebook.com' },
+      { label: 'Tiktok', href: 'https://www.tiktok.com' },
     ],
   },
 ];

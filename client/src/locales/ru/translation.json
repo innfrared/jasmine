@@ -42,6 +42,7 @@
   "brand": "Бренд",
   "product_code": "Код продукта",
   "description": "Описание",
+  "specifications": "Характеристики",
   "products": "Продукты",
   "price_asc": "Price: Low to High",
   "price_desc": "Price: High to Low",

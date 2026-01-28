@@ -39,8 +39,8 @@ export const ScrollableSwiper = styled.div`
 `;
 
 export const ArrowButton = styled.button<{
-  direction: 'left' | 'right';
-  primaryColor: string;
+  $direction: 'left' | 'right';
+  $primaryColor: string;
 }>`
   position: absolute;
   top: 50%;
@@ -59,18 +59,18 @@ export const ArrowButton = styled.button<{
     background-color 0.3s,
     transform 0.3s;
 
-  ${({ direction }) =>
-    direction === 'left' &&
+  ${({ $direction }) =>
+    $direction === 'left' &&
     css`
       left: 8px;
     `}
-  ${({ direction }) =>
-    direction === 'right' &&
+  ${({ $direction }) =>
+    $direction === 'right' &&
     css`
       right: 8px;
     `}
   &:hover {
-    background-color: ${({ primaryColor }) => primaryColor};
+    background-color: ${({ $primaryColor }) => $primaryColor};
 
     svg {
       stroke: #001f3f;
@@ -87,18 +87,18 @@ export const ArrowSvg = styled.svg`
     opacity 0.3s ease;
 `;
 
-export const BestsellerTitle = styled.p<{ secondaryColor: string }>`
+export const BestsellerTitle = styled.p<{ $secondaryColor: string }>`
   font-size: 24px;
   font-weight: bold;
-  color: ${({ secondaryColor }) => secondaryColor};
+  color: ${({ $secondaryColor }) => $secondaryColor};
   text-align: center;
   margin: 0;
 `;
 
-export const ProductType = styled.p<{ secondaryColor: string }>`
+export const ProductType = styled.p<{ $secondaryColor: string }>`
   font-size: 18px;
   font-style: italic;
-  color: ${({ secondaryColor }) => secondaryColor};
+  color: ${({ $secondaryColor }) => $secondaryColor};
   text-align: center;
   vertical-align: bottom;
   margin: 0;

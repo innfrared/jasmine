@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import {
   FooterContainer,
   FooterLinkSection,
@@ -37,18 +38,24 @@ export default function Footer() {
   const { primaryColorFlat, secondaryColor } = getColorsFromStorage();
 
   return (
-    <FooterContainer secondaryColor={secondaryColor}>
+    <FooterContainer $secondaryColor={secondaryColor}>
       <FooterContent>
         <FooterLinkSection>
           {footerLinksData.map((section, idx) => (
             <LinksSection key={idx}>
-              <SectionTitle color={secondaryColor}>
+              <SectionTitle $color={secondaryColor}>
                 {t(section.title)}
               </SectionTitle>
               <LinksList>
                 {section.links.map((link, index) => (
-                  <LinkItem key={index} color={secondaryColor}>
-                    <a href={link.href}>{link.label}</a>
+                  <LinkItem key={index} $color={secondaryColor}>
+                    {link.href.startsWith('http') ? (
+                      <a href={link.href} target="_blank" rel="noreferrer">
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link to={link.href}>{link.label}</Link>
+                    )}
                   </LinkItem>
                 ))}
               </LinksList>

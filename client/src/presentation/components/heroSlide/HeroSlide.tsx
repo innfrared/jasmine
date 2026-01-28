@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { HeroContainer, CentralImage } from './HeroSlide.styles';
+import { useNavigate } from 'react-router-dom';
+import { HeroContainer } from './HeroSlide.styles';
+import Button from '../../../ui/styles/button/Button';
 
 const HeroSlide: React.FC = () => {
+  const navigate = useNavigate();
   const [phase, setPhase] = useState<
     'idle' | 'animating-out' | 'done' | 'animating-in'
   >('idle');

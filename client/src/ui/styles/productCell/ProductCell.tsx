@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../../model/productModel';
 import { CartItem } from '../../../model/cartItemModel';
+import { getImageUrl } from '../../../utils/imageUtils';
 import {
   Card,
   Wrapper,
@@ -113,7 +114,7 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
       <Wrapper>
         <CardImage>
           <img
-            src={product.image_main || '/assets/default-product.jpg'}
+            src={getImageUrl(product.variant_image)}
             alt={product.name}
           />
           <FindSimilar onClick={(e: React.MouseEvent) => e.stopPropagation()}>

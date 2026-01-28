@@ -1,7 +1,16 @@
 import React, { useRef, useState } from 'react';
-import styles from './CategoryCarousel.module.css';
 import { Category, useCategories } from '../../../types/CategoryTypes';
 import { useNavigate } from 'react-router-dom';
+import {
+  CarouselContainer,
+  ScrollProgress,
+  ScrollProgressIndicator,
+  ArrowButton,
+  ArrowSvg,
+  ScrollableSwiper,
+  SwiperCell,
+  ArrowTopRight,
+} from './CategoryCarousel.styles';
 
 const CustomScrollableSwiper = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,82 +40,65 @@ const CustomScrollableSwiper = () => {
   };
 
   return (
-    <div className={styles.categoryCarousel}>
-      <div className={styles.scrollProgress}>
-        <div
-          className={styles.scrollProgressIndicator}
-          style={{ width: `${scrollProgress}%` }}
-        ></div>
-      </div>
-      <button
-        className={`${styles.arrowButton} ${styles.left}`}
-        onClick={() => scroll('left')}
-      >
-        <svg
+    <CarouselContainer>
+      <ScrollProgress>
+        <ScrollProgressIndicator style={{ width: `${scrollProgress}%` }} />
+      </ScrollProgress>
+      <ArrowButton $direction="left" onClick={() => scroll('left')}>
+        <ArrowSvg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="#001f3f"
-          className={styles.arrowSvg}
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M15.75 19.5L8.25 12l7.5-7.5"
           />
-        </svg>
-      </button>
-      <div
-        className={styles.scrollableSwiper}
-        ref={containerRef}
-        onScroll={handleScroll}
-      >
+        </ArrowSvg>
+      </ArrowButton>
+      <ScrollableSwiper ref={containerRef} onScroll={handleScroll}>
         {categories.map(category => (
-          <div
-            className={styles.swiperCell}
+          <SwiperCell
             key={category.id}
             onClick={() => handleCategoryNavigation(category.url)}
           >
-            <svg
+            <ArrowTopRight
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={styles.arrowTopRight}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M9 5l7 7-7 7M5 12h10"
               />
-            </svg>
-            <img src={category.svg} alt={category.name} />
+            </ArrowTopRight>
+            <img src={category.svg} alt={category.name} loading="lazy" />
             <p>{category.name}</p>
-          </div>
+          </SwiperCell>
         ))}
-      </div>
-      <button
-        className={`${styles.arrowButton} ${styles.right}`}
-        onClick={() => scroll('right')}
-      >
-        <svg
+      </ScrollableSwiper>
+      <ArrowButton $direction="right" onClick={() => scroll('right')}>
+        <ArrowSvg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="#001f3f"
-          className={styles.arrowSvg}
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M8.25 4.5L15.75 12l-7.5 7.5"
           />
-        </svg>
-      </button>
-    </div>
+        </ArrowSvg>
+      </ArrowButton>
+    </CarouselContainer>
   );
 };
 

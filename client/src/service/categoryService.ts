@@ -1,14 +1,8 @@
-import { Category } from 'model/categoryModel';
+import { apiClient } from './apiClient';
+import { CategoryDto, CategoryWithSubcategoriesDto } from './types';
 
-export const fetchSubcategories = async (
-  categoryId: number
-): Promise<Category[]> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/products/categories/${categoryId}/subcategories`
-  );
-  console.log(categoryId);
-  if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-  console.log('📩 Fetch response:', response);
-  const data = await response.json();
-  return data;
-};
+export const listCategories = () =>
+  apiClient.get<CategoryDto[]>('categories');
+
+export const listCategoriesWithSubcategories = () =>
+  apiClient.get<CategoryWithSubcategoriesDto[]>('categories/all');

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { register } from '../../../service/authService';
+import { useAuth } from '../../../context/AuthContext';
 import {
   Overlay,
   Modal,
@@ -23,9 +25,12 @@ type RegisterPopupProps = {
 };
 
 const RegisterPopup: React.FC<RegisterPopupProps> = ({ onClose, onOpenLogin }) => {
+  const { login: authLogin } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
   });
@@ -55,11 +60,22 @@ const RegisterPopup: React.FC<RegisterPopupProps> = ({ onClose, onOpenLogin }) =
 
     setIsLoading(true);
 
-    // TODO: Implement actual registration logic
-    setTimeout(() => {
+    try {
+      const response = await register({
+        email: formData.email,
+        password: formData.password,
+        first_name: formData.firstName || null,
+        last_name: formData.lastName || null,
+        phone: formData.phone || null,
+      });
+      await authLogin(response.tokens);
+      setError('');
+      onClose();
+    } catch (err: any) {
+      setError(err.message || 'Failed to create account. Please try again.');
+    } finally {
       setIsLoading(false);
-      // onClose();
-    }, 1000);
+    }
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -82,20 +98,31 @@ const RegisterPopup: React.FC<RegisterPopupProps> = ({ onClose, onOpenLogin }) =
 
         <Form onSubmit={handleSubmit}>
           <InputGroup>
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="firstName">First Name</Label>
             <Input
-              id="name"
-              name="name"
+              id="firstName"
+              name="firstName"
               type="text"
-              value={formData.name}
+              value={formData.firstName}
               onChange={handleChange}
-              placeholder="Enter your full name"
-              required
+              placeholder="Enter your first name"
             />
           </InputGroup>
 
           <InputGroup>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              id="lastName"
+              name="lastName"
+              type="text"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Enter your last name"
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <Label htmlFor="email">Email *</Label>
             <Input
               id="email"
               name="email"
@@ -108,7 +135,19 @@ const RegisterPopup: React.FC<RegisterPopupProps> = ({ onClose, onOpenLogin }) =
           </InputGroup>
 
           <InputGroup>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <Label htmlFor="password">Password *</Label>
             <Input
               id="password"
               name="password"
@@ -121,7 +160,7 @@ const RegisterPopup: React.FC<RegisterPopupProps> = ({ onClose, onOpenLogin }) =
           </InputGroup>
 
           <InputGroup>
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">Confirm Password *</Label>
             <Input
               id="confirmPassword"
               name="confirmPassword"

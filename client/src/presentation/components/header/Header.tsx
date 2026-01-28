@@ -5,7 +5,8 @@ import RegisterPopup from '../registerPopup/RegisterPopup';
 import LoginPopup from '../loginPopup/LoginPopup';
 import CartModal from '../cartModal/CartModal';
 import LikedModal from '../likedModal/LikedModal';
-import { mockCategories } from '../../../mocks/categoriesMock';
+import ProfileCard from '../profileCard/ProfileCard';
+import { useAuth } from '../../../context/AuthContext';
 import { Product } from '../../../model/productModel';
 
 import {
@@ -30,6 +31,12 @@ import {
   NavContainer,
   NavLinks,
   NavLink,
+  NavItem,
+  Submenu,
+  SubmenuList,
+  SubmenuItem,
+  SubmenuLink,
+  NavLinkDivider,
 } from './Header.styles';
 import CurrencyDropdown from '../../../ui/styles/dropdown/CurrencyDropdown';
 
@@ -38,14 +45,13 @@ type HeaderProps = {
   secondaryColor: string;
 };
 
-const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
+const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const forceScrolled = location.pathname !== '/';
   const { categories } = useHeaderModel();
-  
-  // Get main three categories (Bags and Purses, Dresses, Accessories)
-  const mainCategories = mockCategories.filter(cat => cat.parent_id === null).slice(0, 3);
+
+  const mainCategories = categories.slice(0, 3);
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -54,14 +60,26 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   const [isRegisterPopupOpen, setIsRegisterPopupOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [isLikedModalOpen, setIsLikedModalOpen] = useState(false);
+  const { user, isAuthenticated } = useAuth();
   const [cartCount, setCartCount] = useState(0);
   const [likedCount, setLikedCount] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [phase, setPhase] = useState<
     'idle' | 'animating-out' | 'done' | 'animating-in'
   >('idle');
+  const accountBoxRef = useRef<HTMLDivElement>(null);
 
-  const toggleAccountBox = () => setIsAccountBoxVisible(prev => !prev);
+  const toggleAccountBox = () => {
+    setIsAccountBoxVisible(prev => !prev);
+  };
+
+  // Close account box when user logs in
+  useEffect(() => {
+    if (isAuthenticated) {
+      setIsAccountBoxVisible(false);
+    }
+  }, [isAuthenticated]);
+
   const closeAccountBox = () => setIsAccountBoxVisible(false);
   const openLoginPopup = () => setIsLoginPopupOpen(true);
   const closeLoginPopup = () => setIsLoginPopupOpen(false);
@@ -72,6 +90,31 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   const toggleLikedModal = () => setIsLikedModalOpen(prev => !prev);
   const closeLikedModal = () => setIsLikedModalOpen(false);
 
+  // Close the profile card when clicking outside or pressing Escape
+  useEffect(() => {
+    if (!isAccountBoxVisible) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (accountBoxRef.current && !accountBoxRef.current.contains(event.target as Node)) {
+        closeAccountBox();
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeAccountBox();
+      }
+    };
+
+    window.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isAccountBoxVisible]);
+
   const handleCategoryNavigation = (category: string) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/products/category/${encodeURIComponent(category)}`);
@@ -80,10 +123,11 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
   useEffect(() => {
     if (forceScrolled) return;
     const animLockRef = { current: false };
+    let ticking = false;
+    let latestY = window.scrollY;
 
-    const onScroll = () => {
-      const y = window.scrollY;
-      const atTop = y <= 2;
+    const updateScrollState = () => {
+      const atTop = latestY <= 2;
       setIsScrolled(!atTop);
 
       if (animLockRef.current) return;
@@ -105,7 +149,18 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
       }
     };
 
-    onScroll();
+    const onScroll = () => {
+      latestY = window.scrollY;
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateScrollState();
+          ticking = false;
+        });
+      }
+    };
+
+    updateScrollState();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [phase, forceScrolled]);
@@ -166,11 +221,7 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
 
 
   return (
-    <HeaderContainer
-      secondaryColor={secondaryColor}
-      isScrolled={isScrolled}
-      ref={headerRef}
-    >
+    <HeaderContainer $isScrolled={isScrolled} ref={headerRef}>
       <HeaderMainContainer>
         <HeaderDetails>
           <CurrencyDropdown isScrolled={isScrolled} />
@@ -238,7 +289,7 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
               isScrolled={isScrolled}
             />
           </CartIconWrapper>
-          <UserIconWrapper>
+          <UserIconWrapper ref={accountBoxRef}>
             <UserIconButton
               onClick={toggleAccountBox}
               $isScrolled={isScrolled}
@@ -257,26 +308,12 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
               </svg>
             </UserIconButton>
             {isAccountBoxVisible && (
-              <UserModal>
-                <UserModalMessage>You are not logged in</UserModalMessage>
-                <UserModalItem onClick={() => { closeAccountBox(); openLoginPopup(); }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                    <polyline points="10 17 15 12 10 7" />
-                    <line x1="15" y1="12" x2="3" y2="12" />
-                  </svg>
-                  <span>Login</span>
-                </UserModalItem>
-                <UserModalItem onClick={() => { closeAccountBox(); openRegisterPopup(); }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="8.5" cy="7" r="4" />
-                    <line x1="20" y1="8" x2="20" y2="14" />
-                    <line x1="23" y1="11" x2="17" y2="11" />
-                  </svg>
-                  <span>Sign Up</span>
-                </UserModalItem>
-              </UserModal>
+              <ProfileCard 
+                onClose={closeAccountBox} 
+                isScrolled={isScrolled}
+                onOpenLogin={openLoginPopup}
+                onOpenRegister={openRegisterPopup}
+              />
             )}
           </UserIconWrapper>
         </HeaderActions>
@@ -284,14 +321,41 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor }) => {
       <NavigationBar $isScrolled={isScrolled}>
         <NavContainer>
           <NavLinks>
-            {mainCategories.map(category => (
-              <NavLink
-                key={category.id}
-                onClick={() => category.url && handleCategoryNavigation(category.url)}
-                $isScrolled={isScrolled}
-              >
-                {category.name}
-              </NavLink>
+            {mainCategories.map((category, index) => (
+              <React.Fragment key={category.id}>
+                <NavItem>
+                  <NavLink
+                    onClick={() =>
+                      category.url && handleCategoryNavigation(category.url)
+                    }
+                    $isScrolled={isScrolled}
+                    aria-haspopup={!!category.subcategories?.length}
+                  >
+                    {category.name}
+                  </NavLink>
+                  {category.subcategories && category.subcategories.length > 0 ? (
+                    <Submenu>
+                      <SubmenuList>
+                        {category.subcategories.map((subcategory) => (
+                          <SubmenuItem key={subcategory.id}>
+                            <SubmenuLink
+                              type="button"
+                              onClick={() =>
+                                navigate(
+                                  `/products/category/${category.url}/${subcategory.url}`
+                                )
+                              }
+                            >
+                              {subcategory.name}
+                            </SubmenuLink>
+                          </SubmenuItem>
+                        ))}
+                      </SubmenuList>
+                    </Submenu>
+                  ) : null}
+                </NavItem>
+                {index < mainCategories.length - 1 && <NavLinkDivider />}
+              </React.Fragment>
             ))}
           </NavLinks>
         </NavContainer>

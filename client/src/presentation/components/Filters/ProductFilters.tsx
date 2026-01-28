@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import styles from './ProductFilters.module.css';
 import { useParams } from 'react-router-dom';
 import { getCategorySpecifications } from '../../../service/productService';
+import {
+  Filters,
+  FilterGroup,
+  FilterTitle,
+  Checkbox,
+  CheckboxGrid,
+} from './ProductFilters.styles';
 
 type Props = {
   onFilterChange: (filters: Record<string, string[]>) => void;
@@ -53,26 +59,26 @@ const ProductFilters: React.FC<Props> = ({ onFilterChange }) => {
   };
 
   return (
-    <aside className={styles.filters}>
+    <Filters>
       <h3>Ֆիլտրել</h3>
       {Object.entries(specs).map(([key, values]) => (
-        <div key={key} className={styles.filterGroup}>
-          <p className={styles.filterTitle}>{key}</p>
-          <div className={styles.checkboxGrid}>
+        <FilterGroup key={key}>
+          <FilterTitle>{key}</FilterTitle>
+          <CheckboxGrid>
             {values.map(value => (
-              <label key={value} className={styles.checkbox}>
+              <Checkbox key={value}>
                 <input
                   type="checkbox"
                   checked={selectedFilters[key]?.includes(value) || false}
                   onChange={() => handleCheckboxChange(key, value)}
                 />
                 {value}
-              </label>
+              </Checkbox>
             ))}
-          </div>
-        </div>
+          </CheckboxGrid>
+        </FilterGroup>
       ))}
-    </aside>
+    </Filters>
   );
 };
 

@@ -11,11 +11,11 @@ const fadeIn = keyframes`
 
 const slideUp = keyframes`
   from {
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.95);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 `;
@@ -42,20 +42,22 @@ export const Overlay = styled.div`
 
 export const Modal = styled.div`
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   width: 100%;
   max-width: 440px;
   padding: 2.5rem;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: ${slideUp} 0.3s ease-out;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+  animation: ${slideUp} 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: 'Questrial', sans-serif;
   max-height: 90vh;
   overflow-y: auto;
+  border: 1px solid rgba(0, 0, 0, 0.04);
 
   @media (max-width: 480px) {
     padding: 2rem 1.5rem;
     max-width: 100%;
+    border-radius: 10px;
   }
 `;
 
@@ -115,15 +117,18 @@ export const Label = styled.label`
 export const Input = styled.input`
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   font-family: 'Questrial', sans-serif;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  background: #fafafa;
 
   &:focus {
-    border-color: #d4af37;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    border-color: #001f3f;
+    box-shadow: 0 0 0 4px rgba(0, 31, 63, 0.08);
+    background: white;
+    transform: translateY(-1px);
   }
 
   &::placeholder {
@@ -141,22 +146,40 @@ export const ErrorMessage = styled.div`
 `;
 
 export const SubmitButton = styled.button`
-  padding: 0.875rem 1.5rem;
-  background: #1a1a1a;
+  padding: 1rem 1.5rem;
+  background: #001f3f;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: 'Questrial', sans-serif;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 0.5rem;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
 
   &:hover:not(:disabled) {
-    background: #333;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: #003366;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 31, 63, 0.3);
+  }
+
+  &:hover:not(:disabled)::before {
+    left: 100%;
   }
 
   &:active:not(:disabled) {
@@ -166,6 +189,7 @@ export const SubmitButton = styled.button`
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
   }
 `;
 
