@@ -37,7 +37,6 @@ const ProductCellListView: React.FC<ProductCellListViewProps> = React.memo(
     return (
       <Card onClick={handleProductDetailNavigation}>
         <Wrapper>
-          {/* Product Image */}
           <CardImage>
             <img
               src={getImageUrl(product.variant_image)}
@@ -46,7 +45,6 @@ const ProductCellListView: React.FC<ProductCellListViewProps> = React.memo(
             />
           </CardImage>
 
-          {/* Product Content */}
           <Content>
             <Title>{product.name}</Title>
           </Content>

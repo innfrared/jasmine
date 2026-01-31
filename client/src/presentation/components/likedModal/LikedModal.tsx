@@ -62,7 +62,6 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
           if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].bagId) {
             setCartItems(parsed as CartItem[]);
           } else {
-            // Migrate old format
             setCartItems(parsed.map((p: Product, index: number) => ({
               bagId: `bag-${Date.now()}-${index}-${p.id}`,
               product: p,
@@ -92,16 +91,14 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
     };
   }, []);
 
-  // Handle close animation
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
       onClose();
-    }, 300); // Match animation duration
+    }, 300);
   };
 
-  // Close modal when clicking outside
   useEffect(() => {
     if (!isOpen) return;
     
@@ -144,11 +141,9 @@ const LikedModal: React.FC<LikedModalProps> = ({ isOpen, onClose, isScrolled }) 
     const existingItem = currentCartItems.find(item => item.product.id === product.id);
     
     if (existingItem) {
-      // Remove from cart
       const updated = currentCartItems.filter(item => item.bagId !== existingItem.bagId);
       localStorage.setItem('cartProducts', JSON.stringify(updated));
     } else {
-      // Add to cart
       const newItem: CartItem = {
         bagId: `bag-${Date.now()}-${product.id}`,
         product,

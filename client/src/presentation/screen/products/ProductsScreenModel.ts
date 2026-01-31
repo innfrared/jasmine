@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Product } from 'model/productModel';
 import { listProducts } from '../../../service/productService';
 import { apiClient } from '../../../service/apiClient';
@@ -11,7 +11,11 @@ export const useProductScreenModel = (
   limit: number = 20,
   sortBy?: string
 ) => {
-  const { category, subcategory } = useParams();
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category_id');
+  const subcategoryParam = searchParams.get('subcategory_id');
+  const categoryId = categoryParam ? Number(categoryParam) : null;
+  const subcategoryId = subcategoryParam ? Number(subcategoryParam) : null;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,82 +31,33 @@ export const useProductScreenModel = (
         let response: PaginatedResponse<ProductDto> | { data: ProductDto[]; total: number; page: number; limit: number };
         let mappedProducts: Product[];
         
-        // Use category/subcategory endpoints if available
-        if (category && subcategory) {
-          // Fetch products by category and subcategory
-          const categoryResponse = await apiClient.get<{ data: ProductDto[]; total: number; page: number; limit: number }>(
-            `products/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`,
-            { query: { page: page.toString(), limit: limit.toString() } }
-          );
-          mappedProducts = categoryResponse.data.map(item => ({
-            ...item,
-            category: item.category ?? null,
-            subcategory: item.subcategory ?? null,
-            variants: item.variants ?? [],
-            specifications: item.specifications ?? {},
-            specifications_detailed: item.specifications_detailed ?? [],
-          }));
-          response = {
-            items: categoryResponse.data,
-            total: categoryResponse.total,
-            page: categoryResponse.page,
-            page_size: categoryResponse.limit,
-            total_pages: Math.ceil(categoryResponse.total / categoryResponse.limit),
-            has_next: (categoryResponse.page * categoryResponse.limit) < categoryResponse.total,
-            has_previous: categoryResponse.page > 1,
-          };
-        } else if (category) {
-          // Fetch products by category
-          const categoryResponse = await apiClient.get<{ data: ProductDto[]; total: number; page: number; limit: number }>(
-            `products/category/${encodeURIComponent(category)}`,
-            { query: { page: page.toString(), limit: limit.toString() } }
-          );
-          mappedProducts = categoryResponse.data.map(item => ({
-            ...item,
-            category: item.category ?? null,
-            subcategory: item.subcategory ?? null,
-            variants: item.variants ?? [],
-            specifications: item.specifications ?? {},
-            specifications_detailed: item.specifications_detailed ?? [],
-          }));
-          response = {
-            items: categoryResponse.data,
-            total: categoryResponse.total,
-            page: categoryResponse.page,
-            page_size: categoryResponse.limit,
-            total_pages: Math.ceil(categoryResponse.total / categoryResponse.limit),
-            has_next: (categoryResponse.page * categoryResponse.limit) < categoryResponse.total,
-            has_previous: categoryResponse.page > 1,
-          };
-        } else {
-          // Fetch all products
-          response = await listProducts({ page, page_size: limit });
-          mappedProducts = response.items.map(item => ({
-            ...item,
-            category: item.category ?? null,
-            subcategory: item.subcategory ?? null,
-            variants: item.variants ?? [],
-            specifications: item.specifications ?? {},
-            specifications_detailed: item.specifications_detailed ?? [],
-          }));
-        }
+        response = await listProducts({
+          page,
+          page_size: limit,
+          category_id: categoryId || undefined,
+          subcategory_id: subcategoryId || undefined,
+        });
+        mappedProducts = response.items.map(item => ({
+          ...item,
+          category: item.category ?? null,
+          subcategory: item.subcategory ?? null,
+          variants: item.variants ?? [],
+          specifications: item.specifications ?? {},
+          specifications_detailed: item.specifications_detailed ?? [],
+        }));
 
-        // Apply client-side filtering for colors (if backend doesn't support it)
         let filteredProducts = mappedProducts;
         if (filters?.color && filters.color.length > 0) {
           filteredProducts = mappedProducts.filter(product => {
-            // Check product's own color
             if (product.variant_color_palette && filters.color!.includes(product.variant_color_palette)) {
               return true;
             }
-            // Check variant colors
             return product.variants?.some(variant =>
               variant.color_palette && filters.color!.includes(variant.color_palette)
             );
           });
         }
 
-        // Apply client-side sorting (if backend doesn't support it)
         if (sortBy) {
           filteredProducts = [...filteredProducts].sort((a, b) => {
             switch (sortBy) {
@@ -140,22 +95,18 @@ export const useProductScreenModel = (
     };
 
     fetchProducts();
-  }, [category, subcategory, filters, page, limit, sortBy]);
+  }, [categoryId, subcategoryId, filters, page, limit, sortBy]);
 
-  // Get category and subcategory names from URL params (decoded)
-  const categoryName = category ? decodeURIComponent(category) : undefined;
-  const subcategoryName = subcategory ? decodeURIComponent(subcategory) : undefined;
+  const categoryName = categoryId ? String(categoryId) : undefined;
+  const subcategoryName = subcategoryId ? String(subcategoryId) : undefined;
 
-  // Get available color palettes from filtered products
   const availableColors = Array.from(
     new Set(
       allFilteredProducts.flatMap(product => {
         const colors: string[] = [];
-        // Add product's own color
         if (product.variant_color_palette) {
           colors.push(product.variant_color_palette);
         }
-        // Add variant colors
         if (product.variants) {
           product.variants.forEach(variant => {
             if (variant.color_palette) {
@@ -168,16 +119,13 @@ export const useProductScreenModel = (
     )
   ).sort();
 
-  const availableSizes: string[] = []; // Sizes no longer available in new variant system
+  const availableSizes: string[] = [];
 
-  // Get color palette to color name map for display
   const colorPaletteMap = new Map<string, string>();
   allFilteredProducts.forEach(product => {
-    // Add product's own color
     if (product.variant_color_palette && product.variant_color_name) {
       colorPaletteMap.set(product.variant_color_palette, product.variant_color_name);
     }
-    // Add variant colors
     product.variants?.forEach(variant => {
       if (variant.color_palette && variant.color_name && !colorPaletteMap.has(variant.color_palette)) {
         colorPaletteMap.set(variant.color_palette, variant.color_name);
@@ -189,8 +137,8 @@ export const useProductScreenModel = (
     products,
     loading,
     error,
-    category: categoryName || category,
-    subcategory: subcategoryName || subcategory,
+    category: categoryName,
+    subcategory: subcategoryName,
     totalPages,
     setProducts,
     availableColors,

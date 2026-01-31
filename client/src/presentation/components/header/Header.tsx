@@ -32,10 +32,6 @@ import {
   NavLinks,
   NavLink,
   NavItem,
-  Submenu,
-  SubmenuList,
-  SubmenuItem,
-  SubmenuLink,
   NavLinkDivider,
 } from './Header.styles';
 import CurrencyDropdown from '../../../ui/styles/dropdown/CurrencyDropdown';
@@ -51,7 +47,8 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
   const forceScrolled = location.pathname !== '/';
   const { categories } = useHeaderModel();
 
-  const mainCategories = categories.slice(0, 3);
+  const bagsCategory = categories.find((category) => category.id === 1000);
+  const bagsSubcategories = bagsCategory?.subcategories || [];
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +70,6 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
     setIsAccountBoxVisible(prev => !prev);
   };
 
-  // Close account box when user logs in
   useEffect(() => {
     if (isAuthenticated) {
       setIsAccountBoxVisible(false);
@@ -90,7 +86,6 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
   const toggleLikedModal = () => setIsLikedModalOpen(prev => !prev);
   const closeLikedModal = () => setIsLikedModalOpen(false);
 
-  // Close the profile card when clicking outside or pressing Escape
   useEffect(() => {
     if (!isAccountBoxVisible) return;
 
@@ -115,9 +110,9 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
     };
   }, [isAccountBoxVisible]);
 
-  const handleCategoryNavigation = (category: string) => {
+  const handleCategoryNavigation = (categoryId: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigate(`/products/category/${encodeURIComponent(category)}`);
+    navigate(`/products?category_id=${categoryId}`);
   };
 
   useEffect(() => {
@@ -178,12 +173,9 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
       try {
         const cartData = storedCart ? JSON.parse(storedCart) : [];
         if (Array.isArray(cartData)) {
-          // Check if it's new format (CartItem[]) or old format (Product[])
           if (cartData.length > 0 && cartData[0].bagId && cartData[0].quantity) {
-            // New format: sum quantities
             setCartCount(cartData.reduce((sum: number, item: any) => sum + (item.quantity || 1), 0));
           } else {
-            // Old format: count items
             setCartCount(cartData.length);
           }
         } else {
@@ -321,40 +313,22 @@ const Header: React.FC<HeaderProps> = ({ secondaryColor: _secondaryColor }) => {
       <NavigationBar $isScrolled={isScrolled}>
         <NavContainer>
           <NavLinks>
-            {mainCategories.map((category, index) => (
-              <React.Fragment key={category.id}>
+            {bagsSubcategories.map((subcategory, index) => (
+              <React.Fragment key={subcategory.id}>
                 <NavItem>
                   <NavLink
                     onClick={() =>
-                      category.url && handleCategoryNavigation(category.url)
+                      navigate(
+                        `/products?category_id=1000&subcategory_id=${subcategory.id}`
+                      )
                     }
                     $isScrolled={isScrolled}
-                    aria-haspopup={!!category.subcategories?.length}
+                    aria-haspopup="false"
                   >
-                    {category.name}
+                    {subcategory.name}
                   </NavLink>
-                  {category.subcategories && category.subcategories.length > 0 ? (
-                    <Submenu>
-                      <SubmenuList>
-                        {category.subcategories.map((subcategory) => (
-                          <SubmenuItem key={subcategory.id}>
-                            <SubmenuLink
-                              type="button"
-                              onClick={() =>
-                                navigate(
-                                  `/products/category/${category.url}/${subcategory.url}`
-                                )
-                              }
-                            >
-                              {subcategory.name}
-                            </SubmenuLink>
-                          </SubmenuItem>
-                        ))}
-                      </SubmenuList>
-                    </Submenu>
-                  ) : null}
                 </NavItem>
-                {index < mainCategories.length - 1 && <NavLinkDivider />}
+                {index < bagsSubcategories.length - 1 && <NavLinkDivider />}
               </React.Fragment>
             ))}
           </NavLinks>

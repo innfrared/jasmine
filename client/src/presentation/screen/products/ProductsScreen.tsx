@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import ProductCell from '../../../ui/styles/productCell/ProductCell';
 import Footer from '../../components/footer/Footer';
@@ -38,7 +38,7 @@ import {
 } from './ProductsScreen.styles';
 
 const ProductsScreen: React.FC = () => {
-  const { category: categoryUrl, subcategory: subcategoryUrl } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [filters, setFilters] = useState<Record<string, string[]>>({
     color: [],
@@ -51,39 +51,32 @@ const ProductsScreen: React.FC = () => {
     products,
     loading,
     error,
-    category,
-    subcategory,
     totalPages,
     availableColors,
     availableSizes,
     colorPaletteMap,
   } = useProductScreenModel(filters, currentPage, 20, sortBy);
 
-  // Get subcategories for current category
-  const getSubcategories = () => {
-    if (subcategoryUrl || !categoryUrl) return [];
-    
-    // Decode the category URL parameter
-    const decodedCategory = decodeURIComponent(categoryUrl);
-    
-    // Try to find by URL slug first
-    let categoryData = categories.find(
-      (cat) => cat.url === decodedCategory || cat.url === categoryUrl
-    );
-    
-    // If not found, try to find by category name
-    if (!categoryData) {
-      categoryData = categories.find(
-        (cat) =>
-          cat.name.toLowerCase() === decodedCategory.toLowerCase() ||
-          cat.name === decodedCategory
-      );
-    }
-    
-    return categoryData?.subcategories || [];
-  };
+  const categoryIdParam = searchParams.get('category_id');
+  const subcategoryIdParam = searchParams.get('subcategory_id');
+  const categoryId = categoryIdParam ? Number(categoryIdParam) : null;
+  const subcategoryId = subcategoryIdParam ? Number(subcategoryIdParam) : null;
 
-  const subcategories = getSubcategories();
+  const categoryLabel = categoryId
+    ? categories.find((cat) => cat.id === categoryId)?.name
+    : undefined;
+  const subcategoryLabel =
+    categoryId && subcategoryId
+      ? categories
+          .find((cat) => cat.id === categoryId)
+          ?.subcategories?.find((subcat) => subcat.id === subcategoryId)?.name
+      : undefined;
+
+  const subcategories = useMemo(() => {
+    if (!categoryId || subcategoryId) return [];
+    const categoryData = categories.find((cat) => cat.id === categoryId);
+    return categoryData?.subcategories || [];
+  }, [categories, categoryId, subcategoryId]);
 
   const handleFilterChange = (filterType: 'color' | 'size', value: string) => {
     setFilters(prev => {
@@ -96,18 +89,17 @@ const ProductsScreen: React.FC = () => {
         [filterType]: newValues,
       };
     });
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value);
-    setCurrentPage(1); // Reset to first page when sort changes
+    setCurrentPage(1);
   };
 
-  const handleSubcategoryClick = (subcategoryUrl: string) => {
-    if (categoryUrl) {
-      navigate(`/products/category/${categoryUrl}/${subcategoryUrl}`);
-    }
+  const handleSubcategoryClick = (subcategoryId: number) => {
+    if (!categoryId) return;
+    navigate(`/products?category_id=${categoryId}&subcategory_id=${subcategoryId}`);
   };
 
   const handlePageClick = (page: number) => {
@@ -209,18 +201,14 @@ const ProductsScreen: React.FC = () => {
     <ProductsPageContainer>
       <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
       <ProductsContent>
-        <Breadcrumb
-          categoryName={category}
-          subcategoryName={subcategory}
-        />
+        <Breadcrumb />
         <ProductsHeader>
           <ProductsTitle>
-            {subcategory || category || 'All Products'}
+            {subcategoryLabel || categoryLabel || 'All Products'}
           </ProductsTitle>
         </ProductsHeader>
 
-        {/* Show subcategories if viewing a category page (not subcategory) */}
-        {subcategories.length > 0 && !subcategoryUrl && (
+        {subcategories.length > 0 && !subcategoryId && (
           <SubcategoriesContainer>
             <SubcategoriesTitle>Shop by Subcategory</SubcategoriesTitle>
             <SubcategoriesGrid>
@@ -229,9 +217,9 @@ const ProductsScreen: React.FC = () => {
                   key={subcat.id}
                   onClick={e => {
                     e.preventDefault();
-                    handleSubcategoryClick(subcat.url);
+                    handleSubcategoryClick(subcat.id);
                   }}
-                  href={`/products/category/${categoryUrl}/${subcat.url}`}
+                  href={`/products?category_id=${categoryId}&subcategory_id=${subcat.id}`}
                 >
                   {subcat.name}
                 </SubcategoryCard>

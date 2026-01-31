@@ -63,9 +63,7 @@ const ComparisonScreen = () => {
   };
 
   const handleProductDetailNavigation = (product: Product) => {
-    navigate(
-      `/products/details/${encodeURIComponent(product.name)}?id=${product.id}`
-    ); // Adjust the path as per your route setup
+    navigate(`/products/details/${encodeURIComponent(product.name)}?id=${product.id}`);
   };
 
   return (
@@ -82,7 +80,6 @@ const ComparisonScreen = () => {
           return (
             <>
               <ComparisonTable key={groupName}>
-                {/* Left spec titles */}
                 <TableLeft>
                   {specKeys.map((key, idx) => (
                     <FeatureRow key={idx}>
@@ -91,7 +88,6 @@ const ComparisonScreen = () => {
                   ))}
                 </TableLeft>
 
-                {/* Products */}
                 <TableRight>
                   {group.map((product, idx) => (
                     <ProductColumn key={idx}>
@@ -107,7 +103,6 @@ const ComparisonScreen = () => {
                       </ProductHeader>
                       <FeatureCellTableBottom>
                         <FeatureCellTable>
-                          {/* Values for each spec key */}
                           {specKeys.map((key, specIdx) => (
                             <FeatureCell key={specIdx}>
                               {product.specifications[key] || '-'}

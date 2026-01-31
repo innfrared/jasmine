@@ -100,7 +100,6 @@ export const Menu = styled.ul<{ $maxHeight?: string }>`
   z-index: 1000;
   animation: ${pop} 0.12s ease both;
 
-  /* Scroll aesthetics */
   scrollbar-width: thin;
   scrollbar-color: #c7c7c7 transparent;
   &::-webkit-scrollbar {

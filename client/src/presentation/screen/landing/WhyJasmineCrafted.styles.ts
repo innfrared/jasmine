@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-const NAVY = '#0B1B3A'; // deep, luxe navy
+const NAVY = '#0B1B3A';
 const INK = '#0C0F14';
 const MUTED = 'rgba(12, 15, 20, 0.64)';
 const ACCENT = '#C8A46A';
-const LINE = 'rgba(11, 27, 58, 0.22)';          // stronger line
-const SURFACE = 'rgba(255, 255, 255, 0.86)';    // less milky, more crisp
-const SURFACE_2 = 'rgba(255, 255, 255, 0.72)';  // secondary surface
+const LINE = 'rgba(11, 27, 58, 0.22)';
+const SURFACE = 'rgba(255, 255, 255, 0.86)';
+const SURFACE_2 = 'rgba(255, 255, 255, 0.72)';
 
 export const Section = styled.section`
   width: 100%;
@@ -14,7 +14,6 @@ export const Section = styled.section`
     clamp(3rem, 5vw, 5.25rem);
   box-sizing: border-box;
 
-  /* subtle “atelier paper” feel */
   background:
     radial-gradient(900px 420px at 12% 6%, rgba(11, 27, 58, 0.06), transparent 58%),
     radial-gradient(820px 420px at 86% 22%, rgba(200, 164, 106, 0.07), transparent 55%),
@@ -31,7 +30,6 @@ export const Title = styled.h2`
   position: relative;
   display: inline-block;
 
-  /* tiny luxe underline cue */
   &::after {
     content: '';
     position: absolute;
@@ -55,7 +53,6 @@ export const MicroLine = styled.p`
   font-style: italic;
   max-width: 62ch;
 
-  /* make it feel “written”, not UI copy */
   text-wrap: balance;
 `;
 
@@ -63,11 +60,9 @@ export const Grid = styled.div`
   display: grid;
   gap: clamp(1.1rem, 2.4vw, 2.1rem);
 
-  /* Don’t let columns stretch infinitely */
   grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
   justify-content: start;
 
-  /* On wide screens, center the whole block for editorial feel */
   @media (min-width: 1100px) {
     justify-content: center;
   }
@@ -78,25 +73,20 @@ export const Item = styled.div`
   padding: 1.35rem 1.55rem 1.2rem;
   outline: none;
 
-  /* Sharper, more “editorial” corners (not bubbly) */
   border-radius: 12px;
 
-  /* Firm, clean border (not thick) */
   border: 1px solid rgba(11, 27, 58, 0.22);
 
-  /* Crisp surface — less milky */
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.92),
     rgba(255, 255, 255, 0.76)
   );
 
-  /* Structured shadow: less soft blur, more defined */
   box-shadow:
     0 18px 50px rgba(11, 27, 58, 0.10),
     0 1px 0 rgba(255, 255, 255, 0.85) inset;
 
-  /* Reveal (your logic) */
   opacity: 0;
   transform: translateY(16px);
   filter: blur(7px);
@@ -114,7 +104,6 @@ export const Item = styled.div`
     filter: blur(0);
   }
 
-  /* Subtle “lively” sheen — refined */
   &::after {
     content: '';
     position: absolute;
@@ -186,7 +175,6 @@ export const ItemTitle = styled.h3<{ $emphasis?: boolean }>`
 
   color: ${({ $emphasis }) => ($emphasis ? NAVY : INK)};
 
-  /* “Timeless” gets a quiet accent cue */
   ${({ $emphasis }) =>
     $emphasis
       ? `

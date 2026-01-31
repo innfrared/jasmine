@@ -59,11 +59,6 @@ const App: React.FC = () => {
             path="/order-confirmation/:orderId"
             element={<OrderConfirmationScreen />}
           />
-          <Route path="/products/category/:category" element={<Products />} />
-          <Route
-            path="/products/category/:category/:subcategory"
-            element={<Products />}
-          />
           <Route
             path="/products/product/:productName"
             element={<ProductScreen />}

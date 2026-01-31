@@ -33,15 +33,6 @@ const HeroSlide: React.FC = () => {
 
   return (
     <HeroContainer>
-      {/*<CentralImage*/}
-      {/*  src={'assets/logobig.svg'}*/}
-      {/*  $phase={phase}*/}
-      {/*  beforeInjection={svg => {*/}
-      {/*    svg.querySelectorAll('[stroke]').forEach(el => {*/}
-      {/*      el.setAttribute('stroke', 'currentColor');*/}
-      {/*    });*/}
-      {/*  }}*/}
-      {/*/>*/}
     </HeroContainer>
   );
 };

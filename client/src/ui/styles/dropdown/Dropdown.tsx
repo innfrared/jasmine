@@ -83,7 +83,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     setHighlight(-1);
   };
 
-  // Click outside to close
   useEffect(() => {
     if (!open) return;
     const onClick = (e: MouseEvent) => {

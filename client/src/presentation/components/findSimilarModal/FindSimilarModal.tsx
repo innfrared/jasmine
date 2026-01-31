@@ -54,7 +54,6 @@ const FindSimilarModal: React.FC<FindSimilarModalProps> = ({
       try {
         const response = await listProducts({
           subcategory_id: product.subcategory_id || undefined,
-          category_id: product.subcategory_id ? undefined : product.category_id || undefined,
           page: 1,
           page_size: 8,
         });

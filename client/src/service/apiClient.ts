@@ -64,7 +64,6 @@ const request = async <T>(
   };
   if (body) headers['Content-Type'] = 'application/json';
   
-  // Get token from tokenManager if not provided
   let accessToken = token;
   if (!accessToken && typeof window !== 'undefined') {
     const { tokenManager } = await import('../utils/tokenManager');
@@ -81,13 +80,11 @@ const request = async <T>(
 
   const payload = await parseResponse<unknown>(response);
 
-  // Handle token refresh on 401
   if (response.status === 401 && typeof window !== 'undefined') {
     const { tokenManager } = await import('../utils/tokenManager');
     const newAccessToken = await tokenManager.refreshAccessToken();
     
     if (newAccessToken) {
-      // Retry request with new token
       headers.Authorization = `Bearer ${newAccessToken}`;
       const retryResponse = await fetch(buildUrl(path, query), {
         method,
@@ -107,9 +104,7 @@ const request = async <T>(
       
       return retryPayload as T;
     } else {
-      // Refresh failed, clear tokens
       tokenManager.clearTokens();
-      // Dispatch logout event
       window.dispatchEvent(new Event('auth:logout'));
     }
   }

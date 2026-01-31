@@ -35,8 +35,8 @@ const CustomScrollableSwiper = () => {
     }
   };
 
-  const handleCategoryNavigation = (category: string) => {
-    navigate(`products/category/${encodeURIComponent(category)}`);
+  const handleCategoryNavigation = (categoryId: number) => {
+    navigate(`/products?category_id=${categoryId}`);
   };
 
   return (
@@ -63,7 +63,7 @@ const CustomScrollableSwiper = () => {
         {categories.map(category => (
           <SwiperCell
             key={category.id}
-            onClick={() => handleCategoryNavigation(category.url)}
+            onClick={() => handleCategoryNavigation(category.id)}
           >
             <ArrowTopRight
               xmlns="http://www.w3.org/2000/svg"

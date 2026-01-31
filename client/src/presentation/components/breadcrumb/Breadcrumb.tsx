@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useCategories } from '../../hooks/useCategories';
 import {
   BreadcrumbNav,
   BreadcrumbLink,
@@ -20,20 +21,34 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 }) => {
   const location = useLocation();
   const params = useParams();
+  const [searchParams] = useSearchParams();
+  const { categories } = useCategories();
   const pathnames = location.pathname.split('/').filter(x => x);
 
-  // Get product name from props, params, or location state
   const productName = propProductName || params.productName;
   
-  // Get category/subcategory from props, location state, or search params
-  const finalCategoryName = categoryName || 
-    location.state?.categoryName || 
-    new URLSearchParams(location.search).get('category');
-  const finalSubcategoryName = subcategoryName || 
-    location.state?.subcategoryName || 
-    new URLSearchParams(location.search).get('subcategory');
+  const categoryIdParam = searchParams.get('category_id');
+  const subcategoryIdParam = searchParams.get('subcategory_id');
+  const categoryId = categoryIdParam ? Number(categoryIdParam) : null;
+  const subcategoryId = subcategoryIdParam ? Number(subcategoryIdParam) : null;
 
-  // Build breadcrumb items
+  const resolvedCategoryName = useMemo(() => {
+    if (!categoryId) return undefined;
+    return categories.find((cat) => cat.id === categoryId)?.name;
+  }, [categories, categoryId]);
+
+  const resolvedSubcategoryName = useMemo(() => {
+    if (!categoryId || !subcategoryId) return undefined;
+    return categories
+      .find((cat) => cat.id === categoryId)
+      ?.subcategories?.find((subcat) => subcat.id === subcategoryId)?.name;
+  }, [categories, categoryId, subcategoryId]);
+
+  const finalCategoryName =
+    categoryName || location.state?.categoryName || resolvedCategoryName;
+  const finalSubcategoryName =
+    subcategoryName || location.state?.subcategoryName || resolvedSubcategoryName;
+
   const breadcrumbItems: Array<{ label: string; path: string }> = [];
 
   if (pathnames.includes('profile') || pathnames.includes('orders') || pathnames.includes('shipping') || pathnames.includes('cart')) {
@@ -57,17 +72,17 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   } else {
     breadcrumbItems.push({ label: 'Catalog', path: '/' });
     
-    if (finalCategoryName) {
+    if (finalCategoryName && categoryId) {
       breadcrumbItems.push({
         label: finalCategoryName,
-        path: `/products/category/${encodeURIComponent(finalCategoryName)}`,
+        path: `/products?category_id=${categoryId}`,
       });
     }
 
-    if (finalSubcategoryName && finalCategoryName) {
+    if (finalSubcategoryName && finalCategoryName && categoryId && subcategoryId) {
       breadcrumbItems.push({
         label: finalSubcategoryName,
-        path: `/products/category/${encodeURIComponent(finalCategoryName)}/${encodeURIComponent(finalSubcategoryName)}`,
+        path: `/products?category_id=${categoryId}&subcategory_id=${subcategoryId}`,
       });
     }
 

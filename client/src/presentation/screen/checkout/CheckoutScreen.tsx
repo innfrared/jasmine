@@ -68,7 +68,6 @@ const CheckoutScreen: React.FC = () => {
         if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].bagId) {
           setCartItems(parsed as CartItem[]);
         } else {
-          // Migrate old format
           setCartItems(
             parsed.map((p: any, index: number) => ({
               bagId: `bag-${Date.now()}-${index}-${p.id}`,

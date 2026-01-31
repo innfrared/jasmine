@@ -129,7 +129,6 @@ export const mockCategories: Category[] = [
   },
 ];
 
-// Helper function to get category by ID
 export const getCategoryById = (id: number): Category | undefined => {
   for (const category of mockCategories) {
     if (category.id === id) return category;
@@ -139,7 +138,6 @@ export const getCategoryById = (id: number): Category | undefined => {
   return undefined;
 };
 
-// Helper function to get parent category
 export const getParentCategory = (subcategoryId: number): Category | undefined => {
   for (const category of mockCategories) {
     if (category.subcategories?.some(sub => sub.id === subcategoryId)) {

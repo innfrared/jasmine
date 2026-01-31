@@ -110,7 +110,6 @@ export const CardImage = styled.div`
     top: 0;
     display: flex;
     right: 0;
-    //transform: translateX(50%);
     gap: 8px;
     opacity: 0;
     transition:

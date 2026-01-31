@@ -36,7 +36,9 @@ const WhyJasmineCrafted: React.FC = () => {
         description: category.name,
         imageUrl: `/assets/bag${(index % 4) + 1}.webp`,
         onClick: () =>
-          navigate(`/products/category/${category.url}/${subcategory.url}`),
+          navigate(
+            `/products?category_id=${category.id}&subcategory_id=${subcategory.id}`
+          ),
       }))
     )
     .slice(0, 4);

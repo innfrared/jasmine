@@ -4,6 +4,7 @@ import { PaginatedResponse, ProductDto } from './types';
 export interface ListProductsParams {
   category_id?: number;
   subcategory_id?: number;
+  subcategory_ids?: string;
   search?: string;
   availability?: 'in_stock' | 'out_of_stock' | 'pre_order';
   page?: number;

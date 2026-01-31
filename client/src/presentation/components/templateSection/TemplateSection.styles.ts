@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 
-/* Palette — Stone Ink (no black) */
 const INK = 'rgba(9, 28, 85, 0.89)';
 const INK_MUTED = 'rgba(75, 34, 0, 0.89)';
 const INK_SOFT = 'rgba(63, 58, 54, 0.58)';

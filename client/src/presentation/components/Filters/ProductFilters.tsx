@@ -37,23 +37,20 @@ const ProductFilters: React.FC<Props> = ({ onFilterChange }) => {
     setSelectedFilters(prev => {
       const current = prev[specKey] || [];
 
-      // Add or remove value
       const updated = current.includes(value)
         ? current.filter(v => v !== value)
         : [...current, value];
 
-      // Build new filters object
       const newFilters = {
         ...prev,
         [specKey]: updated,
       };
 
-      // Clean up empty arrays
       if (updated.length === 0) {
         delete newFilters[specKey];
       }
 
-      onFilterChange(newFilters); // Apply filters immediately
+      onFilterChange(newFilters);
       return newFilters;
     });
   };

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../../model/productModel';
 import { CartItem } from '../../../model/cartItemModel';
 import { getImageUrl } from '../../../utils/imageUtils';
+import FindSimilarModal from '../../../presentation/components/findSimilarModal/FindSimilarModal';
 import {
   Card,
   Wrapper,
@@ -25,6 +26,7 @@ interface ProductCellProps {
 
 const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
   const navigate = useNavigate();
+  const [isSimilarOpen, setIsSimilarOpen] = useState(false);
 
   const handleProductDetailNavigation = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -40,11 +42,9 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        // Check if it's new format (CartItem[]) or old format (Product[])
         if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].bagId) {
           cartItems = parsed;
         } else {
-          // Migrate old format
           cartItems = parsed.map((p: Product, index: number) => ({
             bagId: `bag-${Date.now()}-${index}-${p.id}`,
             product: p,
@@ -56,15 +56,12 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
       }
     }
 
-    // Check if product already exists in cart
     const existingItem = cartItems.find(item => item.product.id === product.id);
     
     if (existingItem) {
-      // Remove from cart
       const updated = cartItems.filter(item => item.bagId !== existingItem.bagId);
       localStorage.setItem('cartProducts', JSON.stringify(updated));
     } else {
-      // Add to cart with new bagId
       const newItem: CartItem = {
         bagId: `bag-${Date.now()}-${product.id}`,
         product,
@@ -89,14 +86,11 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
       }
     }
 
-    // Check if product already exists in liked
     const existingIndex = likedProducts.findIndex(p => p.id === product.id);
     
     if (existingIndex !== -1) {
-      // Remove from liked
       likedProducts.splice(existingIndex, 1);
     } else {
-      // Add to liked
       likedProducts.push(product);
     }
     
@@ -130,9 +124,7 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
             <Button
               variant="tertiary"
               icon={<img src="/assets/plus.svg" alt="cart" />}
-              onClick={() => {
-                // TODO: Implement find similar functionality
-              }}
+              onClick={() => setIsSimilarOpen(true)}
             >
               Find Similar
             </Button>
@@ -159,6 +151,11 @@ const ProductCell: React.FC<ProductCellProps> = ({ product }) => {
           </PriceContainer>
         </Content>
       </Wrapper>
+      <FindSimilarModal
+        isOpen={isSimilarOpen}
+        onClose={() => setIsSimilarOpen(false)}
+        product={product}
+      />
     </Card>
   );
 };

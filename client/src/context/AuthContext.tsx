@@ -43,7 +43,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userData = await getMe(accessToken);
       setUser(userData);
     } catch (error) {
-      // Try to refresh token
       const newAccessToken = await tokenManager.refreshAccessToken();
       if (newAccessToken) {
         try {
@@ -65,7 +64,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     loadUser();
 
-    // Listen for logout events from apiClient
     const handleLogout = () => {
       logout();
     };
@@ -103,7 +101,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userData = await getMe(accessToken);
       setUser(userData);
     } catch (error) {
-      // Try to refresh token
       const newAccessToken = await tokenManager.refreshAccessToken();
       if (newAccessToken) {
         try {

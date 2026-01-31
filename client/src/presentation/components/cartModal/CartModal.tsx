@@ -38,16 +38,13 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Convert old cart format (Product[]) to new format (CartItem[])
   const migrateCartData = (data: any): CartItemType[] => {
     if (!data || !Array.isArray(data)) return [];
     
-    // Check if it's already in new format
     if (data.length > 0 && data[0].bagId && data[0].product) {
       return data as CartItemType[];
     }
     
-    // Migrate from old format (Product[]) to new format (CartItem[])
     return data.map((product: Product, index: number) => ({
       bagId: `bag-${Date.now()}-${index}-${product.id}`,
       product,
@@ -69,7 +66,6 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
           const parsed = JSON.parse(stored);
           const migrated = migrateCartData(parsed);
           setCartItems(migrated);
-          // Save migrated format back to localStorage
           if (migrated.length > 0 && (!parsed[0]?.bagId)) {
             localStorage.setItem('cartProducts', JSON.stringify(migrated));
           }
@@ -91,16 +87,14 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose, isScrolled }) =>
     };
   }, []);
 
-  // Handle close animation
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
       onClose();
-    }, 300); // Match animation duration
+    }, 300);
   };
 
-  // Close modal when clicking outside
   useEffect(() => {
     if (!isOpen) return;
     

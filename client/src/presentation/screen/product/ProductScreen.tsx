@@ -63,12 +63,10 @@ const ProductScreen: React.FC = () => {
     
     const images: string[] = [];
     
-    // Add main variant image first
     if (product.variant_image) {
       images.push(getImageUrl(product.variant_image));
     }
     
-    // Add other variant images
     if (product.variants) {
       product.variants.forEach(variant => {
         if (variant.image && variant.image !== product.variant_image) {
@@ -85,7 +83,6 @@ const ProductScreen: React.FC = () => {
       setSelectedVariant(String(product.id));
       setQuantity(1);
       
-      // Set main image from variant_image or first available image
       if (product.variant_image) {
         const imageUrl = getImageUrl(product.variant_image);
         setMainImage(imageUrl);
@@ -122,7 +119,6 @@ const ProductScreen: React.FC = () => {
   }, [maxQuantity, quantity]);
 
   const handleVariantSelect = (variantId: number) => {
-    // Navigate to the variant product
     const variant = product?.variants?.find(v => v.id === variantId);
     if (variant) {
       navigate(`/products/product/${encodeURIComponent(variant.name)}?id=${variantId}`);
