@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/inna/Desktop/Dev/jasmine/frontend/app/not-found.tsx"],"sourcesContent":["import React from 'react';\n\nexport default function NotFound() {\n  return (\n    <main style={{ padding: '4rem 2rem', textAlign: 'center' }}>\n      <h1>Page not found</h1>\n      <p>The page you are looking for does not exist.</p>\n    </main>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAEe,SAAS;IACtB,qBACE,uRAAC;QAAK,OAAO;YAAE,SAAS;YAAa,WAAW;QAAS;;0BACvD,uRAAC;0BAAG;;;;;;0BACJ,uRAAC;0BAAE;;;;;;;;;;;;AAGT"}}]
+}

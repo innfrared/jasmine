@@ -1,0 +1,4 @@
+1:"$Sreact.fragment"
+2:I[21356,["/_next/static/chunks/47018e48c24d91bf.js","/_next/static/chunks/cb4cfdef4fa0ebd5.js"],"default"]
+3:I[23912,["/_next/static/chunks/47018e48c24d91bf.js","/_next/static/chunks/cb4cfdef4fa0ebd5.js"],"default"]
+0:{"buildId":"J5cpXkqDmVEKKbmrAAO1U","rsc":["$","$1","c",{"children":[[["$","script","script-0",{"src":"/_next/static/chunks/47018e48c24d91bf.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/cb4cfdef4fa0ebd5.js","async":true}]],["$","html",null,{"lang":"en","children":["$","body",null,{"children":["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}],"notFound":[["$","main",null,{"style":{"padding":"4rem 2rem","textAlign":"center"},"children":[["$","h1",null,{"children":"Page not found"}],["$","p",null,{"children":"The page you are looking for does not exist."}]]}],[]]}]}]}]]}],"loading":null,"isPartial":false}

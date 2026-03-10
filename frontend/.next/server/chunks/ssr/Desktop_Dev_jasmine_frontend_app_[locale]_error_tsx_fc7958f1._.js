@@ -1,0 +1,3 @@
+module.exports=[19496,a=>{"use strict";var b=a.i(1142),c=a.i(96766);function d({error:a,reset:d}){return(0,c.useEffect)(()=>{console.error("Page error:",a)},[a]),(0,b.jsxs)("div",{style:{padding:"3rem 1.5rem",textAlign:"center"},children:[(0,b.jsx)("h1",{children:"Something went wrong"}),(0,b.jsx)("p",{children:"We hit an unexpected error. Please try again."}),(0,b.jsx)("button",{type:"button",onClick:()=>d(),children:"Try again"})]})}a.s(["default",()=>d])}];
+
+//# sourceMappingURL=Desktop_Dev_jasmine_frontend_app_%5Blocale%5D_error_tsx_fc7958f1._.js.map

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/inna/Desktop/Dev/jasmine/frontend/app/%5Blocale%5D/error.tsx"],"sourcesContent":["'use client';\n\nimport React, { useEffect } from 'react';\n\ntype ErrorProps = {\n  error: Error & { digest?: string };\n  reset: () => void;\n};\n\nexport default function Error({ error, reset }: ErrorProps) {\n  useEffect(() => {\n    console.error('Page error:', error);\n  }, [error]);\n\n  return (\n    <div style={{ padding: '3rem 1.5rem', textAlign: 'center' }}>\n      <h1>Something went wrong</h1>\n      <p>We hit an unexpected error. Please try again.</p>\n      <button type=\"button\" onClick={() => reset()}>\n        Try again\n      </button>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;AAEA;AAFA;;;AASe,SAAS,MAAM,EAAE,KAAK,EAAE,KAAK,EAAc;IACxD,IAAA,2PAAS,EAAC;QACR,QAAQ,KAAK,CAAC,eAAe;IAC/B,GAAG;QAAC;KAAM;IAEV,qBACE,uRAAC;QAAI,OAAO;YAAE,SAAS;YAAe,WAAW;QAAS;;0BACxD,uRAAC;0BAAG;;;;;;0BACJ,uRAAC;0BAAE;;;;;;0BACH,uRAAC;gBAAO,MAAK;gBAAS,SAAS,IAAM;0BAAS;;;;;;;;;;;;AAKpD"}}]
+}
