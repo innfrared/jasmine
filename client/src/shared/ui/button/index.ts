@@ -5,4 +5,3 @@ export type {
   ButtonSize,
   ButtonVariant,
 } from './Button';
-

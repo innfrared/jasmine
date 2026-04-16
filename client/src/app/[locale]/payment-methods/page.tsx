@@ -6,7 +6,9 @@ type RoutePageProps = {
 };
 
 const RoutePage = async ({ params }: RoutePageProps) => {
-  return <PlaceholderRoutePage params={params} placeholderId='payment-methods' />;
+  return (
+    <PlaceholderRoutePage params={params} placeholderId="payment-methods" />
+  );
 };
 
 export default RoutePage;

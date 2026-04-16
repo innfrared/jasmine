@@ -63,7 +63,11 @@ export const DrawerContainer = styled.aside<{ $isClosing?: boolean }>`
   flex-direction: column;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.62)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 255, 255, 0.62)
+    ),
     ${uiColors.ivory};
   box-shadow: ${uiShadows.drawer};
   animation: ${({ $isClosing }) =>
@@ -133,7 +137,11 @@ export const DrawerFooter = styled.div`
   gap: 0.9rem;
   border-top: 1px solid ${uiColors.borderSoft};
   background:
-    linear-gradient(180deg, rgba(248, 242, 234, 0.3), rgba(248, 242, 234, 0.96)),
+    linear-gradient(
+      180deg,
+      rgba(248, 242, 234, 0.3),
+      rgba(248, 242, 234, 0.96)
+    ),
     rgba(255, 255, 255, 0.78);
 
   @media (max-width: 520px) {

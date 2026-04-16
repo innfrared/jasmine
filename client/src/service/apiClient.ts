@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from '@/shared/api/endpoints';
+
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 export class ApiError extends Error {
@@ -15,20 +17,40 @@ const runtimeEnv =
   (globalThis as { process?: { env?: Record<string, string | undefined> } })
     .process?.env ?? {};
 
-const ENV_BASE_URL =
-  runtimeEnv.NEXT_PUBLIC_API_URL ||
-  runtimeEnv.NEXT_PUBLIC_API_BASE_URL ||
-  runtimeEnv.API_BASE_URL ||
-  runtimeEnv.REACT_APP_API_BASE_URL ||
-  runtimeEnv.EXPO_PUBLIC_API_BASE_URL ||
-  'http://localhost:8000/api';
+const LOCAL_DEV_API_FALLBACK = 'http://localhost:8000/api';
 
-const baseUrl = ENV_BASE_URL.replace(/\/+$/, '');
+const resolveApiBaseUrl = (): string => {
+  const fromEnv =
+    runtimeEnv.NEXT_PUBLIC_API_URL ||
+    runtimeEnv.NEXT_PUBLIC_API_BASE_URL ||
+    runtimeEnv.API_BASE_URL ||
+    runtimeEnv.REACT_APP_API_BASE_URL ||
+    runtimeEnv.EXPO_PUBLIC_API_BASE_URL;
+
+  if (fromEnv) {
+    return fromEnv.replace(/\/+$/, '');
+  }
+
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocalHost =
+      host === 'localhost' ||
+      host === '127.0.0.1' ||
+      host === '[::1]';
+    if (!isLocalHost) {
+      return '';
+    }
+  }
+
+  return LOCAL_DEV_API_FALLBACK.replace(/\/+$/, '');
+};
+
+const baseUrl = resolveApiBaseUrl();
 
 type RequestOptions = {
   body?: unknown;
-  token?: string;
   query?: Record<string, string | number | boolean | undefined | null>;
+  skipAuthRetry?: boolean;
 };
 
 const buildUrl = (path: string, query?: RequestOptions['query']) => {
@@ -57,43 +79,92 @@ const parseResponse = async <T>(res: globalThis.Response): Promise<T> => {
   }
 };
 
+const isBrowser = () => typeof window !== 'undefined';
+
+let refreshInFlight: Promise<boolean> | null = null;
+let hasBroadcastSessionExpiry = false;
+
+const emitSessionExpired = async () => {
+  if (!isBrowser()) {
+    return;
+  }
+
+  if (hasBroadcastSessionExpiry) {
+    return;
+  }
+
+  hasBroadcastSessionExpiry = true;
+  const { tokenManager } = await import('@/shared/auth/tokenManager');
+  tokenManager.clearSession();
+  window.dispatchEvent(new Event('auth:logout'));
+};
+
+const runRefreshRequest = async () => {
+  const response = await fetch(buildUrl(API_ENDPOINTS.auth.refresh), {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  return response.ok;
+};
+
+const refreshSessionSingleFlight = async () => {
+  if (!isBrowser()) {
+    return false;
+  }
+
+  if (!refreshInFlight) {
+    refreshInFlight = runRefreshRequest().finally(() => {
+      refreshInFlight = null;
+    });
+  }
+
+  return refreshInFlight;
+};
+
 const request = async <T>(
   method: HttpMethod,
   path: string,
   options: RequestOptions = {}
 ): Promise<T> => {
-  const { body, token, query } = options;
+  const { body, query, skipAuthRetry = false } = options;
   const headers: Record<string, string> = {
     Accept: 'application/json',
   };
   if (body) headers['Content-Type'] = 'application/json';
 
-  let accessToken = token;
-  if (!accessToken && typeof window !== 'undefined') {
-    const { tokenManager } = await import('@/shared/auth/tokenManager');
-    const storedToken = tokenManager.getAccessToken();
-    if (storedToken) accessToken = storedToken;
-  }
-  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
-
   const response = await fetch(buildUrl(path, query), {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
+    credentials: 'include',
   });
 
+  if (response.ok) {
+    hasBroadcastSessionExpiry = false;
+  }
+
   const payload = await parseResponse<unknown>(response);
+  const normalizedPath = path.replace(/^\/+/, '');
+  const isRefreshRequest = normalizedPath === API_ENDPOINTS.auth.refresh;
 
-  if (response.status === 401 && typeof window !== 'undefined') {
-    const { tokenManager } = await import('@/shared/auth/tokenManager');
-    const newAccessToken = await tokenManager.refreshAccessToken();
+  if (
+    response.status === 401 &&
+    isBrowser() &&
+    !skipAuthRetry &&
+    !isRefreshRequest
+  ) {
+    const hasRefreshed = await refreshSessionSingleFlight();
 
-    if (newAccessToken) {
-      headers.Authorization = `Bearer ${newAccessToken}`;
+    if (hasRefreshed) {
       const retryResponse = await fetch(buildUrl(path, query), {
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined,
+        credentials: 'include',
       });
 
       const retryPayload = await parseResponse<unknown>(retryResponse);
@@ -107,10 +178,9 @@ const request = async <T>(
       }
 
       return retryPayload as T;
-    } else {
-      tokenManager.clearTokens();
-      window.dispatchEvent(new Event('auth:logout'));
     }
+
+    await emitSessionExpired();
   }
 
   if (!response.ok) {

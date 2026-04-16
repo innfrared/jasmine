@@ -10,9 +10,14 @@ import {
   CatalogFilterToolbar,
 } from '@/features/catalog/components/catalogFilters';
 import type { CatalogFilterKey } from '@/features/catalog/components/catalogFilters';
-import { useCategories } from '@/features/catalog/hooks/useCategories';
-import { useCatalogProductsScreenModel } from '../hooks/useCatalogProductsScreenModel';
 import type { CategoryNavItem } from '../../../entities/catalog/category';
+import type { ListingProduct } from '../../../entities/catalog/listingProduct';
+import {
+  buildAvailableColors,
+  buildColorPaletteMap,
+  filterProducts,
+  sortNewestFirst,
+} from '@/features/catalog/catalogListingUtils';
 import {
   findTaxonomyByIds,
   resolveCatalogNavKeyFromIds,
@@ -35,7 +40,6 @@ import {
   ControlsContainer,
   EmptyMessage,
   ErrorMessage,
-  LoadingMessage,
   MainContent,
   PageButton,
   PaginationButton,
@@ -52,7 +56,6 @@ import {
   SubcategoryCard,
 } from './CatalogProductsPage.styles';
 
-const PRODUCTS_PAGE_SIZE = 18;
 const FILTER_DRAWER_CLOSE_DELAY_MS = 300;
 const SUBCATEGORY_ROUTE_SLUGS: ReadonlySet<string> = new Set([
   'crossbody',
@@ -60,6 +63,14 @@ const SUBCATEGORY_ROUTE_SLUGS: ReadonlySet<string> = new Set([
   'top-handle',
   'evening',
 ]);
+
+export type CatalogProductsPageProps = {
+  categories: CategoryNavItem[];
+  initialProducts: ListingProduct[];
+  page: number;
+  totalPages: number;
+  colorFiltersFromUrl: string[];
+};
 
 function createEmptyFilters(): Record<string, string[]> {
   return {
@@ -105,14 +116,26 @@ function buildFallbackSubcategoryPath(
   return `/products?category_id=${resolvedCategoryId}&subcategory_id=${subcategoryId}`;
 }
 
-function CatalogProductsPage() {
+function buildCatalogQueryString(page: number, colors: string[]) {
+  const params = new URLSearchParams();
+  if (page > 1) {
+    params.set('page', String(page));
+  }
+  if (colors.length > 0) {
+    params.set('color', colors.join(','));
+  }
+  return params.toString();
+}
+
+function CatalogProductsPage({
+  categories,
+  initialProducts,
+  page: serverPage,
+  totalPages,
+  colorFiltersFromUrl,
+}: CatalogProductsPageProps) {
   const { t } = useTranslation<'translation'>();
   const router = useRouter();
-  const {
-    categories,
-    loading: categoriesLoading,
-    error: categoriesError,
-  } = useCategories();
   const { pathname, search, getLocalizedPath, navigateLocalized } =
     useLocalizedRouting();
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
@@ -121,26 +144,30 @@ function CatalogProductsPage() {
     strippedPathname,
     search
   );
-  const activeNavKey = getCatalogNavKeyFromLocation(
-    strippedPathname,
-    search
-  );
+  const activeNavKey = getCatalogNavKeyFromLocation(strippedPathname, search);
   const liveActiveNavKey = isLiveCatalogNavKey(activeNavKey)
     ? activeNavKey
     : null;
 
-  const [filters, setFilters] = useState<Record<string, string[]>>({
-    color: [],
+  const [filters, setFilters] = useState<Record<string, string[]>>(() => ({
+    color: colorFiltersFromUrl,
     size: [],
-  });
+  }));
   const [draftFilters, setDraftFilters] =
     useState<Record<string, string[]>>(createEmptyFilters);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isFilterDrawerClosing, setIsFilterDrawerClosing] = useState(false);
   const [isToolbarStuck, setIsToolbarStuck] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const filterToolbarSentinelRef = useRef<HTMLDivElement>(null);
   const filterDrawerCloseTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    setFilters({ color: colorFiltersFromUrl, size: [] });
+    setDraftFilters(previous => ({
+      ...previous,
+      color: colorFiltersFromUrl,
+    }));
+  }, [colorFiltersFromUrl]);
 
   const fallbackCategoryId = parseNumericQueryParam(
     searchParams.get('category_id')
@@ -166,7 +193,7 @@ function CatalogProductsPage() {
   );
 
   const reverseMappedLegacyNavKey = useMemo(() => {
-    if (!hasLegacyTaxonomyQuery || categoriesLoading || categoriesError) {
+    if (!hasLegacyTaxonomyQuery) {
       return null;
     }
 
@@ -176,11 +203,9 @@ function CatalogProductsPage() {
     });
   }, [
     categories,
-    categoriesError,
-    categoriesLoading,
+    hasLegacyTaxonomyQuery,
     fallbackCategoryId,
     fallbackSubcategoryId,
-    hasLegacyTaxonomyQuery,
   ]);
 
   const legacyCanonicalPath =
@@ -190,16 +215,6 @@ function CatalogProductsPage() {
   const hasSubtypeSlugFallback = Boolean(
     liveActiveNavKey && SUBCATEGORY_ROUTE_SLUGS.has(liveActiveNavKey)
   );
-
-  const shouldWaitForTaxonomy =
-    categoriesLoading &&
-    (hasLegacyTaxonomyQuery || (Boolean(liveActiveNavKey) && !hasSubtypeSlugFallback));
-  const shouldFetchProducts =
-    !shouldWaitForTaxonomy &&
-    (!liveActiveNavKey ||
-      resolvedNavigation.status === 'resolved' ||
-      hasSubtypeSlugFallback) &&
-    !(Boolean(liveActiveNavKey) && categoriesError);
 
   const categoryData =
     resolvedNavigation.category ?? fallbackTaxonomy.category ?? undefined;
@@ -211,10 +226,6 @@ function CatalogProductsPage() {
   const subcategoryId = liveActiveNavKey
     ? resolvedNavigation.subcategoryId
     : (subcategoryData?.id ?? fallbackSubcategoryId ?? undefined);
-  const subcategorySlug =
-    liveActiveNavKey && hasSubtypeSlugFallback && resolvedNavigation.status !== 'resolved'
-      ? liveActiveNavKey
-      : null;
 
   const catalogSectionNavKey = getCatalogSectionNavKey(liveActiveNavKey);
   const catalogSectionItem = catalogSectionNavKey
@@ -224,25 +235,22 @@ function CatalogProductsPage() {
     ? getHeaderNavItemByKey(liveActiveNavKey)
     : undefined;
 
-  const {
-    products,
-    loading,
-    error,
-    totalPages,
-    availableColors,
-    availableSizes,
-    colorPaletteMap,
-  } = useCatalogProductsScreenModel({
-    filters,
-    page: currentPage,
-    limit: PRODUCTS_PAGE_SIZE,
-    categoryId,
-    subcategoryId,
-    subcategorySlug,
-    enabled: shouldFetchProducts,
-    applyNewestSort: liveActiveNavKey === 'new',
-    navKey: liveActiveNavKey,
-  });
+  const applyNewestSort = liveActiveNavKey === 'new';
+
+  const products = useMemo(() => {
+    const filtered = filterProducts(initialProducts, filters);
+    return sortNewestFirst(filtered, applyNewestSort);
+  }, [initialProducts, filters, applyNewestSort]);
+
+  const availableColors = useMemo(
+    () => buildAvailableColors(initialProducts),
+    [initialProducts]
+  );
+  const availableSizes: string[] = [];
+  const colorPaletteMap = useMemo(
+    () => buildColorPaletteMap(initialProducts),
+    [initialProducts]
+  );
 
   const categoryLabel = catalogSectionItem
     ? t(catalogSectionItem.labelKey)
@@ -281,43 +289,64 @@ function CatalogProductsPage() {
   );
 
   const displayError =
-    !shouldWaitForTaxonomy &&
     liveActiveNavKey &&
     resolvedNavigation.status !== 'resolved' &&
     !hasSubtypeSlugFallback
       ? t('productsPage.empty')
-      : error;
+      : null;
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.PerformanceObserver) {
       return undefined;
     }
 
-    const observer = new window.PerformanceObserver(entryList => {
-      const entries = entryList.getEntries();
-      const latestEntry = entries[entries.length - 1];
+    let cancelled = false;
+    let observer: InstanceType<typeof window.PerformanceObserver> | null = null;
+    let idleHandle: number | undefined;
+    let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
 
-      if (!latestEntry) {
+    const startObserver = () => {
+      if (cancelled || !window.PerformanceObserver) {
         return;
       }
 
-      window.dispatchEvent(
-        new window.CustomEvent('catalog:lcp-metric', {
-          detail: { value: latestEntry.startTime, route: 'products' },
-        })
-      );
-    });
+      observer = new window.PerformanceObserver(entryList => {
+        const entries = entryList.getEntries();
+        const latestEntry = entries[entries.length - 1];
 
-    observer.observe({ type: 'largest-contentful-paint', buffered: true });
+        if (!latestEntry) {
+          return;
+        }
+
+        window.dispatchEvent(
+          new window.CustomEvent('catalog:lcp-metric', {
+            detail: { value: latestEntry.startTime, route: 'products' },
+          })
+        );
+      });
+
+      observer.observe({ type: 'largest-contentful-paint', buffered: true });
+    };
+
+    if ('requestIdleCallback' in window) {
+      idleHandle = window.requestIdleCallback(startObserver, {
+        timeout: 4000,
+      });
+    } else {
+      timeoutHandle = setTimeout(startObserver, 1);
+    }
 
     return () => {
-      observer.disconnect();
+      cancelled = true;
+      observer?.disconnect();
+      if (idleHandle !== undefined) {
+        window.cancelIdleCallback(idleHandle);
+      }
+      if (timeoutHandle !== undefined) {
+        clearTimeout(timeoutHandle);
+      }
     };
   }, []);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [categoryId, liveActiveNavKey, subcategoryId]);
 
   useEffect(() => {
     const sentinel = filterToolbarSentinelRef.current;
@@ -395,16 +424,15 @@ function CatalogProductsPage() {
   }
 
   function handleApplyFilters() {
-    setFilters(cloneFilters(draftFilters));
-    setCurrentPage(1);
+    const colors = draftFilters.color ?? [];
+    const qs = buildCatalogQueryString(1, colors);
+    navigateLocalized(`${strippedPathname}${qs ? `?${qs}` : ''}`);
     closeFilterDrawer();
   }
 
   function handleClearFilters() {
-    const emptyFilters = createEmptyFilters();
-    setDraftFilters(emptyFilters);
-    setFilters(emptyFilters);
-    setCurrentPage(1);
+    navigateLocalized(strippedPathname);
+    closeFilterDrawer();
   }
 
   function getSubcategoryPath(subcategory: CategoryNavItem) {
@@ -427,12 +455,14 @@ function CatalogProductsPage() {
     navigateLocalized(path);
   }
 
-  function handlePageClick(page: number) {
-    if (page < 1 || page > totalPages) {
+  function handlePageClick(nextPage: number) {
+    if (nextPage < 1 || nextPage > totalPages) {
       return;
     }
 
-    setCurrentPage(page);
+    const colors = filters.color ?? [];
+    const qs = buildCatalogQueryString(nextPage, colors);
+    navigateLocalized(`${strippedPathname}${qs ? `?${qs}` : ''}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -441,12 +471,13 @@ function CatalogProductsPage() {
       return null;
     }
 
+    const currentPage = serverPage;
     const pages: Array<number | 'ellipsis'> = [];
     const maxVisible = 5;
 
     if (totalPages <= maxVisible) {
-      for (let page = 1; page <= totalPages; page += 1) {
-        pages.push(page);
+      for (let p = 1; p <= totalPages; p += 1) {
+        pages.push(p);
       }
     } else if (currentPage <= 3) {
       pages.push(1, 2, 3, 4, 'ellipsis', totalPages);
@@ -488,18 +519,18 @@ function CatalogProductsPage() {
           ◀
         </PaginationButton>
 
-        {pages.map((page, index) =>
-          page === 'ellipsis' ? (
+        {pages.map((p, index) =>
+          p === 'ellipsis' ? (
             <PageButton key={`ellipsis-${index}`} disabled>
               ...
             </PageButton>
           ) : (
             <PageButton
-              key={page}
-              onClick={() => handlePageClick(page)}
-              $isActive={currentPage === page}
+              key={p}
+              onClick={() => handlePageClick(p)}
+              $isActive={currentPage === p}
             >
-              {page}
+              {p}
             </PageButton>
           )
         )}
@@ -586,9 +617,7 @@ function CatalogProductsPage() {
 
         <ControlsContainer>
           <MainContent>
-            {shouldWaitForTaxonomy || loading ? (
-              <LoadingMessage>{t('productsPage.loading')}</LoadingMessage>
-            ) : displayError ? (
+            {displayError ? (
               <ErrorMessage>{displayError}</ErrorMessage>
             ) : products.length === 0 ? (
               <EmptyMessage>{t('productsPage.empty')}</EmptyMessage>

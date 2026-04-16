@@ -1,5 +1,11 @@
 import styled, { css, keyframes } from 'styled-components';
-import { uiColors, uiFocusRing, uiRadii, uiShadows, uiTypography } from '../tokens';
+import {
+  uiColors,
+  uiFocusRing,
+  uiRadii,
+  uiShadows,
+  uiTypography,
+} from '../tokens';
 import type {
   ButtonIconPlacement,
   ButtonSize,
@@ -53,8 +59,7 @@ const sizeStyles: Record<ButtonSize, ReturnType<typeof css>> = {
 export const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
-  border-radius: ${({ $variant }) =>
-    $variant === 'link' ? '0' : uiRadii.sm};
+  border-radius: ${({ $variant }) => ($variant === 'link' ? '0' : uiRadii.sm)};
   border: 1px solid transparent;
   background: transparent;
   color: ${uiColors.inkStrong};
@@ -172,7 +177,8 @@ export const ButtonContent = styled.span<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ $iconPlacement }) => ($iconPlacement === 'top' ? '0.32rem' : 'inherit')};
+  gap: ${({ $iconPlacement }) =>
+    $iconPlacement === 'top' ? '0.32rem' : 'inherit'};
   flex-direction: ${({ $iconPlacement }) =>
     $iconPlacement === 'top' ? 'column' : 'row'};
   opacity: ${({ $isLoading }) => ($isLoading ? 0 : 1)};

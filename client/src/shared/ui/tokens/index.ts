@@ -43,8 +43,7 @@ export const uiRadii = {
 export const uiShadows = {
   button: '0 12px 24px rgba(27, 39, 54, 0.16)',
   buttonSoft: '0 10px 18px rgba(34, 46, 60, 0.08)',
-  card:
-    '0 20px 32px rgba(44, 31, 20, 0.05), 0 6px 12px rgba(44, 31, 20, 0.04)',
+  card: '0 20px 32px rgba(44, 31, 20, 0.05), 0 6px 12px rgba(44, 31, 20, 0.04)',
   cardHover:
     '0 22px 36px rgba(44, 31, 20, 0.07), 0 10px 20px rgba(44, 31, 20, 0.05)',
   drawer:

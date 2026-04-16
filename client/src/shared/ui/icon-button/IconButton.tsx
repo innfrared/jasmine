@@ -7,7 +7,10 @@ import {
   type IconButtonTone,
 } from './IconButton.styles';
 
-type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
+type IconButtonProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> & {
   children: ReactNode;
   tone?: IconButtonTone;
   size?: IconButtonSize;
@@ -44,4 +47,3 @@ export type {
   IconButtonSurface,
   IconButtonTone,
 } from './IconButton.styles';
-

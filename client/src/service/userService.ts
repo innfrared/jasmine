@@ -1,6 +1,6 @@
 import { apiClient } from './apiClient';
 import { API_ENDPOINTS } from '@/shared/api/endpoints';
-import type { UserDto } from './types';
+import type { UserDto } from '@/shared/contracts/api';
 
 export interface UpdateProfilePayload {
   first_name?: string | null;
@@ -8,11 +8,9 @@ export interface UpdateProfilePayload {
   phone?: string | null;
 }
 
-export const getMe = (token: string) =>
-  apiClient.get<UserDto>(API_ENDPOINTS.user.me, { token });
+export const getMe = () => apiClient.get<UserDto>(API_ENDPOINTS.user.me);
 
-export const updateProfile = (payload: UpdateProfilePayload, token: string) =>
+export const updateProfile = (payload: UpdateProfilePayload) =>
   apiClient.patch<UserDto>(API_ENDPOINTS.user.me, {
     body: payload,
-    token,
   });

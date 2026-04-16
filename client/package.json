@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "analyze": "ANALYZE=true next build",
     "start": "next start",
+    "security:smoke": "sh scripts/security-smoke.sh",
     "lint": "eslint src --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,md}",
@@ -24,6 +26,7 @@
     "styled-components": "^6.1.17"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^25.6.0",
     "@types/react": "^18.0.38",

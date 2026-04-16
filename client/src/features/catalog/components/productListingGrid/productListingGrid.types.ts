@@ -1,4 +1,4 @@
-import type { Product } from '../../../../entities/catalog/product';
+import type { ListingProduct } from '../../../../entities/catalog/listingProduct';
 
 export type CatalogEditorialImage = {
   src: string;
@@ -9,13 +9,13 @@ export type CatalogEditorialImage = {
 export type ProductListingProductRow = {
   id: string;
   type: 'products';
-  products: Product[];
+  products: ListingProduct[];
 };
 
 export type ProductListingEditorialRow = {
   id: string;
   type: 'editorial';
-  products: Product[];
+  products: ListingProduct[];
   image: CatalogEditorialImage;
   imageSpan: number;
 };

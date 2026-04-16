@@ -1,14 +1,23 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserDto } from '../service/types';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
+import type { UserDto } from '@/shared/contracts/api';
 import { tokenManager } from '@/shared/auth/tokenManager';
 import { getMe } from '../service/userService';
-import { refresh } from '../service/authService';
+import {
+  DEFAULT_LANGUAGE,
+  isSupportedLanguage,
+} from '@/shared/preferences/constants';
 
 interface AuthContextType {
   user: UserDto | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (tokens: { access: string; refresh: string }) => Promise<void>;
+  login: () => Promise<void>;
   logout: () => void;
   updateUser: (user: UserDto) => void;
   refreshUser: () => Promise<void>;
@@ -32,61 +41,81 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserDto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadUser = async () => {
-    const accessToken = tokenManager.getAccessToken();
-    if (!accessToken) {
-      setIsLoading(false);
-      return;
+  const resolveLocaleRootPath = () => {
+    if (typeof window === 'undefined') {
+      return `/${DEFAULT_LANGUAGE}`;
     }
 
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    const maybeLocale = segments[0];
+
+    if (isSupportedLanguage(maybeLocale)) {
+      return `/${maybeLocale}`;
+    }
+
+    return `/${DEFAULT_LANGUAGE}`;
+  };
+
+  const loadUser = async () => {
     try {
-      const userData = await getMe(accessToken);
+      const userData = await getMe();
       setUser(userData);
-    } catch (error) {
-      const newAccessToken = await tokenManager.refreshAccessToken();
-      if (newAccessToken) {
-        try {
-          const userData = await getMe(newAccessToken);
-          setUser(userData);
-        } catch {
-          tokenManager.clearTokens();
-          setUser(null);
-        }
-      } else {
-        tokenManager.clearTokens();
-        setUser(null);
-      }
+    } catch {
+      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    loadUser();
-
     const handleLogout = () => {
-      logout();
+      logout(true);
     };
 
     window.addEventListener('auth:logout', handleLogout);
+
+    let cancelled = false;
+    let frame2 = 0;
+    const frame1 = window.requestAnimationFrame(() => {
+      frame2 = window.requestAnimationFrame(() => {
+        if (!cancelled) {
+          void loadUser();
+        }
+      });
+    });
+
     return () => {
+      cancelled = true;
       window.removeEventListener('auth:logout', handleLogout);
+      window.cancelAnimationFrame(frame1);
+      window.cancelAnimationFrame(frame2);
     };
+    // Mount-only session bootstrap; omit deps to avoid re-subscribing each render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (tokens: { access: string; refresh: string }) => {
-    tokenManager.setTokens(tokens);
+  const login = async () => {
+    setIsLoading(true);
     try {
-      const userData = await getMe(tokens.access);
+      const userData = await getMe();
       setUser(userData);
-    } catch (error) {
-      console.error('Failed to load user after login:', error);
+    } catch {
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    tokenManager.clearTokens();
+  const logout = (redirectToLogin = false) => {
+    tokenManager.clearSession();
     setUser(null);
+
+    if (redirectToLogin && typeof window !== 'undefined') {
+      const targetPath = resolveLocaleRootPath();
+      if (window.location.pathname !== targetPath) {
+        window.location.replace(targetPath);
+      }
+    }
   };
 
   const updateUser = (updatedUser: UserDto) => {
@@ -94,23 +123,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const refreshUser = async () => {
-    const accessToken = tokenManager.getAccessToken();
-    if (!accessToken) return;
-
     try {
-      const userData = await getMe(accessToken);
+      const userData = await getMe();
       setUser(userData);
-    } catch (error) {
-      const newAccessToken = await tokenManager.refreshAccessToken();
-      if (newAccessToken) {
-        try {
-          const userData = await getMe(newAccessToken);
-          setUser(userData);
-        } catch {
-          tokenManager.clearTokens();
-          setUser(null);
-        }
-      }
+    } catch {
+      logout(true);
     }
   };
 
@@ -130,4 +147,3 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     </AuthContext.Provider>
   );
 };
-

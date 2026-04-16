@@ -39,8 +39,8 @@ const LoginPopup = ({ onClose, onOpenRegister }: LoginPopupProps) => {
     setIsLoading(true);
 
     try {
-      const response = await login({ email, password });
-      await authLogin(response.tokens);
+      await login({ email, password });
+      await authLogin();
       setError('');
       onClose();
     } catch (err: unknown) {

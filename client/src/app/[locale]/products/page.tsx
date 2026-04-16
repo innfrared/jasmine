@@ -1,7 +1,6 @@
-import CatalogProductsRouteClient from '@/app/[locale]/_catalog/CatalogProductsRouteClient';
-import { renderCatalogPage } from '@/app/[locale]/_catalog/renderCatalogPage';
+import CatalogProductsPage from '@/features/catalog/pages/CatalogProductsPage';
+import { getCatalogRouteClientProps } from '@/server/catalog/loadCatalogRouteData';
 import {
-  parsePage,
   validateLocale,
   type LocaleRouteParams,
   type RouteSearchParams,
@@ -12,15 +11,18 @@ type CatalogRoutePageProps = {
   searchParams: Promise<RouteSearchParams>;
 };
 
-const CatalogRoutePage = async ({ params, searchParams }: CatalogRoutePageProps) => {
+const CatalogRoutePage = async ({
+  params,
+  searchParams,
+}: CatalogRoutePageProps) => {
   await validateLocale(params);
   const resolvedSearchParams = await searchParams;
-  const bootstrapPayload = await renderCatalogPage({
-    path: '/products',
-    page: parsePage(resolvedSearchParams.page),
-  });
+  const props = await getCatalogRouteClientProps(
+    '/products',
+    resolvedSearchParams
+  );
 
-  return <CatalogProductsRouteClient bootstrapPayload={bootstrapPayload} />;
+  return <CatalogProductsPage {...props} />;
 };
 
 export default CatalogRoutePage;

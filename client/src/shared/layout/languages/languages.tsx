@@ -5,9 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { type AppLanguage } from '../../../i18n';
 import { persistLanguagePreference } from '@/shared/preferences/clientPreferences';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
-import Dropdown, {
-  type DropdownOption,
-} from '@/shared/ui/dropdown/Dropdown';
+import Dropdown, { type DropdownOption } from '@/shared/ui/dropdown/Dropdown';
 import {
   LanguageFlagImage,
   LanguageLabelText,

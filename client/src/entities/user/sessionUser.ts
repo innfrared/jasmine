@@ -1,4 +1,4 @@
-import type { UserDto } from '../../service/types';
+import type { UserDto } from '@/shared/contracts/api';
 
 export interface SessionUser {
   id: number;

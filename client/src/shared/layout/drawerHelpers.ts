@@ -1,7 +1,10 @@
 import type { CartItem } from '../../entities/shoppingBag/cartItem';
 import type { Product } from '../../entities/catalog/product';
 import { formatMoney, parseMoneyValue } from '@/shared/formatters/money';
+import { getProductDetailPath } from '@/shared/routing/productPaths';
 import { buildWishlistDialogPath } from '@/shared/routing/wishlistShare';
+
+export { getProductDetailPath };
 
 export const getProductDisplayPrice = (product: Product) => {
   return product.price_new || product.price;
@@ -56,10 +59,6 @@ export const getDrawerProductDetails = (product: Product) => {
     eyebrow,
     meta,
   };
-};
-
-export const getProductDetailPath = (product: Product) => {
-  return `/products/product/${encodeURIComponent(product.name)}?id=${product.id}`;
 };
 
 export const shareWishlistProducts = async (

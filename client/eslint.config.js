@@ -20,6 +20,10 @@ module.exports = [
         sourceType: 'module',
       },
       globals: {
+        process: 'readonly',
+        URL: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLUListElement: 'readonly',
         window: 'readonly',
         document: 'readonly',
         console: 'readonly',

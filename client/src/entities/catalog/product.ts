@@ -1,4 +1,4 @@
-import type { ProductDto } from '../../service/types';
+import type { ProductDto } from '@/shared/contracts/api';
 export interface VariantProductPreview {
   id: number;
   product?: number | null;

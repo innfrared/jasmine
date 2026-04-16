@@ -11,6 +11,10 @@ type LocaleLayoutProps = {
 const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
   await validateLocale(params);
 
+  if (process.env.DEBUG_MINIMAL_LOCALE_SHELL === '1') {
+    return <>{children}</>;
+  }
+
   return (
     <div className="storefront-shell">
       <LocaleSync />

@@ -7,7 +7,10 @@ import {
   type NavActionTone,
 } from './NavActionButton.styles';
 
-type NavActionButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
+type NavActionButtonProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> & {
   icon: ReactNode;
   label?: string;
   count?: number;
@@ -46,4 +49,3 @@ export default function NavActionButton({
 }
 
 export type { NavActionButtonProps };
-

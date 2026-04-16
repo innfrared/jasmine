@@ -13,10 +13,12 @@ type RootLayoutProps = {
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
+  const minimalProviders = process.env.DEBUG_MINIMAL_PROVIDERS === '1';
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        {minimalProviders ? children : <Providers>{children}</Providers>}
       </body>
     </html>
   );

@@ -66,7 +66,8 @@ export const DrawerEmptyStateAccent = styled.div<{
   position: absolute;
   width: ${({ $variant }) => ($variant === 'wishlist' ? '132px' : '120px')};
   height: ${({ $variant }) => ($variant === 'wishlist' ? '132px' : '120px')};
-  border-radius: ${({ $variant }) => ($variant === 'wishlist' ? '50%' : '26px')};
+  border-radius: ${({ $variant }) =>
+    $variant === 'wishlist' ? '50%' : '26px'};
   border: 1px solid
     ${({ $variant }) =>
       $variant === 'wishlist'
@@ -84,7 +85,8 @@ export const DrawerEmptyStateIconWrap = styled.div<{
   z-index: 2;
   width: 86px;
   height: 86px;
-  border-radius: ${({ $variant }) => ($variant === 'wishlist' ? '50%' : '24px')};
+  border-radius: ${({ $variant }) =>
+    $variant === 'wishlist' ? '50%' : '24px'};
   background: ${({ $variant }) =>
     $variant === 'wishlist'
       ? 'rgba(255, 243, 248, 0.9)'
@@ -142,4 +144,3 @@ export const DrawerEmptyStateButton = styled(Button).attrs({
   text-transform: uppercase;
   box-shadow: ${uiShadows.button};
 `;
-

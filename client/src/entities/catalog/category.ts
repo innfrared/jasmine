@@ -1,4 +1,4 @@
-import type { CategoryWithSubcategoriesDto } from '../../service/types';
+import type { CategoryWithSubcategoriesDto } from '@/shared/contracts/api';
 
 export interface CategoryNavItem {
   id: number;

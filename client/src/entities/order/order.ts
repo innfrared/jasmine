@@ -1,7 +1,4 @@
-import type {
-  OrderListItem,
-  OrderResponse,
-} from '../../service/orderService';
+import type { OrderListItem, OrderResponse } from '../../service/orderService';
 
 export interface OrderSummary {
   id: number;

@@ -1,15 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
-import { useCatalogProductScreenModel } from '../hooks/useCatalogProductScreenModel';
 import Header from '@/shared/layout/header/Header';
 import { useTranslation } from 'react-i18next';
 import Breadcrumb from '@/shared/layout/breadcrumb/Breadcrumb';
 import type { Product } from '../../../entities/catalog/product';
 import { shoppingBagRepository } from '@/shared/repositories/shoppingBagRepository';
 import { getImageUrl } from '@/shared/media/imageUtils';
-import { useLocalizedRouting } from '@/shared/routing/localeRouting';
+import { sanitizeCssColor } from '@/shared/security/inputSanitizers';
 import {
   getCatalogNavKeyFromTaxonomy,
   getCatalogPathForNavKey,
@@ -55,7 +53,6 @@ import {
   SpecRow,
   SpecLabel,
   SpecValue,
-  LoadingMessage,
   ErrorMessage,
   QuantityButton,
   QuantityMax,
@@ -95,7 +92,9 @@ function getProductPrimaryImage(product: Product | null | undefined) {
     return null;
   }
 
-  return normalizeOptionalText(product.image_url) ?? readLegacyImageField(product);
+  return (
+    normalizeOptionalText(product.image_url) ?? readLegacyImageField(product)
+  );
 }
 
 function getVariantPrimaryImage(variant: Product['variants'][number]) {
@@ -123,18 +122,14 @@ function formatSpecLabel(key: string) {
     .join(' ');
 }
 
-const CatalogProductPage = () => {
-  const params = useParams<{ productName?: string }>();
-  const searchParams = useSearchParams();
-  const productName = params?.productName;
-  const { navigateLocalized } = useLocalizedRouting();
-  const productId = Number(searchParams.get('id') || NaN);
+type CatalogProductPageProps = {
+  product: Product;
+};
 
-  const { product, loading, error, notFound } = useCatalogProductScreenModel(
-    productName,
-    Number.isFinite(productId) ? productId : undefined
+const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null
   );
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const { t } = useTranslation<'translation'>();
@@ -165,7 +160,9 @@ const CatalogProductPage = () => {
 
     const fromPayload = (product.variant_options ?? []).map(payloadOption => ({
       id: payloadOption.id,
-      name: payloadOption.is_current ? product.name : `Variant ${payloadOption.id}`,
+      name: payloadOption.is_current
+        ? product.name
+        : `Variant ${payloadOption.id}`,
       availability: product.availability,
       colorLabel: normalizeOptionalText(payloadOption.color_name),
       colorPalette: normalizeOptionalText(payloadOption.color_palette),
@@ -279,7 +276,9 @@ const CatalogProductPage = () => {
       getProductPrimaryImage(product),
     ].filter((imageUrl): imageUrl is string => Boolean(imageUrl));
 
-    return Array.from(new Set(rawImages)).map(imageUrl => getImageUrl(imageUrl));
+    return Array.from(new Set(rawImages)).map(imageUrl =>
+      getImageUrl(imageUrl)
+    );
   }, [activeVariant?.imageUrl, product, variantOptions]);
 
   useEffect(() => {
@@ -336,7 +335,8 @@ const CatalogProductPage = () => {
       name: activeVariant.name || product.name,
       availability: activeVariant.availability || product.availability,
       image_url: activeVariant.imageUrl ?? product.image_url,
-      variant_color_name: activeVariant.colorLabel ?? product.variant_color_name,
+      variant_color_name:
+        activeVariant.colorLabel ?? product.variant_color_name,
       variant_color_palette:
         activeVariant.colorPalette ?? product.variant_color_palette,
       price: activeVariant.price ?? product.price,
@@ -353,58 +353,6 @@ const CatalogProductPage = () => {
 
     return shoppingBagRepository.containsProduct(selectedProduct.id);
   }, [selectedProduct]);
-
-  if (loading) {
-    return (
-      <ProductPageContainer>
-        <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
-        <ProductContent>
-          <LoadingMessage>Loading...</LoadingMessage>
-        </ProductContent>
-      </ProductPageContainer>
-    );
-  }
-
-  if (notFound) {
-    return (
-      <ProductPageContainer>
-        <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
-        <ProductContent>
-          <ErrorMessage>Product not found.</ErrorMessage>
-          <ActionsRow>
-            <ActionButton
-              $variant="primary"
-              onClick={() => navigateLocalized('/products')}
-            >
-              {t('productPage.browseProducts')}
-            </ActionButton>
-          </ActionsRow>
-        </ProductContent>
-      </ProductPageContainer>
-    );
-  }
-
-  if (error) {
-    return (
-      <ProductPageContainer>
-        <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
-        <ProductContent>
-          <ErrorMessage>{error}</ErrorMessage>
-        </ProductContent>
-      </ProductPageContainer>
-    );
-  }
-
-  if (!product) {
-    return (
-      <ProductPageContainer>
-        <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
-        <ProductContent>
-          <ErrorMessage>{t('productPage.notFound')}</ErrorMessage>
-        </ProductContent>
-      </ProductPageContainer>
-    );
-  }
 
   const handleAddToCart = (event: MouseEvent) => {
     event.stopPropagation();
@@ -490,7 +438,9 @@ const CatalogProductPage = () => {
     { label: 'Accent value', value: activeVariant?.value },
   ].filter(row => Boolean(row.value));
   const productSubcategories =
-    product.subcategories?.map(subcategory => subcategory.name).filter(Boolean) ?? [];
+    product.subcategories
+      ?.map(subcategory => subcategory.name)
+      .filter(Boolean) ?? [];
 
   return (
     <ProductPageContainer>
@@ -525,7 +475,10 @@ const CatalogProductPage = () => {
                       $isActive={selectedImage === image}
                       onClick={() => setSelectedImage(image)}
                     >
-                      <ThumbnailImage src={image} alt={`Preview ${index + 1}`} />
+                      <ThumbnailImage
+                        src={image}
+                        alt={`Preview ${index + 1}`}
+                      />
                     </ThumbnailButton>
                   ))}
                 </ThumbnailRail>
@@ -539,7 +492,9 @@ const CatalogProductPage = () => {
                 <ProductDescription>{product.description}</ProductDescription>
               ) : null}
               {productSubcategories.length > 0 ? (
-                <ProductDescription>{productSubcategories.join(' • ')}</ProductDescription>
+                <ProductDescription>
+                  {productSubcategories.join(' • ')}
+                </ProductDescription>
               ) : null}
 
               <PriceRow>
@@ -553,7 +508,9 @@ const CatalogProductPage = () => {
                     {`${activeVariant?.price ?? product.price} ${product.currency}`}
                   </CurrentPrice>
                 )}
-                <AvailabilityPill $available={activeVariant?.availability === 'in_stock'}>
+                <AvailabilityPill
+                  $available={activeVariant?.availability === 'in_stock'}
+                >
                   {activeVariant?.availability === 'in_stock'
                     ? t('in_stock')
                     : t('out_of_stock')}
@@ -571,8 +528,15 @@ const CatalogProductPage = () => {
                         $isActive={variant.id === activeVariant?.id}
                         onClick={() => setSelectedVariantId(variant.id)}
                       >
-                        <SwatchDot $colorValue={variant.colorPalette || '#1a1a1a'} />
-                        <SwatchText>{variant.colorLabel || variant.name}</SwatchText>
+                        <SwatchDot
+                          $colorValue={sanitizeCssColor(
+                            variant.colorPalette,
+                            '#1a1a1a'
+                          )}
+                        />
+                        <SwatchText>
+                          {variant.colorLabel || variant.name}
+                        </SwatchText>
                       </SwatchButton>
                     ))}
                   </SwatchGrid>

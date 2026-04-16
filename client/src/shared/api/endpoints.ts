@@ -22,7 +22,6 @@ export const API_ENDPOINTS = {
   addresses: {
     list: 'addresses',
     details: (addressId: number) => `addresses/${addressId}`,
-    setDefault: (addressId: number) =>
-      `addresses/${addressId}/set-default`,
+    setDefault: (addressId: number) => `addresses/${addressId}/set-default`,
   },
 } as const;

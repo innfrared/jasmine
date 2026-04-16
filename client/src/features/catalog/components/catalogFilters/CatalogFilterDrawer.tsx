@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import type { MouseEvent } from 'react';
+import { sanitizeCssColor } from '@/shared/security/inputSanitizers';
 import {
   DrawerActions,
   DrawerApplyButton,
@@ -93,6 +94,10 @@ function CatalogFilterDrawer({
                 {availableColors.map(colorPalette => {
                   const colorLabel =
                     colorPaletteMap.get(colorPalette) ?? colorPalette;
+                  const safeColorPalette = sanitizeCssColor(
+                    colorPalette,
+                    '#d8d2c8'
+                  );
 
                   return (
                     <DrawerFilterOption key={colorPalette}>
@@ -107,7 +112,7 @@ function CatalogFilterDrawer({
                           onChangeDraftFilter('color', colorPalette)
                         }
                       />
-                      <DrawerFilterSwatch $colorValue={colorPalette} />
+                      <DrawerFilterSwatch $colorValue={safeColorPalette} />
                       <span>{colorLabel}</span>
                     </DrawerFilterOption>
                   );

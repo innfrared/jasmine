@@ -3,7 +3,6 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { updateProfile } from '../../../service/userService';
-import { tokenManager } from '@/shared/auth/tokenManager';
 import Header from '@/shared/layout/header/Header';
 import Breadcrumb from '@/shared/layout/breadcrumb/Breadcrumb';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
@@ -84,20 +83,11 @@ const ProfileScreen = () => {
     setIsLoading(true);
 
     try {
-      const accessToken = tokenManager.getAccessToken();
-      if (!accessToken) {
-        setError('Not authenticated');
-        return;
-      }
-
-      const updatedUser = await updateProfile(
-        {
-          first_name: formData.firstName || null,
-          last_name: formData.lastName || null,
-          phone: formData.phone || null,
-        },
-        accessToken
-      );
+      const updatedUser = await updateProfile({
+        first_name: formData.firstName || null,
+        last_name: formData.lastName || null,
+        phone: formData.phone || null,
+      });
 
       updateUser(updatedUser);
       setSuccess('Profile updated successfully!');

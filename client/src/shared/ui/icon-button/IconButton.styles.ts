@@ -71,7 +71,9 @@ export const IconButtonBase = styled.button<IconButtonBaseProps>`
   &:hover:not(:disabled) {
     color: ${({ $tone }) => toneHoverColors[$tone]};
     background: ${({ $surface }) =>
-      $surface === 'ghost' ? 'rgba(26, 20, 17, 0.06)' : uiColors.surfaceStronger};
+      $surface === 'ghost'
+        ? 'rgba(26, 20, 17, 0.06)'
+        : uiColors.surfaceStronger};
     border-color: ${uiColors.border};
     box-shadow: ${({ $surface }) =>
       $surface === 'ghost' ? 'none' : uiShadows.buttonSoft};
@@ -112,4 +114,3 @@ export const IconButtonInner = styled.span`
     object-fit: contain;
   }
 `;
-

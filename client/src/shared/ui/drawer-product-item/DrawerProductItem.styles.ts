@@ -53,7 +53,11 @@ export const DrawerProductMedia = styled.div`
   overflow: hidden;
   border-radius: 18px;
   background:
-    linear-gradient(180deg, rgba(243, 235, 224, 0.76), rgba(237, 227, 214, 0.96)),
+    linear-gradient(
+      180deg,
+      rgba(243, 235, 224, 0.76),
+      rgba(237, 227, 214, 0.96)
+    ),
     #f1e9de;
   box-shadow: inset 0 0 0 1px rgba(44, 31, 20, 0.04);
 
@@ -183,7 +187,9 @@ export const DrawerProductQuantityStep = styled.button`
   font-family: ${uiTypography.sans};
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 
   &:hover {
     background: rgba(44, 31, 20, 0.06);
@@ -202,4 +208,3 @@ export const DrawerProductQuantityValue = styled.span`
   text-align: center;
   text-transform: uppercase;
 `;
-

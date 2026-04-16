@@ -1,4 +1,5 @@
 import { getApiBaseUrl } from '../../service/apiClient';
+import { isAllowedMediaUrl } from '@/shared/security/inputSanitizers';
 
 const getMediaBaseUrl = () => {
   const runtimeEnv =
@@ -28,17 +29,37 @@ export const getImageUrl = (imageUrl: string | null | undefined): string => {
     return '';
   }
 
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-    return imageUrl;
-  }
+  const normalizedImageUrl = imageUrl.trim();
 
-  if (imageUrl.startsWith('assets/') || imageUrl.startsWith('/assets/')) {
-    return imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+  if (!normalizedImageUrl) {
+    return '';
   }
 
   const baseUrl = getMediaBaseUrl();
 
-  const normalizedUrl = imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+  if (!isAllowedMediaUrl(normalizedImageUrl, baseUrl)) {
+    return '';
+  }
+
+  if (
+    normalizedImageUrl.startsWith('http://') ||
+    normalizedImageUrl.startsWith('https://')
+  ) {
+    return normalizedImageUrl;
+  }
+
+  if (
+    normalizedImageUrl.startsWith('assets/') ||
+    normalizedImageUrl.startsWith('/assets/')
+  ) {
+    return normalizedImageUrl.startsWith('/')
+      ? normalizedImageUrl
+      : `/${normalizedImageUrl}`;
+  }
+
+  const normalizedUrl = normalizedImageUrl.startsWith('/')
+    ? normalizedImageUrl
+    : `/${normalizedImageUrl}`;
 
   return `${baseUrl}${normalizedUrl}`;
 };

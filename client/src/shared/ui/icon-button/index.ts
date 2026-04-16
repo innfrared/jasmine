@@ -5,4 +5,3 @@ export type {
   IconButtonSurface,
   IconButtonTone,
 } from './IconButton';
-

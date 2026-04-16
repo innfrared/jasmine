@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/context/AuthContext';
+import { CookieBanner, CookieConsentProvider } from '@/shared/consent';
 import StyledRegistry from './styled-registry';
 import '@/i18n';
 
@@ -12,7 +13,12 @@ type ProvidersProps = {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <StyledRegistry>
-      <AuthProvider>{children}</AuthProvider>
+      <CookieConsentProvider>
+        <AuthProvider>
+          {children}
+          <CookieBanner />
+        </AuthProvider>
+      </CookieConsentProvider>
     </StyledRegistry>
   );
 };

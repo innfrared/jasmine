@@ -70,7 +70,7 @@
       "headline": "Made to be carried, remembered, kept.",
       "body": "Sculpted handbags and quieter statements for the ritual of leaving beautifully.",
       "cta": "Explore Handbags"
-    }, 
+    },
     "split": {
       "headline": "Where softness meets strength.",
       "body": "Zani is eco-crafted for women who balance softness and strength. Inspired by nature and woven in earthy, light tones, it celebrates calm, freedom, and effortless elegance. Naturally Zani. Unapologetically you.",
@@ -373,5 +373,22 @@
   },
   "comparisonPage": {
     "remove": "Remove from comparison"
+  },
+  "cookieConsent": {
+    "title": "Cookies",
+    "description": "We use cookies to run the site securely, remember your session, and—only with your permission—to understand how our collections are discovered and to share measured updates.",
+    "learnMore": "Cookie policy",
+    "acceptAll": "Accept all",
+    "necessaryOnly": "Only necessary",
+    "manage": "Manage preferences",
+    "savePreferences": "Save preferences",
+    "necessaryLabel": "Necessary",
+    "necessaryHint": "Always on — security and core shopping",
+    "analyticsLabel": "Analytics",
+    "analyticsHint": "Helps us improve the experience",
+    "marketingLabel": "Marketing",
+    "marketingHint": "Personalized messages where allowed",
+    "on": "On",
+    "off": "Off"
   }
 }

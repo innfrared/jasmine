@@ -63,14 +63,14 @@ const RegisterPopup = ({ onClose, onOpenLogin }: RegisterPopupProps) => {
     setIsLoading(true);
 
     try {
-      const response = await register({
+      await register({
         email: formData.email,
         password: formData.password,
         first_name: formData.firstName || null,
         last_name: formData.lastName || null,
         phone: formData.phone || null,
       });
-      await authLogin(response.tokens);
+      await authLogin();
       setError('');
       onClose();
     } catch (err: unknown) {

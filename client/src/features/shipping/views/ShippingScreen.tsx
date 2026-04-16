@@ -2,7 +2,6 @@
 
 import { useState, useEffect, type FormEvent } from 'react';
 import { useAuth } from '../../../context/AuthContext';
-import { tokenManager } from '@/shared/auth/tokenManager';
 import Header from '@/shared/layout/header/Header';
 import Breadcrumb from '@/shared/layout/breadcrumb/Breadcrumb';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
@@ -94,17 +93,10 @@ const ShippingScreen = () => {
   }, [user, navigateLocalized]);
 
   const loadAddresses = async () => {
-    const accessToken = tokenManager.getAccessToken();
-    if (!accessToken) {
-      setAddresses([]);
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     setErrorMessage('');
     try {
-      const result = await listAddresses(accessToken);
+      const result = await listAddresses();
       setAddresses(result || []);
     } catch (requestError: unknown) {
       setErrorMessage(
@@ -156,12 +148,10 @@ const ShippingScreen = () => {
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this address?')) {
-      const accessToken = tokenManager.getAccessToken();
-      if (!accessToken) return;
       setErrorMessage('');
       setSuccessMessage('');
       try {
-        await deleteAddress(id, accessToken);
+        await deleteAddress(id);
         setAddresses(addresses.filter(address => address.id !== id));
         setSuccessMessage('Address deleted.');
       } catch (requestError: unknown) {
@@ -176,8 +166,6 @@ const ShippingScreen = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const accessToken = tokenManager.getAccessToken();
-    if (!accessToken) return;
 
     setErrorMessage('');
     setSuccessMessage('');
@@ -210,15 +198,15 @@ const ShippingScreen = () => {
 
     try {
       if (editingAddress?.id) {
-        await updateAddress(editingAddress.id, payload, accessToken);
+        await updateAddress(editingAddress.id, payload);
         if (payload.is_default) {
-          await setDefaultAddress(editingAddress.id, accessToken);
+          await setDefaultAddress(editingAddress.id);
         }
         setSuccessMessage('Address updated.');
       } else {
-        const created = await createAddress(payload, accessToken);
+        const created = await createAddress(payload);
         if (payload.is_default && created?.id) {
-          await setDefaultAddress(created.id, accessToken);
+          await setDefaultAddress(created.id);
         }
         setSuccessMessage('Address added.');
       }
@@ -235,12 +223,10 @@ const ShippingScreen = () => {
   };
 
   const handleSetDefault = async (id: number) => {
-    const accessToken = tokenManager.getAccessToken();
-    if (!accessToken) return;
     setErrorMessage('');
     setSuccessMessage('');
     try {
-      await setDefaultAddress(id, accessToken);
+      await setDefaultAddress(id);
       setSuccessMessage('Default address updated.');
       await loadAddresses();
     } catch (requestError: unknown) {

@@ -13,6 +13,7 @@ import i18n, {
 } from '../../i18n';
 
 const EXTERNAL_PATH_PATTERN = /^(https?:|mailto:|tel:)/i;
+const DISALLOWED_INTERNAL_PATH_PATTERN = /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/\\)/i;
 
 const splitPath = (value: string) => {
   const hashIndex = value.indexOf('#');
@@ -57,12 +58,27 @@ export const buildLocalizedPath = (path: string, locale: AppLanguage) => {
     return `/${locale}`;
   }
 
-  if (EXTERNAL_PATH_PATTERN.test(path) || path.startsWith('#')) {
+  if (path.startsWith('#')) {
     return path;
   }
 
+  if (EXTERNAL_PATH_PATTERN.test(path)) {
+    return `/${locale}`;
+  }
+
   const { pathname, search, hash } = splitPath(path);
-  const normalizedPathname = pathname ? stripLocaleFromPath(pathname) : '/';
+  const safePathname = pathname.startsWith('/') ? pathname : `/${pathname}`;
+
+  if (
+    DISALLOWED_INTERNAL_PATH_PATTERN.test(safePathname) ||
+    safePathname.includes('\u0000')
+  ) {
+    return `/${locale}`;
+  }
+
+  const normalizedPathname = safePathname
+    ? stripLocaleFromPath(safePathname)
+    : '/';
 
   if (normalizedPathname === '/') {
     return `/${locale}${search}${hash}`;
@@ -90,7 +106,8 @@ export const useLocalizedRouting = () => {
   const searchParams = useSearchParams();
   const activeLocale = resolveLocale(params?.locale);
 
-  const getLocalizedPath = (path: string) => buildLocalizedPath(path, activeLocale);
+  const getLocalizedPath = (path: string) =>
+    buildLocalizedPath(path, activeLocale);
 
   const navigateLocalized = (
     path: string,

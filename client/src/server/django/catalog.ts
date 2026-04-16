@@ -2,7 +2,7 @@ import type {
   CategoryWithSubcategoriesDto,
   PaginatedResponse,
   ProductDto,
-} from '../../service/types';
+} from '@/shared/contracts/api';
 import { API_ENDPOINTS } from '@/shared/api/endpoints';
 import { fetchServerJson } from './client';
 

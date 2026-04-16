@@ -33,11 +33,7 @@ export default function CloseButton({
   ...rest
 }: CloseButtonProps) {
   return (
-    <CloseButtonBase
-      aria-label={ariaLabel}
-      type={type}
-      {...rest}
-    >
+    <CloseButtonBase aria-label={ariaLabel} type={type} {...rest}>
       {icon ?? <DefaultCloseIcon />}
     </CloseButtonBase>
   );

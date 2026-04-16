@@ -1,4 +1,5 @@
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -7,14 +8,17 @@ import {
   type MouseEvent,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import type {
-  Product,
-  VariantProductPreview,
-} from '../../../entities/catalog/product';
+import {
+  listingProductToStorageProduct,
+  type ListingProduct,
+  type ListingProductVariant,
+} from '../../../entities/catalog/listingProduct';
 import { shoppingBagRepository } from '@/shared/repositories/shoppingBagRepository';
 import { wishlistRepository } from '@/shared/repositories/wishlistRepository';
 import { getResponsiveImageSet } from '@/shared/media/imageUtils';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
+import { getProductDetailPath } from '@/shared/routing/productPaths';
+import { sanitizeCssColor } from '@/shared/security/inputSanitizers';
 import {
   ActionIcon,
   Actions,
@@ -30,7 +34,7 @@ import {
 } from '@/shared/ui/productCell/ProductCell.styles';
 
 type InteractiveProductCellProps = {
-  product: Product;
+  product: ListingProduct;
   priority?: boolean;
 };
 
@@ -42,12 +46,8 @@ type ProductColorSwatch = {
   isActive: boolean;
 };
 
-function getProductHref(product: Pick<Product, 'id' | 'name'>) {
-  return `/products/product/${encodeURIComponent(product.name)}?id=${product.id}`;
-}
-
 function createVariantSwatch(
-  variant: VariantProductPreview,
+  variant: ListingProductVariant,
   activeProductId: number
 ): ProductColorSwatch | null {
   if (!variant.color_palette && !variant.color_name) {
@@ -57,13 +57,18 @@ function createVariantSwatch(
   return {
     id: variant.id,
     name: variant.color_name || variant.color_palette || variant.name,
-    palette: variant.color_palette || variant.color_name || '#d8d2c8',
-    href: getProductHref({ id: variant.id, name: variant.name }),
+    palette: sanitizeCssColor(
+      variant.color_palette || variant.color_name,
+      '#d8d2c8'
+    ),
+    href: getProductDetailPath({ id: variant.id, name: variant.name }),
     isActive: variant.id === activeProductId,
   };
 }
 
-function getProductColorSwatches(product: Product): ProductColorSwatch[] {
+function getProductColorSwatches(
+  product: ListingProduct
+): ProductColorSwatch[] {
   const swatches: ProductColorSwatch[] = [];
 
   if (product.variant_color_palette || product.variant_color_name) {
@@ -73,17 +78,17 @@ function getProductColorSwatches(product: Product): ProductColorSwatch[] {
         product.variant_color_name ||
         product.variant_color_palette ||
         product.name,
-      palette:
-        product.variant_color_palette ||
-        product.variant_color_name ||
-        '#d8d2c8',
-      href: getProductHref(product),
+      palette: sanitizeCssColor(
+        product.variant_color_palette || product.variant_color_name,
+        '#d8d2c8'
+      ),
+      href: getProductDetailPath(product),
       isActive: true,
     });
   }
 
   product.variants
-    ?.map(variant => createVariantSwatch(variant, product.id))
+    .map(variant => createVariantSwatch(variant, product.id))
     .forEach(swatch => {
       if (!swatch) {
         return;
@@ -104,10 +109,10 @@ function getProductColorSwatches(product: Product): ProductColorSwatch[] {
   return swatches;
 }
 
-const InteractiveProductCell = ({
+function InteractiveProductCell({
   product,
   priority = false,
-}: InteractiveProductCellProps) => {
+}: InteractiveProductCellProps) {
   const { t } = useTranslation<'translation'>();
   const { navigateLocalized } = useLocalizedRouting();
   const [isLiked, setIsLiked] = useState(false);
@@ -145,7 +150,7 @@ const InteractiveProductCell = ({
 
   const handleProductDetailNavigation = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigateLocalized(getProductHref(product));
+    navigateLocalized(getProductDetailPath(product));
   };
 
   const handleCardKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -159,13 +164,15 @@ const InteractiveProductCell = ({
 
   const handleAddToCart = (event: MouseEvent) => {
     event.stopPropagation();
-    shoppingBagRepository.toggleProduct(product);
+    const storageProduct = listingProductToStorageProduct(product);
+    shoppingBagRepository.toggleProduct(storageProduct);
     setIsInBag(shoppingBagRepository.containsProduct(product.id));
   };
 
   const handleLike = (event: MouseEvent) => {
     event.stopPropagation();
-    const nextProducts = wishlistRepository.toggleProduct(product);
+    const storageProduct = listingProductToStorageProduct(product);
+    const nextProducts = wishlistRepository.toggleProduct(storageProduct);
     setIsLiked(nextProducts.some(item => item.id === product.id));
   };
 
@@ -264,6 +271,6 @@ const InteractiveProductCell = ({
       </Wrapper>
     </Card>
   );
-};
+}
 
-export default InteractiveProductCell;
+export default memo(InteractiveProductCell);

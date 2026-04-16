@@ -1,5 +1,8 @@
 import OrderConfirmationPage from '@/features/order/pages/OrderConfirmationPage';
-import { validateLocale, type LocaleRouteParams } from '../../_route-utils/locale';
+import {
+  validateLocale,
+  type LocaleRouteParams,
+} from '../../_route-utils/locale';
 
 type OrderConfirmationRouteParams = LocaleRouteParams & {
   orderId: string;

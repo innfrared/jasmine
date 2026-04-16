@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Product } from '../../../../entities/catalog/product';
+import type { ListingProduct } from '../../../../entities/catalog/listingProduct';
 import InteractiveProductCell from '../InteractiveProductCell';
 import { buildProductListingRows } from './productListingRows';
 import {
@@ -10,7 +10,7 @@ import {
 } from './ProductListingGrid.styles';
 
 type ProductListingGridProps = {
-  products: Product[];
+  products: ListingProduct[];
 };
 
 function ProductListingGrid({ products }: ProductListingGridProps) {

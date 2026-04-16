@@ -1,4 +1,4 @@
-import type { Product } from '../../../../entities/catalog/product';
+import type { ListingProduct } from '../../../../entities/catalog/listingProduct';
 import { getCatalogEditorialImage } from './productListingEditorialImages';
 import type { ProductListingRow } from './productListingGrid.types';
 
@@ -8,14 +8,14 @@ const EDITORIAL_ROW_PRODUCT_COUNT = 2;
 function buildRowId(
   rowType: ProductListingRow['type'],
   rowIndex: number,
-  products: Product[]
+  products: ListingProduct[]
 ) {
   const productIds = products.map(product => product.id).join('-') || 'empty';
   return `${rowType}-${rowIndex}-${productIds}`;
 }
 
 export function buildProductListingRows(
-  products: Product[]
+  products: ListingProduct[]
 ): ProductListingRow[] {
   const rows: ProductListingRow[] = [];
   let productIndex = 0;

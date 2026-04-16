@@ -7,6 +7,11 @@ type HomePageProps = {
 
 const HomePage = async ({ params }: HomePageProps) => {
   await validateLocale(params);
+
+  if (process.env.DEBUG_MINIMAL_HOME_PAGE === '1') {
+    return <p>ok</p>;
+  }
+
   return <LandingScreen />;
 };
 

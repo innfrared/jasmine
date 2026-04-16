@@ -3,4 +3,3 @@ export type {
   DrawerDataAttributes,
   DrawerProductItemProps,
 } from './DrawerProductItem';
-

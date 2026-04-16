@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const VisuallyHiddenLabel = styled.span`
   position: absolute !important;
@@ -28,8 +28,7 @@ export const Trigger = styled.button<{ $isScrolled?: boolean }>`
   justify-content: space-between;
   gap: 4px;
   cursor: pointer;
-  transition:
-    color 0.2s ease;
+  transition: color 0.2s ease;
 
   &:hover {
     color: ${({ $isScrolled }) => ($isScrolled ? '#9a8300' : '#ffffff')};
@@ -52,7 +51,8 @@ export const ValueText = styled.span<{ $isScrolled?: boolean }>`
 `;
 
 export const PlaceholderText = styled.span<{ $isScrolled?: boolean }>`
-  color: ${({ $isScrolled }) => ($isScrolled ? '#8a8f98' : 'rgba(255, 255, 255, 0.7)')};
+  color: ${({ $isScrolled }) =>
+    $isScrolled ? '#8a8f98' : 'rgba(255, 255, 255, 0.7)'};
   font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,7 +65,8 @@ export const Chevron = styled.span<{ $isScrolled?: boolean }>`
   transition:
     transform 0.2s ease,
     color 0.2s ease;
-  color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : 'rgba(255, 255, 255, 0.8)')};
+  color: ${({ $isScrolled }) =>
+    $isScrolled ? '#001f3f' : 'rgba(255, 255, 255, 0.8)'};
   opacity: 0.7;
 
   &[data-open='true'] {

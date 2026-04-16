@@ -286,10 +286,13 @@ export const ActionsRow = styled.div`
   }
 `;
 
-export const ActionButton = styled.button<{ $variant?: 'primary' | 'secondary' }>`
+export const ActionButton = styled.button<{
+  $variant?: 'primary' | 'secondary';
+}>`
   min-height: 48px;
   border: 1px solid #111;
-  background: ${({ $variant }) => ($variant === 'primary' ? '#101010' : '#fff')};
+  background: ${({ $variant }) =>
+    $variant === 'primary' ? '#101010' : '#fff'};
   color: ${({ $variant }) => ($variant === 'primary' ? '#fff' : '#101010')};
   ${typography.button};
   cursor: pointer;
@@ -301,7 +304,8 @@ export const ActionButton = styled.button<{ $variant?: 'primary' | 'secondary' }
 
   &:hover {
     border-color: #000;
-    background: ${({ $variant }) => ($variant === 'primary' ? '#000' : '#f4f4f4')};
+    background: ${({ $variant }) =>
+      $variant === 'primary' ? '#000' : '#f4f4f4'};
   }
 
   svg {

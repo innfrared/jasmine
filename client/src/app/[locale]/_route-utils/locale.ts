@@ -5,13 +5,19 @@ export type LocaleRouteParams = {
   locale: string;
 };
 
-export type AsyncRouteProps<TParams extends LocaleRouteParams, TSearchParams> = {
+export type AsyncRouteProps<
+  TParams extends LocaleRouteParams,
+  TSearchParams,
+> = {
   params: Promise<TParams>;
   searchParams: Promise<TSearchParams>;
 };
 
 export type RouteSearchParams = {
   page?: string;
+  color?: string;
+  category_id?: string;
+  subcategory_id?: string;
 };
 
 export async function validateLocale<T extends LocaleRouteParams>(
@@ -35,4 +41,25 @@ export function parsePage(value?: string) {
   return Number.isFinite(numericValue) && numericValue > 0
     ? Math.floor(numericValue)
     : 1;
+}
+
+export function parseColorParam(value?: string): string[] {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(',')
+    .map(entry => entry.trim())
+    .filter(Boolean)
+    .slice(0, 24);
+}
+
+export function parseOptionalPositiveInt(value?: string): number | null {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : null;
 }

@@ -145,4 +145,3 @@ export const NavActionBadge = styled.span`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
 `;
-

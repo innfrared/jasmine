@@ -1,4 +1,4 @@
-import type { AddressDto } from '../../service/types';
+import type { AddressDto } from '@/shared/contracts/api';
 
 export interface ShippingAddress {
   id: number;

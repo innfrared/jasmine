@@ -6,7 +6,7 @@ type RoutePageProps = {
 };
 
 const RoutePage = async ({ params }: RoutePageProps) => {
-  return <PlaceholderRoutePage params={params} placeholderId='cookie-policy' />;
+  return <PlaceholderRoutePage params={params} placeholderId="cookie-policy" />;
 };
 
 export default RoutePage;

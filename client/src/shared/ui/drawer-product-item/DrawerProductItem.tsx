@@ -33,14 +33,14 @@ type DrawerProductButtonAction = {
   variant?: DrawerActionVariant;
 };
 
-type DrawerProductRailAction = {
+type DrawerProductRailActionConfig = {
   kind: 'wishlist' | 'remove';
   ariaLabel: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
   dataAttributes?: DrawerDataAttributes;
 };
 
-type DrawerProductQuantityControl = {
+type DrawerProductQuantityControlConfig = {
   label: string;
   decreaseLabel: string;
   increaseLabel: string;
@@ -59,10 +59,10 @@ type DrawerProductItemProps = {
   onProductClick: MouseEventHandler<HTMLButtonElement>;
   eyebrow?: string;
   meta?: string;
-  railAction?: DrawerProductRailAction;
+  railAction?: DrawerProductRailActionConfig;
   primaryAction?: DrawerProductButtonAction;
   secondaryAction?: DrawerProductButtonAction;
-  quantityControl?: DrawerProductQuantityControl;
+  quantityControl?: DrawerProductQuantityControlConfig;
 };
 
 function WishlistHeartIcon() {
@@ -86,7 +86,7 @@ function RemoveIcon() {
   );
 }
 
-function renderRailActionIcon(kind: DrawerProductRailAction['kind']) {
+function renderRailActionIcon(kind: DrawerProductRailActionConfig['kind']) {
   if (kind === 'wishlist') {
     return <WishlistHeartIcon />;
   }
@@ -108,7 +108,9 @@ export default function DrawerProductItem({
   secondaryAction,
   quantityControl,
 }: DrawerProductItemProps) {
-  const hasFooter = Boolean(primaryAction || secondaryAction || quantityControl);
+  const hasFooter = Boolean(
+    primaryAction || secondaryAction || quantityControl
+  );
 
   return (
     <DrawerProductCard>
@@ -133,7 +135,9 @@ export default function DrawerProductItem({
         </DrawerProductMedia>
 
         <DrawerProductContent>
-          {eyebrow ? <DrawerProductEyebrow>{eyebrow}</DrawerProductEyebrow> : null}
+          {eyebrow ? (
+            <DrawerProductEyebrow>{eyebrow}</DrawerProductEyebrow>
+          ) : null}
           <DrawerProductTitle>{title}</DrawerProductTitle>
           {meta ? <DrawerProductMeta>{meta}</DrawerProductMeta> : null}
           <DrawerProductPrice>{price}</DrawerProductPrice>
@@ -200,4 +204,3 @@ export default function DrawerProductItem({
 }
 
 export type { DrawerProductItemProps };
-

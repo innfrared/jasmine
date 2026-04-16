@@ -1,14 +1,10 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReactSVG } from 'react-svg';
 import { useTranslation } from 'react-i18next';
-import RegisterPopup from '../registerPopup/RegisterPopup';
-import LoginPopup from '../loginPopup/LoginPopup';
-import CartModal from '../cartModal/CartModal';
-import LikedModal from '../likedModal/LikedModal';
-import ProfileCard from '../profileCard/ProfileCard';
 import Navigation from './Navigation';
 import { useAuth } from '../../../context/AuthContext';
 import {
@@ -42,6 +38,22 @@ import {
   isHeaderNavItemActive,
 } from '@/shared/config/navigation';
 
+const LoginPopup = dynamic(() => import('../loginPopup/LoginPopup'), {
+  ssr: false,
+});
+const RegisterPopup = dynamic(() => import('../registerPopup/RegisterPopup'), {
+  ssr: false,
+});
+const CartModal = dynamic(() => import('../cartModal/CartModal'), {
+  ssr: false,
+});
+const LikedModal = dynamic(() => import('../likedModal/LikedModal'), {
+  ssr: false,
+});
+const ProfileCard = dynamic(() => import('../profileCard/ProfileCard'), {
+  ssr: false,
+});
+
 type HeaderProps = {
   primaryColor: string;
   secondaryColor: string;
@@ -73,11 +85,7 @@ function Header({ primaryColor, secondaryColor }: HeaderProps) {
         id: item.id,
         label: t(item.labelKey),
         href: getLocalizedPath(item.href),
-        isActive: isHeaderNavItemActive(
-          strippedPathname,
-          search,
-          item.navKey
-        ),
+        isActive: isHeaderNavItemActive(strippedPathname, search, item.navKey),
       })),
     [getLocalizedPath, search, strippedPathname, t]
   );
@@ -217,7 +225,12 @@ function Header({ primaryColor, secondaryColor }: HeaderProps) {
                   </svg>
                 }
               />
-              <LikedModal isOpen={isLikedModalOpen} onClose={closeLikedModal} />
+              {isLikedModalOpen ? (
+                <LikedModal
+                  isOpen={isLikedModalOpen}
+                  onClose={closeLikedModal}
+                />
+              ) : null}
             </ActionWrapper>
             <ActionWrapper>
               <NavActionButton
@@ -242,7 +255,9 @@ function Header({ primaryColor, secondaryColor }: HeaderProps) {
                   </svg>
                 }
               />
-              <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
+              {isCartModalOpen ? (
+                <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
+              ) : null}
             </ActionWrapper>
             <ActionWrapper ref={accountBoxRef}>
               <UserIconButton
