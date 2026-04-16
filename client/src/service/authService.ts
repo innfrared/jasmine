@@ -1,5 +1,6 @@
 import { apiClient } from './apiClient';
-import { TokenPair, UserDto } from './types';
+import { API_ENDPOINTS } from '@/shared/api/endpoints';
+import type { TokenPair, UserDto } from './types';
 
 export interface RegisterPayload {
   email: string;
@@ -15,14 +16,14 @@ export interface LoginPayload {
 }
 
 export const register = (payload: RegisterPayload) =>
-  apiClient.post<{ user: UserDto; tokens: TokenPair }>('auth/register/', {
+  apiClient.post<{ user: UserDto; tokens: TokenPair }>(API_ENDPOINTS.auth.register, {
     body: payload,
   });
 
 export const login = (payload: LoginPayload) =>
-  apiClient.post<{ tokens: TokenPair }>('auth/login/', { body: payload });
+  apiClient.post<{ tokens: TokenPair }>(API_ENDPOINTS.auth.login, { body: payload });
 
 export const refresh = (refreshToken: string) =>
-  apiClient.post<TokenPair>('auth/refresh/', {
+  apiClient.post<TokenPair>(API_ENDPOINTS.auth.refresh, {
     body: { refresh: refreshToken },
   });

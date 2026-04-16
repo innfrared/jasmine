@@ -1,5 +1,6 @@
 import { apiClient } from './apiClient';
-import { AddressDto } from './types';
+import { API_ENDPOINTS } from '@/shared/api/endpoints';
+import type { AddressDto } from './types';
 
 export interface AddressPayload {
   label: string;
@@ -14,10 +15,10 @@ export interface AddressPayload {
 }
 
 export const listAddresses = (token: string) =>
-  apiClient.get<AddressDto[]>('addresses/', { token });
+  apiClient.get<AddressDto[]>(API_ENDPOINTS.addresses.list, { token });
 
 export const createAddress = (payload: AddressPayload, token: string) =>
-  apiClient.post<AddressDto>('addresses/', {
+  apiClient.post<AddressDto>(API_ENDPOINTS.addresses.list, {
     body: payload,
     token,
   });
@@ -27,16 +28,17 @@ export const updateAddress = (
   payload: AddressPayload,
   token: string
 ) =>
-  apiClient.patch<AddressDto>(`addresses/${addressId}/`, {
+  apiClient.patch<AddressDto>(API_ENDPOINTS.addresses.details(addressId), {
     body: payload,
     token,
   });
 
 export const deleteAddress = (addressId: number, token: string) =>
-  apiClient.delete<undefined>(`addresses/${addressId}/`, { token });
+  apiClient.delete<undefined>(API_ENDPOINTS.addresses.details(addressId), {
+    token,
+  });
 
 export const setDefaultAddress = (addressId: number, token: string) =>
-  apiClient.post<{ message: string }>(
-    `addresses/${addressId}/set-default/`,
-    { token }
-  );
+  apiClient.post<{ message: string }>(API_ENDPOINTS.addresses.setDefault(addressId), {
+    token,
+  });

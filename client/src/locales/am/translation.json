@@ -1,51 +1,377 @@
 {
-  "slogan": "Մատչելի կատարելություն` ստեղծված ձեր ժամանակակից կյանքի համար:",
-  "slogan_part_1": "Մատչելի կատարելություն",
-  "slogan_part_2": "ստեղծված ձեր ժամանակակից կյանքի համար",
+  "slogan": "Յուրաքանչյուր կար պատմություն է պատմում։",
+  "slogan_part_1": "Յուրաքանչյուր կար պատմություն է պատմում",
+  "slogan_part_2": "Ձեռագործ` երազողների համար",
   "catalog": "Կատալոգ",
-  "type_1": "Հեռուստացույցներ",
-  "type_2": "Օդորակիչներ",
-  "type_3": "Հեռախոսներ և աքսեսուարներ",
-  "type_4": "Սպասք լվացող մեքենաներ",
-  "type_5": "Գազօջախներ",
-  "type_6": "Մանր կենցաղային տեխնիկա",
-  "type_7": "Սառնարաններ և Սառցարաններ",
-  "type_8": "Լվացքի մեքենաներ և Չորանոցներ",
-  "type_9": "Ներկառուցվող կենցաղային տեխնիկա",
-  "type_10": "Տաքացման և Սառեցման համակարգեր",
-  "type_11": "Խնամքի պարագաներ",
-  "type_12": "Աուդիո-վիդեո սարքավորումներ",
-  "type_13": "Նոթբուքեր, Մոնիտորներ և Տեսախաղեր",
-  "type_14": "Աքսեսուարներ",
-  "login": "Մուտք Գործել",
+  "type_1": "Պայուսակներ",
+  "type_2": "Ուսապարկեր",
+  "type_3": "Քրոսբոդի պայուսակներ",
+  "type_4": "Կլատչեր",
+  "type_5": "Դրամապանակներ",
+  "type_6": "Ճանապարհորդական պայուսակներ",
+  "type_7": "Մինի պայուսակներ",
+  "type_8": "Թոթ պայուսակներ",
+  "type_9": "Զգեստներ",
+  "type_10": "Կոմպլեկտներ",
+  "type_11": "Աքսեսուարներ",
+  "type_12": "Նվերների ընտրանի",
+  "type_13": "Սահմանափակ հավաքածուներ",
+  "type_14": "Պատվերով աշխատանքներ",
+  "login": "Մուտք",
   "signup": "Գրանցվել",
-  "about_us": "Մեր Մասին",
+  "about_us": "Մեր մասին",
+  "support": "Աջակցություն",
+  "social": "Սոցիալական հարթակներ",
+  "trending": "Թրենդային հիմա",
   "quick_links": "Արագ հղումներ",
-  "contact_us": "Կապ Մեզ Հետ",
-  "not_logged_in": "Դուք մուտք չեք գործել",
+  "contact_us": "Կապ մեզ հետ",
+  "not_logged_in": "Դուք մուտք չեք գործել։",
   "loginField1": "Էլ. հասցե, օգտանուն կամ հեռախոս",
   "loginField2": "Գաղտնաբառ",
-  "copyrightNotice": "Դիջիթլ Սիթի. Բոլոր իրավունքները պաշտպանված են:",
-  "bestsellers": "Թոփ Վաճառվողներ",
-  "newProducts": "Նոր Ավելացված",
-  "bestDeals": "Լավագույն Առաջարկներ",
-  "addToCart": "Ավելացնել Զամբյուղ",
+  "copyrightNotice": "Jasmine Crafted. Բոլոր իրավունքները պաշտպանված են։",
+  "bestsellers": "Լավագույն վաճառքներ",
+  "newProducts": "Նորույթներ",
+  "bestDeals": "Լավագույն առաջարկներ",
+  "addToCart": "Ավելացնել զամբյուղ",
+  "removeFromCart": "Հեռացնել զամբյուղից",
   "compare": "Համեմատել",
   "sort_by": "Դասավորել ըստ",
   "sort_by_ascending": "Գնի աճման",
   "sort_by_descending": "Գնի նվազման",
+  "sort_by_newest": "Սկզբում նորերը",
   "comparison": "Համեմատություն",
-  "content": "Տեսականի",
+  "content": "Բովանդակություն",
   "in_stock": "Առկա է",
   "out_of_stock": "Առկա չէ",
-  "availability": "Հասանելիությունը",
-  "brand": "Ապրանքանիշը",
-  "product_code": "Ապրանքի կոդը",
+  "availability": "Առկայություն",
+  "brand": "Ապրանքանիշ",
+  "product_code": "Ապրանքի կոդ",
   "description": "Նկարագրություն",
-  "specifications": "Հատկություններ",
-  "products": "Ապրանքատեսակներ",
+  "specifications": "Բնութագրեր",
+  "products": "Ապրանքներ",
   "price_asc": "Գին: ցածրից բարձր",
   "price_desc": "Գին: բարձրից ցածր",
-  "name_asc": "Անվանում: Ա-Ֆ",
-  "name_desc": "Անվանում: Ֆ-Ա"
+  "name_asc": "Այբբենական: Ա-Ֆ",
+  "name_desc": "Այբբենական: Ֆ-Ա",
+  "welcome_user": "Բարի վերադարձ",
+  "manage_account": "Կառավարել հաշիվը",
+  "navigation": {
+    "new": "Նորույթներ",
+    "allBags": "Բոլոր պայուսակները",
+    "crossbody": "Քրոսբոդի",
+    "shoulder": "Ուսին",
+    "topHandle": "Վերին բռնակով",
+    "evening": "Երեկոյան",
+    "belts": "Գոտիներ",
+    "accessories": "Աքսեսուարներ"
+  },
+  "landingEditorial": {
+    "hero": {
+      "headline": "Ստեղծված են, որ կրեն, հիշեն ու պահեն։",
+      "body": "Քանդակային պայուսակներ ու հանգիստ շեշտեր` գեղեցիկ դուրս գալու ծեսի համար։",
+      "cta": "Բացահայտել պայուսակները"
+    },
+    "split": {
+      "headline": "Ուսի պայուսակներ, կառուցված շարժման համար։",
+      "body": "Փափուկ կառուցվածք, երկար գծեր և ձևեր, որոնք հեշտ անցնում են օրվա լուսից մինչև երեկո։",
+      "cta": "Բացահայտել ուսի պայուսակները"
+    },
+    "grid": {
+      "heading": "Ընտրված մոդելներ",
+      "cta": "Տեսնել բոլոր պայուսակները",
+      "items": {
+        "crossbody": "Քրոսբոդի",
+        "topHandle": "Վերին բռնակով",
+        "evening": "Երեկոյան",
+        "new": "Նորույթներ"
+      }
+    },
+    "images": {
+      "hero": "Խմբագրված գովազդային դիմանկար` տաք ստուդիական լույսով։",
+      "splitPrimary": "Մոդելի դիմանկար ուսի պայուսակների ընտրանիի համար։",
+      "splitSecondaryOne": "Երկրորդ խմբագրված դիմանկար ուսի պայուսակների պատմության համար։",
+      "splitSecondaryTwo": "Երկրորդ խմբագրված կադր` փափուկ շարժումով և դետալներով։",
+      "splitSecondaryThree": "Երկրորդ խմբագրված դիմանկար, որը ավարտում է ուսի պայուսակների պատմությունը։",
+      "gridCrossbody": "Կամպեյնային կադր crossbody ուրվագծերի համար։",
+      "gridTopHandle": "Կամպեյնային կադր վերին բռնակով ուրվագծերի համար։",
+      "gridEvening": "Կամպեյնային կադր երեկոյան մոդելների համար։",
+      "gridNew": "Կամպեյնային կադր նորույթների համար։"
+    }
+  },
+  "common": {
+    "close": "Փակել"
+  },
+  "footer": {
+    "brand": {
+      "eyebrow": "Jasmine Crafted",
+      "headline": "Ստեղծված՝ կրելու, հիշելու և պահելու համար։",
+      "description": "Jasmine Crafted-ը ձևավորում է պայուսակներ՝ քանդակված գծերով, շոշափելի նյութերով և ավելի հանգիստ շքեղությամբ, որը գեղեցիկ է ապրում շարժման մեջ։",
+      "line": "Ձեռագործ ուրվագծեր՝ շքեղության ավելի հանգիստ արտահայտության համար։"
+    },
+    "sections": {
+      "explore": "Բացահայտել",
+      "clientServices": "Հաճախորդների սպասարկում",
+      "ourHouse": "Մեր տունը",
+      "legal": "Իրավական բաժին",
+      "legalPreferencesSocial": "Իրավական / նախընտրություններ / սոցիալական",
+      "locationLanguage": "Տարածաշրջան և լեզու",
+      "followUs": "Հետևեք մեզ"
+    },
+    "links": {
+      "new": "Նորույթներ",
+      "allBags": "Բոլոր պայուսակները",
+      "crossbody": "Քրոսբոդի",
+      "shoulder": "Ուսին",
+      "topHandle": "Վերին բռնակով",
+      "evening": "Երեկոյան",
+      "belts": "Գոտիներ",
+      "accessories": "Աքսեսուարներ",
+      "giftCards": "Նվեր քարտեր",
+      "sitemap": "Կայքի քարտեզ",
+      "paymentMethods": "Վճարման եղանակներ",
+      "shipping": "Առաքում",
+      "returns": "Վերադարձ",
+      "faq": "FAQ",
+      "careServices": "Խնամք և սպասարկում",
+      "myAccount": "Իմ հաշիվը",
+      "contact": "Կապ",
+      "aboutJasmine": "About Jasmine",
+      "ourStory": "Մեր պատմությունը",
+      "craftsmanship": "Վարպետություն",
+      "materials": "Նյութեր",
+      "sustainability": "Կայունություն",
+      "careers": "Կարիերա",
+      "storeLocator": "Խանութների հասցեներ",
+      "bookAppointment": "Ամրագրել հանդիպում",
+      "privacyPolicy": "Գաղտնիության քաղաքականություն",
+      "termsConditions": "Պայմաններ և դրույթներ",
+      "accessibility": "Մատչելիություն",
+      "cookiePolicy": "Cookie քաղաքականություն",
+      "doNotSell": "Չվաճառել կամ չկիսել իմ անձնական տվյալները",
+      "changeLocationLanguage": "Փոխել տարածաշրջանը և լեզուն",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn",
+      "shippingPolicy": "Առաքման քաղաքականություն",
+      "returnsRefunds": "Վերադարձ և փոխհատուցում"
+    },
+    "preferences": {
+      "region": "Միջազգային",
+      "value": "{{region}} / {{language}} / {{currency}}"
+    },
+    "languages": {
+      "en": "Անգլերեն",
+      "ru": "Ռուսերեն",
+      "am": "Հայերեն"
+    },
+    "bottom": {
+      "signature": "Ստեղծված փոքր թողարկումներով՝ ավելի դանդաղ շքեղության համար։"
+    }
+  },
+  "aboutJasmine": {
+    "label": "Jasmine",
+    "title": "About the Brand",
+    "introParagraphOne": "Jasmine is a story woven from delicacy, nature, and a deep love for handmade craftsmanship. Each piece is thoughtfully created to reflect a sense of calm, confidence, and modern feminine strength. Every bag begins as a feeling—an expression of inner harmony and individuality.",
+    "introParagraphTwo": "We believe true beauty lives in the texture, in the softness of colors, and in the simplicity of form. Jasmine is designed for women who choose natural authenticity while living in the modern world. It is more than a brand—it is a quiet statement of elegance, balance, and timeless style.",
+    "quoteOne": "Jasmine is not just seen — it is felt.",
+    "storyParagraphOne": "Each bag in our collection has its own name, its own story, and its own energy. All of them are united by one idea: natural texture + modern style = timeless elegance. Together, they tell the story of the many sides of femininity—sometimes radiant and sunny, sometimes soft and light, sometimes blooming, and sometimes eternally luxurious.",
+    "storyParagraphTwo": "We create bags that combine natural simplicity with modern elegance, becoming not just an accessory, but a story you carry with you. Each weave is a hand-crafted symphony, blending strength and delicacy, the classic and the innovative.",
+    "storyParagraphThree": "Welcome to a world of creativity and comfort! We have immersed ourselves in the beautiful process of creating bags from magical polyester, cotton, and polypropylene cord.",
+    "storyParagraphFour": "During production, we pay special attention to the absence of seams, odors, and to the quality of the cord, so that every bag is flawless and perfect. You can be sure that each piece is made with love.",
+    "quoteTwo": "Gift yourself and your loved ones unique bags from Jasmine.",
+    "cta": "Explore Collection"
+  },
+  "placeholderPages": {
+    "giftCards": {
+      "title": "Նվեր քարտեր",
+      "description": "Jasmine Crafted-ը նվիրելու մտածված տարբերակը պատրաստվում է նույն խնամքով, ինչ հենց իրերը։"
+    },
+    "sitemap": {
+      "title": "Կայքի քարտեզ",
+      "description": "Տան ավելի հստակ քարտեզը պատրաստվում է և շուտով կհայտնվի այստեղ։"
+    },
+    "paymentMethods": {
+      "title": "Վճարման եղանակներ",
+      "description": "Վճարման տարբերակների նրբաճաշակ ամփոփումը պատրաստվում է ձեր հաջորդ պատվերի համար։"
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Հաճախորդների հարցերի պատասխանները հավաքվում են մեկ հակիրճ ուղեցույցում՝ առավել հեշտ գնումների համար։"
+    },
+    "careServices": {
+      "title": "Խնամք և սպասարկում",
+      "description": "Մեր խնամքի և սպասարկման ծեսերը պատրաստվում են այստեղ ամբողջությամբ ներկայացվելու համար։"
+    },
+    "contact": {
+      "title": "Կապ",
+      "description": "Հաճախորդների սպասարկման ուղիղ կապի տվյալները պատրաստվում են նույն նրբանկատությամբ, ինչ հենց տունը։"
+    },
+    "ourStory": {
+      "title": "Մեր պատմությունը",
+      "description": "Jasmine Crafted-ի հիմնադրման պատմությունը ձևավորվում է այն խորությամբ, որին արժանի է։"
+    },
+    "craftsmanship": {
+      "title": "Վարպետություն",
+      "description": "Ավելի մոտ հայացք ատելյեին, ստեղծման ընթացքին և ավարտական մշակմանը շուտով կհայտնվի այստեղ։"
+    },
+    "materials": {
+      "title": "Նյութեր",
+      "description": "Մեր նյութերի և ծագման մանրամասները պատրաստվում են առանձին էջի համար։"
+    },
+    "sustainability": {
+      "title": "Կայունություն",
+      "description": "Մեր նյութական ընտրությունների և երկարաժամկետ պարտավորությունների ազնիվ ներկայացումը պատրաստման փուլում է։"
+    },
+    "careers": {
+      "title": "Կարիերա",
+      "description": "Jasmine Crafted-ին միանալու հնարավորությունները կկիսվեն այստեղ, երբ բացվեն։"
+    },
+    "storeLocator": {
+      "title": "Խանութների հասցեներ",
+      "description": "Մեր ապագա ներկայության կետերի ուղղորդիչ էջը շուտով կհայտնվի այստեղ։"
+    },
+    "bookAppointment": {
+      "title": "Ամրագրել հանդիպում",
+      "description": "Անձնական հանդիպումները և հաճախորդների խորհրդատվությունները շուտով հասանելի կլինեն այստեղ։"
+    },
+    "accessories": {
+      "title": "Աքսեսուարներ",
+      "description": "Աքսեսուարների ընտրանին պատրաստվում է և կհայտնվի այստեղ, երբ հավաքածուն ամբողջությամբ ձևավորվի։"
+    },
+    "belts": {
+      "title": "Գոտիներ",
+      "description": "Գոտիների ընտրանին հղկվում է և կհայտնվի այստեղ, երբ բաժինը լիովին պատրաստ լինի։"
+    },
+    "accessibility": {
+      "title": "Մատչելիություն",
+      "description": "Մեր մատչելիության չափանիշներն ու պարտավորությունները ներկայացվելու են այստեղ։"
+    },
+    "cookiePolicy": {
+      "title": "Cookie քաղաքականություն",
+      "description": "Cookie քաղաքականությունը պատրաստվում է ավելի հստակ և մանրամասն ձևաչափով։"
+    },
+    "doNotSell": {
+      "title": "Չվաճառել կամ չկիսել իմ անձնական տվյալները",
+      "description": "Տարածաշրջանային գաղտնիության ընտրանքներն ու տվյալների կառավարման հնարավորությունները ամբողջությամբ հասանելի կլինեն այստեղ։"
+    }
+  },
+  "auth": {
+    "socialDivider": "կամ շարունակել հետևյալով",
+    "fields": {
+      "email": "Էլ. հասցե",
+      "emailRequired": "Էլ. հասցե *",
+      "password": "Գաղտնաբառ",
+      "passwordRequired": "Գաղտնաբառ *",
+      "confirmPasswordRequired": "Հաստատել գաղտնաբառը *",
+      "firstName": "Անուն",
+      "lastName": "Ազգանուն",
+      "phone": "Հեռախոս"
+    },
+    "login": {
+      "title": "Բարի վերադարձ",
+      "action": "Մուտք գործել",
+      "loading": "Մուտք է կատարվում...",
+      "switchPrompt": "Հաշիվ չունե՞ք",
+      "placeholders": {
+        "email": "Մուտքագրեք ձեր էլ. հասցեն",
+        "password": "Մուտքագրեք ձեր գաղտնաբառը"
+      },
+      "errors": {
+        "default": "Չհաջողվեց մուտք գործել։ Ստուգեք ձեր տվյալները։"
+      }
+    },
+    "register": {
+      "title": "Ստեղծել հաշիվ",
+      "action": "Գրանցվել",
+      "loading": "Հաշիվը ստեղծվում է...",
+      "switchPrompt": "Արդեն ունե՞ք հաշիվ",
+      "placeholders": {
+        "firstName": "Մուտքագրեք ձեր անունը",
+        "lastName": "Մուտքագրեք ձեր ազգանունը",
+        "email": "Մուտքագրեք ձեր էլ. հասցեն",
+        "phone": "Մուտքագրեք ձեր հեռախոսահամարը",
+        "password": "Ստեղծեք գաղտնաբառ",
+        "confirmPassword": "Հաստատեք գաղտնաբառը"
+      },
+      "errors": {
+        "passwordMismatch": "Գաղտնաբառերը չեն համընկնում։",
+        "passwordLength": "Գաղտնաբառը պետք է լինի առնվազն 6 նիշ։",
+        "default": "Չհաջողվեց ստեղծել հաշիվը։ Խնդրում ենք փորձել կրկին։"
+      }
+    }
+  },
+  "profileCard": {
+    "notLoggedIn": "Դուք մուտք չեք գործել։",
+    "orderHistory": "Պատվերների պատմություն",
+    "shippingInformation": "Առաքման տվյալներ",
+    "logout": "Դուրս գալ"
+  },
+  "shoppingBag": {
+    "name": "Գնումների պայուսակ",
+    "title": "Գնումների պայուսակ ({{count}})",
+    "close": "Փակել գնումների պայուսակը",
+    "empty": "Ձեր գնումների պայուսակը դատարկ է։",
+    "quantity": "Քանակը՝ {{count}}",
+    "quantityDecrease": "Նվազեցնել քանակը",
+    "quantityIncrease": "Ավելացնել քանակը",
+    "subtotal": "Ենթագումար",
+    "remove": "Հեռացնել ապրանքը",
+    "removeAction": "Հեռացնել",
+    "reviewCheckout": "Ստուգել և ձևակերպել",
+    "emptyState": {
+      "title": "Ձեր ընտրությունը սպասում է",
+      "description": "Երբ որևէ կտոր պատրաստ լինի ձեզ հետ տուն գնալու, պայուսակը այն կպահի այստեղ` անթերի ավարտի համար։",
+      "cta": "Շարունակել գնումները"
+    }
+  },
+  "wishlist": {
+    "name": "Ցանկությունների ցանկ",
+    "title": "Ցանկությունների ցանկ ({{count}})",
+    "close": "Փակել ցանկությունների ցանկը",
+    "empty": "Ձեր ցանկությունների ցանկը դատարկ է։",
+    "addToBag": "Ավելացնել պայուսակ",
+    "remove": "Հեռացնել ապրանքը",
+    "removeAction": "Հեռացնել",
+    "share": "Կիսվել ցանկով",
+    "shareSuccess": "Ցանկը պատճենվեց",
+    "emptyState": {
+      "title": "Վայր այն կտորների համար, որոնք մնում են մտքում",
+      "description": "Պահպանեք սիրելի ուրվագծերը և վերադարձեք դրանց, երբ պահը դառնա ճիշտը։",
+      "cta": "Բացել հավաքածուն"
+    }
+  },
+  "breadcrumb": {
+    "home": "Գլխավոր",
+    "profile": "Պրոֆիլ",
+    "orders": "Պատվերների պատմություն",
+    "shipping": "Առաքման տվյալներ",
+    "cart": "Գնումների պայուսակ",
+    "catalog": "Կատալոգ"
+  },
+  "productCard": {
+    "unavailable": "Առկա չէ",
+    "like": "Սիրել",
+    "addToCart": "Ավելացնել զամբյուղ"
+  },
+  "productsPage": {
+    "allProducts": "Բոլոր ապրանքները",
+    "shopBySubcategory": "Գնել ըստ ենթակատեգորիայի",
+    "color": "Գույն",
+    "size": "Չափ",
+    "filters": "Ֆիլտրեր",
+    "applyFilters": "Կիրառել ֆիլտրերը",
+    "clearFilters": "Մաքրել",
+    "noFiltersAvailable": "Այս ընտրության համար ֆիլտրեր հասանելի չեն։",
+    "loading": "Բեռնվում է հավաքածուն...",
+    "empty": "Ձեր ընտրությանը համապատասխան կտորներ չեն գտնվել։",
+    "editorialImageAlt": "Jasmine-ի խմբագրական կամպեյնային կադր։"
+  },
+  "productPage": {
+    "browseProducts": "Բացել ապրանքները",
+    "notFound": "Ապրանքը չի գտնվել։"
+  },
+  "comparisonPage": {
+    "remove": "Հեռացնել համեմատությունից"
+  }
 }

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserDto } from '../service/types';
-import { tokenManager } from '../utils/tokenManager';
+import { tokenManager } from '@/shared/auth/tokenManager';
 import { getMe } from '../service/userService';
 import { refresh } from '../service/authService';
 
@@ -28,7 +28,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserDto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

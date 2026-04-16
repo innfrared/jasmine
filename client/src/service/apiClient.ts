@@ -11,12 +11,16 @@ export class ApiError extends Error {
   }
 }
 
+const runtimeEnv =
+  (globalThis as { process?: { env?: Record<string, string | undefined> } })
+    .process?.env ?? {};
+
 const ENV_BASE_URL =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) ||
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) ||
-  (typeof process !== 'undefined' && process.env?.API_BASE_URL) ||
-  (typeof process !== 'undefined' && process.env?.REACT_APP_API_BASE_URL) ||
-  (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_BASE_URL) ||
+  runtimeEnv.NEXT_PUBLIC_API_URL ||
+  runtimeEnv.NEXT_PUBLIC_API_BASE_URL ||
+  runtimeEnv.API_BASE_URL ||
+  runtimeEnv.REACT_APP_API_BASE_URL ||
+  runtimeEnv.EXPO_PUBLIC_API_BASE_URL ||
   'http://localhost:8000/api';
 
 const baseUrl = ENV_BASE_URL.replace(/\/+$/, '');
@@ -40,7 +44,7 @@ const buildUrl = (path: string, query?: RequestOptions['query']) => {
   return qs ? `${baseUrl}${urlPath}?${qs}` : `${baseUrl}${urlPath}`;
 };
 
-const parseResponse = async <T>(res: Response): Promise<T> => {
+const parseResponse = async <T>(res: globalThis.Response): Promise<T> => {
   if (res.status === 204) {
     return undefined as T;
   }
@@ -63,10 +67,10 @@ const request = async <T>(
     Accept: 'application/json',
   };
   if (body) headers['Content-Type'] = 'application/json';
-  
+
   let accessToken = token;
   if (!accessToken && typeof window !== 'undefined') {
-    const { tokenManager } = await import('../utils/tokenManager');
+    const { tokenManager } = await import('@/shared/auth/tokenManager');
     const storedToken = tokenManager.getAccessToken();
     if (storedToken) accessToken = storedToken;
   }
@@ -81,9 +85,9 @@ const request = async <T>(
   const payload = await parseResponse<unknown>(response);
 
   if (response.status === 401 && typeof window !== 'undefined') {
-    const { tokenManager } = await import('../utils/tokenManager');
+    const { tokenManager } = await import('@/shared/auth/tokenManager');
     const newAccessToken = await tokenManager.refreshAccessToken();
-    
+
     if (newAccessToken) {
       headers.Authorization = `Bearer ${newAccessToken}`;
       const retryResponse = await fetch(buildUrl(path, query), {
@@ -91,9 +95,9 @@ const request = async <T>(
         headers,
         body: body ? JSON.stringify(body) : undefined,
       });
-      
+
       const retryPayload = await parseResponse<unknown>(retryResponse);
-      
+
       if (!retryResponse.ok) {
         const message =
           (retryPayload as { error?: string })?.error ||
@@ -101,7 +105,7 @@ const request = async <T>(
           'Request failed';
         throw new ApiError(retryResponse.status, message, retryPayload);
       }
-      
+
       return retryPayload as T;
     } else {
       tokenManager.clearTokens();

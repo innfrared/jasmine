@@ -1,51 +1,377 @@
 {
-  "slogan": "Доступное совершенство. Создано для вашей современной жизни.",
-  "slogan_part_1": "Доступное совершенство",
-  "slogan_part_2": "Создано для вашей современной жизни",
+  "slogan": "Каждый стежок рассказывает историю.",
+  "slogan_part_1": "Каждый стежок рассказывает историю",
+  "slogan_part_2": "Создано вручную для мечтателей",
   "catalog": "Каталог",
-  "type_1": "Телевизоры",
-  "type_2": "Кондиционеры",
-  "type_3": "Телефоны и аксессуары",
-  "type_4": "Посудомойки",
-  "type_5": "Газовые плиты",
-  "type_6": "Мелкая бытовая техника",
-  "type_7": "Холодильники и Морозильники",
-  "type_8": "Стиральные и Сушильные машины",
-  "type_9": "Встраиваемая бытовая техника",
-  "type_10": "Системы отопления и охлаждения",
-  "type_11": "Приборы для ухода",
-  "type_12": "Аудио-Видео техникa",
-  "type_13": "Ноутбуки, Mониторы и Видеоигры",
-  "type_14": "Аксессуары",
+  "type_1": "Сумки",
+  "type_2": "Сумки на плечо",
+  "type_3": "Кроссбоди",
+  "type_4": "Клатчи",
+  "type_5": "Кошельки",
+  "type_6": "Дорожные сумки",
+  "type_7": "Мини-сумки",
+  "type_8": "Шопперы",
+  "type_9": "Платья",
+  "type_10": "Комплекты",
+  "type_11": "Аксессуары",
+  "type_12": "Подарки",
+  "type_13": "Лимитированные коллекции",
+  "type_14": "Индивидуальные изделия",
   "login": "Войти",
-  "about_us": "О Нас",
-  "quick_links": "Быстрые Ссылки",
-  "contact_us": "Свяжитесь с нами",
-  "signup": "Создать Аккаунт",
-  "not_logged_in": "Вы не вошли в систему.",
-  "loginField1": "Почта, имя пользователя или тел.",
+  "signup": "Регистрация",
+  "about_us": "О нас",
+  "support": "Поддержка",
+  "social": "Соцсети",
+  "trending": "Сейчас в тренде",
+  "quick_links": "Быстрые ссылки",
+  "contact_us": "Связаться с нами",
+  "not_logged_in": "Вы не вошли в аккаунт.",
+  "loginField1": "Email, имя пользователя или телефон",
   "loginField2": "Пароль",
-  "copyrightNotice": "Диджитл Сити. Все права защищены.",
-  "bestsellers": "Топ Продаваемые",
-  "newProducts": "Новейшие продукты",
-  "bestDeals": "Горячие Цены",
-  "addToCart": "Добавить В Корзину",
-  "compare": "Сравнивать",
-  "sort_by": "Сортировать по",
-  "sort_by_ascending": "цена по возрастанию",
-  "sort_by_descending": "цена по убыванию",
+  "copyrightNotice": "Jasmine Crafted. Все права защищены.",
+  "bestsellers": "Хиты продаж",
+  "newProducts": "Новые поступления",
+  "bestDeals": "Лучшие предложения",
+  "addToCart": "Добавить в корзину",
+  "removeFromCart": "Убрать из корзины",
+  "compare": "Сравнить",
+  "sort_by": "Сортировать",
+  "sort_by_ascending": "По возрастанию цены",
+  "sort_by_descending": "По убыванию цены",
+  "sort_by_newest": "Сначала новые",
   "comparison": "Сравнение",
-  "content": "Контент",
+  "content": "Содержимое",
   "in_stock": "В наличии",
   "out_of_stock": "Нет в наличии",
   "availability": "Наличие",
   "brand": "Бренд",
-  "product_code": "Код продукта",
+  "product_code": "Код товара",
   "description": "Описание",
   "specifications": "Характеристики",
-  "products": "Продукты",
-  "price_asc": "Price: Low to High",
-  "price_desc": "Price: High to Low",
-  "name_asc": "Alphabetical: A–Z",
-  "name_desc": "Alphabetical: Z-A"
+  "products": "Товары",
+  "price_asc": "Цена: по возрастанию",
+  "price_desc": "Цена: по убыванию",
+  "name_asc": "По алфавиту: А-Я",
+  "name_desc": "По алфавиту: Я-А",
+  "welcome_user": "С возвращением",
+  "manage_account": "Управление аккаунтом",
+  "navigation": {
+    "new": "Новинки",
+    "allBags": "Все сумки",
+    "crossbody": "Кроссбоди",
+    "shoulder": "На плечо",
+    "topHandle": "С верхней ручкой",
+    "evening": "Вечерние",
+    "belts": "Ремни",
+    "accessories": "Аксессуары"
+  },
+  "landingEditorial": {
+    "hero": {
+      "headline": "Созданы, чтобы их носили, помнили и берегли.",
+      "body": "Скульптурные сумки и тихие акценты для ритуала красивого выхода.",
+      "cta": "Открыть сумки"
+    },
+    "split": {
+      "headline": "Сумки на плечо, созданные для движения.",
+      "body": "Мягкая структура, длинные линии и вещи, которые легко переходят из дня в вечер без лишнего шума.",
+      "cta": "Открыть сумки на плечо"
+    },
+    "grid": {
+      "heading": "Избранные модели",
+      "cta": "Смотреть все сумки",
+      "items": {
+        "crossbody": "Кроссбоди",
+        "topHandle": "С верхней ручкой",
+        "evening": "Вечерние",
+        "new": "Новинки"
+      }
+    },
+    "images": {
+      "hero": "Редакционный портрет кампании в теплом студийном свете.",
+      "splitPrimary": "Портрет модели для раздела сумок на плечо.",
+      "splitSecondaryOne": "Второй редакционный портрет для истории о сумках на плечо.",
+      "splitSecondaryTwo": "Второй редакционный кадр с мягким движением и деталями.",
+      "splitSecondaryThree": "Второй редакционный портрет, завершающий историю плечевых сумок.",
+      "gridCrossbody": "Кадр кампании для сумок кроссбоди.",
+      "gridTopHandle": "Кадр кампании для сумок с верхней ручкой.",
+      "gridEvening": "Кадр кампании для вечерних моделей.",
+      "gridNew": "Кадр кампании для новых поступлений."
+    }
+  },
+  "common": {
+    "close": "Закрыть"
+  },
+  "footer": {
+    "brand": {
+      "eyebrow": "Jasmine Crafted",
+      "headline": "Создано, чтобы носить, помнить и хранить.",
+      "description": "Jasmine Crafted создаёт сумки с выверенными линиями, тактильными материалами и более тихой формой роскоши, которая красиво живёт в движении.",
+      "line": "Ручная работа в силуэтах для более тихой формы роскоши."
+    },
+    "sections": {
+      "explore": "Открыть",
+      "clientServices": "Клиентский сервис",
+      "ourHouse": "Наш Дом",
+      "legal": "Правовая информация",
+      "legalPreferencesSocial": "Право / настройки / соцсети",
+      "locationLanguage": "Регион и язык",
+      "followUs": "Следите за нами"
+    },
+    "links": {
+      "new": "Новинки",
+      "allBags": "Все сумки",
+      "crossbody": "Кроссбоди",
+      "shoulder": "На плечо",
+      "topHandle": "С верхней ручкой",
+      "evening": "Вечерние",
+      "belts": "Ремни",
+      "accessories": "Аксессуары",
+      "giftCards": "Подарочные карты",
+      "sitemap": "Карта сайта",
+      "paymentMethods": "Способы оплаты",
+      "shipping": "Доставка",
+      "returns": "Возвраты",
+      "faq": "FAQ",
+      "careServices": "Уход и сервис",
+      "myAccount": "Мой аккаунт",
+      "contact": "Контакты",
+      "aboutJasmine": "About Jasmine",
+      "ourStory": "Наша история",
+      "craftsmanship": "Мастерство",
+      "materials": "Материалы",
+      "sustainability": "Устойчивость",
+      "careers": "Карьера",
+      "storeLocator": "Магазины",
+      "bookAppointment": "Записаться на встречу",
+      "privacyPolicy": "Политика конфиденциальности",
+      "termsConditions": "Условия использования",
+      "accessibility": "Доступность",
+      "cookiePolicy": "Политика cookie",
+      "doNotSell": "Не продавать и не передавать мои персональные данные",
+      "changeLocationLanguage": "Изменить регион и язык",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn",
+      "shippingPolicy": "Условия доставки",
+      "returnsRefunds": "Возврат и возмещение"
+    },
+    "preferences": {
+      "region": "Международный",
+      "value": "{{region}} / {{language}} / {{currency}}"
+    },
+    "languages": {
+      "en": "Английский",
+      "ru": "Русский",
+      "am": "Армянский"
+    },
+    "bottom": {
+      "signature": "Создано малыми тиражами для более медленной роскоши."
+    }
+  },
+  "aboutJasmine": {
+    "label": "Jasmine",
+    "title": "About the Brand",
+    "introParagraphOne": "Jasmine is a story woven from delicacy, nature, and a deep love for handmade craftsmanship. Each piece is thoughtfully created to reflect a sense of calm, confidence, and modern feminine strength. Every bag begins as a feeling—an expression of inner harmony and individuality.",
+    "introParagraphTwo": "We believe true beauty lives in the texture, in the softness of colors, and in the simplicity of form. Jasmine is designed for women who choose natural authenticity while living in the modern world. It is more than a brand—it is a quiet statement of elegance, balance, and timeless style.",
+    "quoteOne": "Jasmine is not just seen — it is felt.",
+    "storyParagraphOne": "Each bag in our collection has its own name, its own story, and its own energy. All of them are united by one idea: natural texture + modern style = timeless elegance. Together, they tell the story of the many sides of femininity—sometimes radiant and sunny, sometimes soft and light, sometimes blooming, and sometimes eternally luxurious.",
+    "storyParagraphTwo": "We create bags that combine natural simplicity with modern elegance, becoming not just an accessory, but a story you carry with you. Each weave is a hand-crafted symphony, blending strength and delicacy, the classic and the innovative.",
+    "storyParagraphThree": "Welcome to a world of creativity and comfort! We have immersed ourselves in the beautiful process of creating bags from magical polyester, cotton, and polypropylene cord.",
+    "storyParagraphFour": "During production, we pay special attention to the absence of seams, odors, and to the quality of the cord, so that every bag is flawless and perfect. You can be sure that each piece is made with love.",
+    "quoteTwo": "Gift yourself and your loved ones unique bags from Jasmine.",
+    "cta": "Explore Collection"
+  },
+  "placeholderPages": {
+    "giftCards": {
+      "title": "Подарочные карты",
+      "description": "Продуманный способ подарить Jasmine Crafted готовится с той же заботой, что и сами изделия."
+    },
+    "sitemap": {
+      "title": "Карта сайта",
+      "description": "Более ясная карта Дома находится в работе и скоро появится здесь."
+    },
+    "paymentMethods": {
+      "title": "Способы оплаты",
+      "description": "Утончённый обзор вариантов оплаты готовится для вашего следующего оформления заказа."
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Ответы для клиентов собираются в лаконичный гид для более лёгких покупок."
+    },
+    "careServices": {
+      "title": "Уход и сервис",
+      "description": "Наши ритуалы ухода и сервисные детали готовятся здесь в полном объёме."
+    },
+    "contact": {
+      "title": "Контакты",
+      "description": "Контакты клиентской службы готовятся с той же деликатностью, что и сам Дом."
+    },
+    "ourStory": {
+      "title": "Наша история",
+      "description": "История Jasmine Crafted подготавливается с той глубиной, которой она заслуживает."
+    },
+    "craftsmanship": {
+      "title": "Мастерство",
+      "description": "Более близкий взгляд на ателье, процесс создания и отделку появится здесь совсем скоро."
+    },
+    "materials": {
+      "title": "Материалы",
+      "description": "Наши материалы и детали происхождения готовятся в отдельную страницу."
+    },
+    "sustainability": {
+      "title": "Устойчивость",
+      "description": "Честный обзор наших материалов и долгосрочных обязательств находится в подготовке."
+    },
+    "careers": {
+      "title": "Карьера",
+      "description": "Возможности присоединиться к Jasmine Crafted будут опубликованы здесь, когда они откроются."
+    },
+    "storeLocator": {
+      "title": "Магазины",
+      "description": "Персональный гид по будущим точкам присутствия Дома готовится и скоро появится здесь."
+    },
+    "bookAppointment": {
+      "title": "Записаться на встречу",
+      "description": "Частные встречи и клиентские консультации будут доступны здесь совсем скоро."
+    },
+    "accessories": {
+      "title": "Аксессуары",
+      "description": "Раздел аксессуаров подготавливается и появится здесь, как только коллекция будет полностью сформирована."
+    },
+    "belts": {
+      "title": "Ремни",
+      "description": "Подборка ремней дорабатывается и появится здесь, когда категория будет полностью готова."
+    },
+    "accessibility": {
+      "title": "Доступность",
+      "description": "Наши стандарты и обязательства по доступности оформляются здесь."
+    },
+    "cookiePolicy": {
+      "title": "Политика cookie",
+      "description": "Политика cookie готовится в более понятном и подробном формате."
+    },
+    "doNotSell": {
+      "title": "Не продавать и не передавать мои персональные данные",
+      "description": "Региональные настройки конфиденциальности и управление данными будут полностью доступны здесь."
+    }
+  },
+  "auth": {
+    "socialDivider": "или продолжить через",
+    "fields": {
+      "email": "Email",
+      "emailRequired": "Email *",
+      "password": "Пароль",
+      "passwordRequired": "Пароль *",
+      "confirmPasswordRequired": "Подтвердите пароль *",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "phone": "Телефон"
+    },
+    "login": {
+      "title": "С возвращением",
+      "action": "Войти",
+      "loading": "Выполняется вход...",
+      "switchPrompt": "Нет аккаунта?",
+      "placeholders": {
+        "email": "Введите ваш email",
+        "password": "Введите пароль"
+      },
+      "errors": {
+        "default": "Не удалось войти. Проверьте ваши данные."
+      }
+    },
+    "register": {
+      "title": "Создать аккаунт",
+      "action": "Зарегистрироваться",
+      "loading": "Создание аккаунта...",
+      "switchPrompt": "Уже есть аккаунт?",
+      "placeholders": {
+        "firstName": "Введите имя",
+        "lastName": "Введите фамилию",
+        "email": "Введите email",
+        "phone": "Введите номер телефона",
+        "password": "Придумайте пароль",
+        "confirmPassword": "Подтвердите пароль"
+      },
+      "errors": {
+        "passwordMismatch": "Пароли не совпадают.",
+        "passwordLength": "Пароль должен содержать минимум 6 символов.",
+        "default": "Не удалось создать аккаунт. Попробуйте снова."
+      }
+    }
+  },
+  "profileCard": {
+    "notLoggedIn": "Вы не вошли в аккаунт.",
+    "orderHistory": "История заказов",
+    "shippingInformation": "Доставка",
+    "logout": "Выйти"
+  },
+  "shoppingBag": {
+    "name": "Сумка для покупок",
+    "title": "Сумка для покупок ({{count}})",
+    "close": "Закрыть сумку для покупок",
+    "empty": "Ваша сумка для покупок пуста.",
+    "quantity": "Кол-во: {{count}}",
+    "quantityDecrease": "Уменьшить количество",
+    "quantityIncrease": "Увеличить количество",
+    "subtotal": "Промежуточный итог",
+    "remove": "Удалить товар",
+    "removeAction": "Удалить",
+    "reviewCheckout": "Проверить и оформить",
+    "emptyState": {
+      "title": "Ваш выбор ждёт",
+      "description": "Когда вещь будет готова отправиться домой вместе с вами, сумка сохранит её здесь для безупречного завершения покупки.",
+      "cta": "Продолжить покупки"
+    }
+  },
+  "wishlist": {
+    "name": "Список желаний",
+    "title": "Список желаний ({{count}})",
+    "close": "Закрыть список желаний",
+    "empty": "Ваш список желаний пуст.",
+    "addToBag": "В сумку",
+    "remove": "Удалить товар",
+    "removeAction": "Удалить",
+    "share": "Поделиться списком",
+    "shareSuccess": "Список скопирован",
+    "emptyState": {
+      "title": "Место для вещей, которые остаются в мыслях",
+      "description": "Сохраняйте любимые силуэты и возвращайтесь к ним тогда, когда момент станет идеальным.",
+      "cta": "Открыть коллекцию"
+    }
+  },
+  "breadcrumb": {
+    "home": "Главная",
+    "profile": "Профиль",
+    "orders": "История заказов",
+    "shipping": "Доставка",
+    "cart": "Сумка для покупок",
+    "catalog": "Каталог"
+  },
+  "productCard": {
+    "unavailable": "Нет в наличии",
+    "like": "В избранное",
+    "addToCart": "Добавить в корзину"
+  },
+  "productsPage": {
+    "allProducts": "Все товары",
+    "shopBySubcategory": "Покупки по подкатегориям",
+    "color": "Цвет",
+    "size": "Размер",
+    "filters": "Фильтры",
+    "applyFilters": "Применить фильтры",
+    "clearFilters": "Очистить",
+    "noFiltersAvailable": "Для этой подборки фильтры недоступны.",
+    "loading": "Загружаем коллекцию...",
+    "empty": "По вашему выбору ничего не найдено.",
+    "editorialImageAlt": "Редакционный кадр кампании Jasmine."
+  },
+  "productPage": {
+    "browseProducts": "Открыть каталог",
+    "notFound": "Товар не найден."
+  },
+  "comparisonPage": {
+    "remove": "Убрать из сравнения"
+  }
 }

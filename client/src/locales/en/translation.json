@@ -1,22 +1,22 @@
 {
-  "slogan": "Every Stitch Tells a Story.",
-  "slogan_part_1": "Every Stitch Tells a Story",
-  "slogan_part_2": "Handcrafted for Dreamers",
+  "slogan": "Every stitch tells a story.",
+  "slogan_part_1": "Every stitch tells a story",
+  "slogan_part_2": "Handcrafted for dreamers",
   "catalog": "Catalog",
-  "type_1": "Televisions",
-  "type_2": "Air Conditioners",
-  "type_3": "Phones & Accessories",
-  "type_4": "Dishwashers",
-  "type_5": "Gas stoves",
-  "type_6": "Small domestic appliances",
-  "type_7": "Refrigerators and Freezers",
-  "type_8": "Washing Machines and Dryers",
-  "type_9": "Built-in domestic appliances",
-  "type_10": "Heating and Cooling Systems",
-  "type_11": "Self care Accessories",
-  "type_12": "Audio-Video equipment",
-  "type_13": "Notebooks, Monitors & Video Games",
-  "type_14": "Accessories",
+  "type_1": "Handbags",
+  "type_2": "Shoulder Bags",
+  "type_3": "Crossbody Bags",
+  "type_4": "Clutches",
+  "type_5": "Wallets",
+  "type_6": "Travel Bags",
+  "type_7": "Mini Bags",
+  "type_8": "Tote Bags",
+  "type_9": "Dresses",
+  "type_10": "Matching Sets",
+  "type_11": "Accessories",
+  "type_12": "Gift Ideas",
+  "type_13": "Limited Editions",
+  "type_14": "Custom Pieces",
   "login": "Log in",
   "signup": "Sign up",
   "about_us": "About Us",
@@ -28,28 +28,350 @@
   "not_logged_in": "You are not logged in.",
   "loginField1": "Email, username or phone",
   "loginField2": "Password",
-  "copyrightNotice": "Jasmine Collection. All rights reserved.",
-  "bestsellers": "Bestseller Products",
-  "newProducts": "Newest Products",
-  "bestDeals": "Hot Deals",
-  "addToCart": "Add To Cart",
-  "removeFromCart": "Remove From Cart",
+  "copyrightNotice": "Jasmine Crafted. All rights reserved.",
+  "bestsellers": "Bestsellers",
+  "newProducts": "New Arrivals",
+  "bestDeals": "Best Deals",
+  "addToCart": "Add to Cart",
+  "removeFromCart": "Remove from Cart",
   "compare": "Compare",
-  "sort_by": "Sort By",
-  "sort_by_ascending": "Ascending(Low to High)",
-  "sort_by_descending": "Descending(High to Low)",
+  "sort_by": "Sort by",
+  "sort_by_ascending": "Ascending (Low to High)",
+  "sort_by_descending": "Descending (High to Low)",
+  "sort_by_newest": "Newest First",
   "comparison": "Comparison",
   "content": "Content",
-  "in_stock": "In Stock",
-  "out_of_stock": "Out of Stock",
+  "in_stock": "In stock",
+  "out_of_stock": "Out of stock",
   "availability": "Availability",
   "brand": "Brand",
-  "product_code": "Product Code",
+  "product_code": "Product code",
   "description": "Description",
   "specifications": "Specifications",
   "products": "Products",
-  "price_asc": "Գին: ցածրից բարձր",
-  "price_desc": "Գին: բարձրից ցածր",
-  "name_asc": "Անվանում: Ա-Ֆ",
-  "name_desc": "Անվանում: Ֆ-Ա"
+  "price_asc": "Price: Low to High",
+  "price_desc": "Price: High to Low",
+  "name_asc": "Alphabetical: A-Z",
+  "name_desc": "Alphabetical: Z-A",
+  "welcome_user": "Welcome back",
+  "manage_account": "Manage account",
+  "navigation": {
+    "new": "New",
+    "allBags": "All Bags",
+    "crossbody": "Crossbody",
+    "shoulder": "Shoulder",
+    "topHandle": "Top Handle",
+    "evening": "Evening",
+    "belts": "Belts",
+    "accessories": "Accessories"
+  },
+  "landingEditorial": {
+    "hero": {
+      "headline": "Made to be carried, remembered, kept.",
+      "body": "Sculpted handbags and quieter statements for the ritual of leaving beautifully.",
+      "cta": "Explore Handbags"
+    }, 
+    "split": {
+      "headline": "Where softness meets strength.",
+      "body": "Zani is eco-crafted for women who balance softness and strength. Inspired by nature and woven in earthy, light tones, it celebrates calm, freedom, and effortless elegance. Naturally Zani. Unapologetically you.",
+      "cta": "Explore Shoulder Bags"
+    },
+    "grid": {
+      "heading": "Selected Pieces",
+      "cta": "View All Bags",
+      "items": {
+        "crossbody": "Crossbody",
+        "topHandle": "Top Handle",
+        "evening": "Evening",
+        "new": "New"
+      }
+    },
+    "images": {
+      "hero": "Editorial campaign portrait with warm studio light.",
+      "splitPrimary": "Model portrait introducing the shoulder bag collection.",
+      "splitSecondaryOne": "Secondary editorial portrait for the shoulder bag story.",
+      "splitSecondaryTwo": "Secondary editorial portrait with soft movement and detail.",
+      "splitSecondaryThree": "Secondary editorial portrait completing the shoulder bag campaign.",
+      "gridCrossbody": "Campaign image highlighting crossbody silhouettes.",
+      "gridTopHandle": "Campaign image highlighting top handle silhouettes.",
+      "gridEvening": "Campaign image highlighting evening silhouettes.",
+      "gridNew": "Campaign image highlighting new arrivals."
+    }
+  },
+  "common": {
+    "close": "Close"
+  },
+  "footer": {
+    "brand": {
+      "eyebrow": "Jasmine Crafted",
+      "headline": "Made to be carried, remembered, kept.",
+      "description": "Jasmine Crafted shapes handbags with sculpted lines, tactile materials, and a quieter kind of luxury meant to live beautifully in motion.",
+      "line": "Handcrafted silhouettes for a quieter kind of luxury."
+    },
+    "sections": {
+      "explore": "Explore",
+      "clientServices": "Client Services",
+      "ourHouse": "Our House",
+      "legal": "Legal",
+      "legalPreferencesSocial": "Legal / Preferences / Social",
+      "locationLanguage": "Location & Language",
+      "followUs": "Follow Us"
+    },
+    "links": {
+      "new": "New",
+      "allBags": "All Bags",
+      "crossbody": "Crossbody",
+      "shoulder": "Shoulder",
+      "topHandle": "Top Handle",
+      "evening": "Evening",
+      "belts": "Belts",
+      "accessories": "Accessories",
+      "giftCards": "Gift Cards",
+      "sitemap": "Sitemap",
+      "paymentMethods": "Payment Methods",
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "faq": "FAQ",
+      "careServices": "Care & Services",
+      "myAccount": "My Account",
+      "contact": "Contact",
+      "aboutJasmine": "About Jasmine",
+      "ourStory": "Our Story",
+      "craftsmanship": "Craftsmanship",
+      "materials": "Materials",
+      "sustainability": "Sustainability",
+      "careers": "Careers",
+      "storeLocator": "Store Locator",
+      "bookAppointment": "Book an Appointment",
+      "privacyPolicy": "Privacy Policy",
+      "termsConditions": "Terms & Conditions",
+      "accessibility": "Accessibility",
+      "cookiePolicy": "Cookie Policy",
+      "doNotSell": "Do Not Sell or Share My Personal Information",
+      "changeLocationLanguage": "Change location and language",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn",
+      "shippingPolicy": "Shipping Policy",
+      "returnsRefunds": "Returns & Refunds"
+    },
+    "preferences": {
+      "region": "International",
+      "value": "{{region}} / {{language}} / {{currency}}"
+    },
+    "languages": {
+      "en": "English",
+      "ru": "Russian",
+      "am": "Armenian"
+    },
+    "bottom": {
+      "signature": "Crafted in limited runs for a slower luxury."
+    }
+  },
+  "aboutJasmine": {
+    "label": "Jasmine",
+    "title": "About the Brand",
+    "introParagraphOne": "Jasmine is a story woven from delicacy, nature, and a deep love for handmade craftsmanship. Each piece is thoughtfully created to reflect a sense of calm, confidence, and modern feminine strength. Every bag begins as a feeling—an expression of inner harmony and individuality.",
+    "introParagraphTwo": "We believe true beauty lives in the texture, in the softness of colors, and in the simplicity of form. Jasmine is designed for women who choose natural authenticity while living in the modern world. It is more than a brand—it is a quiet statement of elegance, balance, and timeless style.",
+    "quoteOne": "Jasmine is not just seen — it is felt.",
+    "storyParagraphOne": "Each bag in our collection has its own name, its own story, and its own energy. All of them are united by one idea: natural texture + modern style = timeless elegance. Together, they tell the story of the many sides of femininity—sometimes radiant and sunny, sometimes soft and light, sometimes blooming, and sometimes eternally luxurious.",
+    "storyParagraphTwo": "We create bags that combine natural simplicity with modern elegance, becoming not just an accessory, but a story you carry with you. Each weave is a hand-crafted symphony, blending strength and delicacy, the classic and the innovative.",
+    "storyParagraphThree": "Welcome to a world of creativity and comfort! We have immersed ourselves in the beautiful process of creating bags from magical polyester, cotton, and polypropylene cord.",
+    "storyParagraphFour": "During production, we pay special attention to the absence of seams, odors, and to the quality of the cord, so that every bag is flawless and perfect. You can be sure that each piece is made with love.",
+    "quoteTwo": "Gift yourself and your loved ones unique bags from Jasmine.",
+    "cta": "Explore Collection"
+  },
+  "placeholderPages": {
+    "giftCards": {
+      "title": "Gift Cards",
+      "description": "A considered way to give Jasmine Crafted is being prepared with the same care as the pieces themselves."
+    },
+    "sitemap": {
+      "title": "Sitemap",
+      "description": "A clearer map of the house is being composed and will arrive here shortly."
+    },
+    "paymentMethods": {
+      "title": "Payment Methods",
+      "description": "A refined overview of payment options is being prepared for your next checkout."
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Client answers are being gathered into a concise guide for effortless shopping."
+    },
+    "careServices": {
+      "title": "Care & Services",
+      "description": "Our aftercare and service rituals are being arranged in detail for you."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Direct client service details are being prepared with the same discretion as the house itself."
+    },
+    "ourStory": {
+      "title": "Our Story",
+      "description": "The founding story of Jasmine Crafted is being written with the depth it deserves."
+    },
+    "craftsmanship": {
+      "title": "Craftsmanship",
+      "description": "A closer look at the atelier, the making, and the finish is coming here soon."
+    },
+    "materials": {
+      "title": "Materials",
+      "description": "Our material notes and sourcing details are being edited into a dedicated page."
+    },
+    "sustainability": {
+      "title": "Sustainability",
+      "description": "An honest overview of our material choices and long-term commitments is in preparation."
+    },
+    "careers": {
+      "title": "Careers",
+      "description": "Opportunities to join Jasmine Crafted will be shared here when they open."
+    },
+    "storeLocator": {
+      "title": "Store Locator",
+      "description": "A tailored guide to our future retail touchpoints is on the way."
+    },
+    "bookAppointment": {
+      "title": "Book an Appointment",
+      "description": "Private appointments and client consultations will be available here soon."
+    },
+    "accessories": {
+      "title": "Accessories",
+      "description": "The accessories edit is being prepared and will be available once the collection is fully composed."
+    },
+    "belts": {
+      "title": "Belts",
+      "description": "The belts selection is being refined and will arrive here once the category is fully ready."
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "description": "Our accessibility standards and commitments are being documented here."
+    },
+    "cookiePolicy": {
+      "title": "Cookie Policy",
+      "description": "Our cookie policy is being prepared in a clearer, more detailed format."
+    },
+    "doNotSell": {
+      "title": "Do Not Sell or Share My Personal Information",
+      "description": "Regional privacy options and data controls will be provided here in full."
+    }
+  },
+  "auth": {
+    "socialDivider": "or continue with",
+    "fields": {
+      "email": "Email",
+      "emailRequired": "Email *",
+      "password": "Password",
+      "passwordRequired": "Password *",
+      "confirmPasswordRequired": "Confirm Password *",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone"
+    },
+    "login": {
+      "title": "Welcome back",
+      "action": "Sign In",
+      "loading": "Signing in...",
+      "switchPrompt": "Don't have an account?",
+      "placeholders": {
+        "email": "Enter your email",
+        "password": "Enter your password"
+      },
+      "errors": {
+        "default": "Failed to sign in. Please check your credentials."
+      }
+    },
+    "register": {
+      "title": "Create account",
+      "action": "Sign Up",
+      "loading": "Creating account...",
+      "switchPrompt": "Already have an account?",
+      "placeholders": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "email": "Enter your email",
+        "phone": "Enter your phone number",
+        "password": "Create a password",
+        "confirmPassword": "Confirm your password"
+      },
+      "errors": {
+        "passwordMismatch": "Passwords do not match.",
+        "passwordLength": "Password must be at least 6 characters.",
+        "default": "Failed to create account. Please try again."
+      }
+    }
+  },
+  "profileCard": {
+    "notLoggedIn": "You are not logged in.",
+    "orderHistory": "Order History",
+    "shippingInformation": "Shipping Information",
+    "logout": "Logout"
+  },
+  "shoppingBag": {
+    "name": "Shopping Bag",
+    "title": "Shopping Bag ({{count}})",
+    "close": "Close shopping bag",
+    "empty": "Your shopping bag is empty.",
+    "quantity": "Qty: {{count}}",
+    "quantityDecrease": "Decrease quantity",
+    "quantityIncrease": "Increase quantity",
+    "subtotal": "Subtotal",
+    "remove": "Remove product",
+    "removeAction": "Remove",
+    "reviewCheckout": "Review and Checkout",
+    "emptyState": {
+      "title": "Your edit is waiting",
+      "description": "When a piece is ready to come home, your bag will hold it here for a seamless finish.",
+      "cta": "Continue shopping"
+    }
+  },
+  "wishlist": {
+    "name": "Wishlist",
+    "title": "Wishlist ({{count}})",
+    "close": "Close wishlist",
+    "empty": "Your wishlist is empty.",
+    "addToBag": "Add to Bag",
+    "remove": "Remove product",
+    "removeAction": "Remove",
+    "share": "Share Wishlist",
+    "shareSuccess": "Wishlist Copied",
+    "emptyState": {
+      "title": "A place for the pieces that linger",
+      "description": "Save the silhouettes you love and return when the moment feels right.",
+      "cta": "Discover the collection"
+    }
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "profile": "Profile",
+    "orders": "Order History",
+    "shipping": "Shipping Information",
+    "cart": "Shopping Bag",
+    "catalog": "Catalog"
+  },
+  "productCard": {
+    "unavailable": "Unavailable",
+    "like": "Like",
+    "addToCart": "Add to Cart"
+  },
+  "productsPage": {
+    "allProducts": "All Products",
+    "shopBySubcategory": "Shop by Subcategory",
+    "color": "Color",
+    "size": "Size",
+    "filters": "Filters",
+    "applyFilters": "Apply Filters",
+    "clearFilters": "Clear",
+    "noFiltersAvailable": "No filters are available for this selection.",
+    "loading": "Loading the collection...",
+    "empty": "No pieces match your selection.",
+    "editorialImageAlt": "Jasmine editorial campaign image."
+  },
+  "productPage": {
+    "browseProducts": "Browse products",
+    "notFound": "Product not found."
+  },
+  "comparisonPage": {
+    "remove": "Remove from comparison"
+  }
 }

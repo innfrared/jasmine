@@ -1,4 +1,5 @@
 import { apiClient } from './apiClient';
+import { API_ENDPOINTS } from '@/shared/api/endpoints';
 
 export type OrderItemPayload = {
   product_id: number;
@@ -26,7 +27,9 @@ export type CreateOrderResponse = {
 };
 
 export const createOrder = (payload: CreateOrderPayload) =>
-  apiClient.post<CreateOrderResponse>('orders/', { body: payload });
+  apiClient.post<CreateOrderResponse>(API_ENDPOINTS.orders.list, {
+    body: payload,
+  });
 
 export type OrderItemResponse = {
   product_id: number;
@@ -54,7 +57,7 @@ export type OrderResponse = {
 };
 
 export const getOrder = (orderId: number) =>
-  apiClient.get<OrderResponse>(`orders/${orderId}`);
+  apiClient.get<OrderResponse>(API_ENDPOINTS.orders.details(orderId));
 
 export type OrderListItem = {
   id: number;
@@ -63,4 +66,5 @@ export type OrderListItem = {
   created_at?: string;
 };
 
-export const listOrders = () => apiClient.get<OrderListItem[]>('orders/');
+export const listOrders = () =>
+  apiClient.get<OrderListItem[]>(API_ENDPOINTS.orders.list);
