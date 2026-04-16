@@ -14,7 +14,9 @@ const getMediaBaseUrl = () => {
 
   if (envBase) return envBase.replace(/\/+$/, '');
 
-  return getApiBaseUrl().replace(/\/api\/?$/, '');
+  return getApiBaseUrl()
+    .replace(/\/api-proxy\/?$/, '')
+    .replace(/\/api\/?$/, '');
 };
 
 type ResponsiveImageOptions = {

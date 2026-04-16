@@ -25,6 +25,26 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  async rewrites() {
+    const backend =
+      process.env.API_URL ||
+      process.env.API_BASE_URL ||
+      process.env.NEXT_PUBLIC_API_BASE_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      (process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:8000/api'
+        : '');
+    if (!backend) {
+      return [];
+    }
+    const base = backend.replace(/\/+$/, '');
+    return [
+      {
+        source: '/api-proxy/:path*',
+        destination: `${base}/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {

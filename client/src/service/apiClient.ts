@@ -13,39 +13,9 @@ export class ApiError extends Error {
   }
 }
 
-const runtimeEnv =
-  (globalThis as { process?: { env?: Record<string, string | undefined> } })
-    .process?.env ?? {};
+const SAME_ORIGIN_API_PREFIX = '/api-proxy';
 
-const LOCAL_DEV_API_FALLBACK = 'http://localhost:8000/api';
-
-const resolveApiBaseUrl = (): string => {
-  const fromEnv =
-    runtimeEnv.NEXT_PUBLIC_API_URL ||
-    runtimeEnv.NEXT_PUBLIC_API_BASE_URL ||
-    runtimeEnv.API_BASE_URL ||
-    runtimeEnv.REACT_APP_API_BASE_URL ||
-    runtimeEnv.EXPO_PUBLIC_API_BASE_URL;
-
-  if (fromEnv) {
-    return fromEnv.replace(/\/+$/, '');
-  }
-
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    const isLocalHost =
-      host === 'localhost' ||
-      host === '127.0.0.1' ||
-      host === '[::1]';
-    if (!isLocalHost) {
-      return '';
-    }
-  }
-
-  return LOCAL_DEV_API_FALLBACK.replace(/\/+$/, '');
-};
-
-const baseUrl = resolveApiBaseUrl();
+const baseUrl = SAME_ORIGIN_API_PREFIX;
 
 type RequestOptions = {
   body?: unknown;

@@ -1,13 +1,21 @@
-const FALLBACK_API_BASE_URL = 'http://localhost:8000/api';
-
-export const getServerApiBaseUrl = () => {
-  return (
-    process.env.NEXT_PUBLIC_API_URL ||
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
+function resolveServerApiBaseUrl(): string {
+  const raw =
+    process.env.API_URL ||
     process.env.API_BASE_URL ||
-    FALLBACK_API_BASE_URL
-  ).replace(/\/+$/, '');
-};
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    (process.env.NODE_ENV !== 'production' ? 'http://localhost:8000/api' : '');
+
+  const url = raw.replace(/\/+$/, '');
+  if (!url) {
+    throw new Error(
+      'Server API URL is not configured. Set API_URL or API_BASE_URL in the environment (e.g. Vercel → Environment Variables).'
+    );
+  }
+  return url;
+}
+
+export const getServerApiBaseUrl = () => resolveServerApiBaseUrl();
 
 export const buildServerApiUrl = (
   path: string,
