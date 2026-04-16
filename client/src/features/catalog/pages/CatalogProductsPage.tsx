@@ -294,7 +294,8 @@ function CatalogProductsPage() {
     }
 
     const observer = new window.PerformanceObserver(entryList => {
-      const latestEntry = entryList.getEntries().at(-1);
+      const entries = entryList.getEntries();
+      const latestEntry = entries[entries.length - 1];
 
       if (!latestEntry) {
         return;
