@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 
 export const CurrencyOptionContent = styled.span`
   display: inline-flex;
@@ -14,6 +15,7 @@ export const CurrencyTriggerContent = styled.span`
 `;
 
 export const CurrencyIconBadge = styled.span`
+  ${typography.badgeNumericBold}
   width: 18px;
   height: 18px;
   border-radius: 999px;
@@ -23,25 +25,17 @@ export const CurrencyIconBadge = styled.span`
   flex-shrink: 0;
   background: rgba(154, 131, 0, 0.1);
   color: #9a8300;
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1;
 `;
 
 export const CurrencyCode = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  ${typography.bodySmall}
 `;
 
 export const SelectedCurrencyIconBadge = styled(CurrencyIconBadge)`
   background: rgba(255, 255, 255, 0.68);
   color: #001f3f;
   box-shadow: 0 0 0 1px rgba(0, 31, 63, 0.08);
-  line-height: 0;
   transform: translateY(-0.5px);
 `;
 
-export const SelectedCurrencyCode = styled(CurrencyCode)`
-  font-size: 0.68rem;
-`;
+export const SelectedCurrencyCode = styled(CurrencyCode)``;

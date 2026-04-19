@@ -4,6 +4,8 @@ import type { ReactNode } from 'react';
 import { AuthProvider } from '@/context/AuthContext';
 import { CookieBanner, CookieConsentProvider } from '@/shared/consent';
 import StyledRegistry from './styled-registry';
+import { GlobalShellStyles } from '@/shared/styles/GlobalShellStyles';
+import { GlobalTypography } from '@/shared/styles/GlobalTypography';
 import '@/i18n';
 
 type ProvidersProps = {
@@ -13,6 +15,8 @@ type ProvidersProps = {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <StyledRegistry>
+      <GlobalTypography />
+      <GlobalShellStyles />
       <CookieConsentProvider>
         <AuthProvider>
           {children}

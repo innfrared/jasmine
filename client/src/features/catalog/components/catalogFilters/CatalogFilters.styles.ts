@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import CloseButton from '@/shared/ui/close-button';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 import { uiColors, uiShadows } from '@/shared/ui/tokens';
 
@@ -57,7 +58,7 @@ export const FilterToolbarRoot = styled.div<{ $isStickyActive: boolean }>`
     background-color 0.24s ease,
     backdrop-filter 0.24s ease;
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     top: 96px;
   }
 `;
@@ -71,7 +72,7 @@ export const FilterToolbarInner = styled.div`
   justify-content: space-between;
   gap: 1rem;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     width: calc(100% - 3rem);
   }
 `;
@@ -104,6 +105,7 @@ export const FilterToolbarButton = styled.button`
 `;
 
 export const ActiveFilterCount = styled.span`
+  ${typography.badgeNumeric}
   min-width: 1.35rem;
   height: 1.35rem;
   padding: 0 0.35rem;
@@ -112,9 +114,6 @@ export const ActiveFilterCount = styled.span`
   justify-content: center;
   border: 1px solid rgba(36, 49, 64, 0.18);
   color: ${uiColors.navyElevated};
-  font-size: 0.66rem;
-  line-height: 1;
-  letter-spacing: 0.04em;
 `;
 
 export const FilterToolbarCurrentTitle = styled.span`
@@ -141,7 +140,7 @@ export const DrawerOverlay = styled.div<{ $isClosing?: boolean }>`
 
 export const DrawerPanel = styled.aside<{ $isClosing?: boolean }>`
   width: min(424px, 100vw);
-  height: 100vh;
+  height: var(--viewport-height);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -170,14 +169,9 @@ export const DrawerHeader = styled.div`
 `;
 
 export const DrawerTitle = styled.h2`
+  ${typography.sectionHeading}
   margin: 0;
   color: ${uiColors.inkStrong};
-  font-family: var(--font-ui);
-  font-size: 1.05rem;
-  font-weight: 520;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  text-transform: none;
 `;
 
 export const DrawerCloseButton = styled(CloseButton)`

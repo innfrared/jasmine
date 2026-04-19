@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 
 export const LanguageFlagImage = styled.img`
   width: 100%;
@@ -25,9 +26,6 @@ export const LanguageTriggerContent = styled.span`
 `;
 
 export const LanguageLabelText = styled.span`
-  font-size: 0.72rem;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  ${typography.nav}
   white-space: nowrap;
 `;

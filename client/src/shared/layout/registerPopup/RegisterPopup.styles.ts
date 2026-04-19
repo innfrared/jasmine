@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 const fadeIn = keyframes`
@@ -28,8 +29,8 @@ export const Overlay = styled.div`
   right: 0;
   bottom: 0;
   width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
+  height: var(--viewport-height);
+  min-height: var(--viewport-height);
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   display: flex;
@@ -52,12 +53,11 @@ export const Modal = styled.div`
     0 24px 64px rgba(0, 0, 0, 0.2),
     0 8px 16px rgba(0, 0, 0, 0.1);
   animation: ${slideUp} 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: var(--font-ui);
   max-height: 90vh;
   overflow-y: auto;
   border: 1px solid rgba(0, 0, 0, 0.04);
 
-  @media (max-width: 480px) {
+  ${down.tablet} {
     padding: 2rem 1.5rem;
     max-width: 100%;
     border-radius: 10px;
@@ -92,7 +92,6 @@ export const CloseButton = styled.button`
 
 export const Title = styled.h2`
   ${typography.pageHeading};
-  font-size: 2.3rem;
   margin: 0 0 2rem;
   color: #1a1a1a;
   text-align: center;
@@ -116,11 +115,10 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
+  ${typography.body}
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-family: var(--font-ui);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   background: #fafafa;
@@ -138,8 +136,8 @@ export const Input = styled.input`
 `;
 
 export const ErrorMessage = styled.div`
+  ${typography.bodySmall}
   color: #e74c3c;
-  font-size: 0.875rem;
   padding: 0.75rem;
   background: #fee;
   border-radius: 8px;
@@ -152,8 +150,7 @@ export const SubmitButton = styled.button`
   color: white;
   border: none;
   border-radius: 10px;
-  ${typography.button};
-  font-weight: 600;
+  ${typography.buttonBold};
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 0.5rem;
@@ -234,7 +231,6 @@ export const SocialButton = styled.button<{ variant?: string }>`
   background: white;
   color: #333;
   ${typography.button};
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -259,9 +255,9 @@ export const SwitchText = styled.p`
 `;
 
 export const SwitchLink = styled.a`
+  ${typography.bodyStrong}
   color: #1a1a1a;
   text-decoration: none;
-  font-weight: 500;
   transition: color 0.2s ease;
 
   &:hover {

@@ -17,17 +17,15 @@ import { useLocalizedRouting } from '@/shared/routing/localeRouting';
 import {
   FooterBottom,
   FooterBottomText,
-  FooterBrand,
   FooterBrandLine,
+  FooterBrandMark,
   FooterBrandRow,
   FooterContainer,
   FooterDivider,
   FooterExternalLink,
   FooterInner,
   FooterLink,
-  FooterLinkItem,
   FooterLinkList,
-  FooterLogo,
   FooterPreferenceControls,
   FooterPreferenceGroup,
   FooterPreferenceLabel,
@@ -132,9 +130,7 @@ function Footer() {
   }
 
   function renderFooterLinkItem(link: FooterLinkConfig) {
-    return (
-      <FooterLinkItem key={link.id}>{renderFooterLink(link)}</FooterLinkItem>
-    );
+    return <li key={link.id}>{renderFooterLink(link)}</li>;
   }
 
   function renderFooterSocialLink(link: FooterLinkConfig) {
@@ -157,14 +153,12 @@ function Footer() {
     <FooterContainer>
       <FooterInner>
         <FooterBrandRow>
-          <FooterBrand>
-            <FooterLogo>
-              <ReactSVG
-                src={FOOTER_LOGO_SRC}
-                beforeInjection={handleFooterLogoBeforeInjection}
-              />
-            </FooterLogo>
-          </FooterBrand>
+          <FooterBrandMark>
+            <ReactSVG
+              src={FOOTER_LOGO_SRC}
+              beforeInjection={handleFooterLogoBeforeInjection}
+            />
+          </FooterBrandMark>
           <FooterBrandLine>{t('slogan')}</FooterBrandLine>
         </FooterBrandRow>
 
@@ -218,8 +212,6 @@ function Footer() {
             </FooterSocialList>
           </FooterSection>
         </FooterUpper>
-
-        <FooterDivider />
 
         <FooterBottom>
           <FooterBottomText>{t('copyrightNotice')}</FooterBottomText>

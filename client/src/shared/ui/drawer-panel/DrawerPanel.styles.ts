@@ -1,7 +1,9 @@
 import styled, { keyframes } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 import Button from '../button';
 import CloseButton from '../close-button';
-import { uiColors, uiShadows, uiTypography } from '../tokens';
+import { uiColors, uiShadows } from '../tokens';
 
 const overlayFadeIn = keyframes`
   from {
@@ -58,7 +60,7 @@ export const DrawerOverlay = styled.div<{ $isClosing?: boolean }>`
 
 export const DrawerContainer = styled.aside<{ $isClosing?: boolean }>`
   width: min(468px, 100vw);
-  height: 100vh;
+  height: var(--viewport-height);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -87,14 +89,9 @@ export const DrawerHeader = styled.div`
 `;
 
 export const DrawerTitle = styled.h2`
+  ${typography.sectionHeading}
   margin: 0;
   color: ${uiColors.inkStrong};
-  font-family: ${uiTypography.sans};
-  font-size: 1.05rem;
-  font-weight: 520;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  text-transform: none;
 `;
 
 export const DrawerCloseButton = styled(CloseButton)`
@@ -124,7 +121,7 @@ export const DrawerItemsList = styled.div`
     border-radius: 999px;
   }
 
-  @media (max-width: 520px) {
+  ${down.tablet} {
     padding: 1.15rem;
     gap: 0.85rem;
   }
@@ -144,26 +141,21 @@ export const DrawerFooter = styled.div`
     ),
     rgba(255, 255, 255, 0.78);
 
-  @media (max-width: 520px) {
+  ${down.tablet} {
     padding-inline: 1.15rem;
   }
 `;
 
 export const DrawerSummaryRow = styled.div`
+  ${typography.bodySmall}
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
   color: ${uiColors.inkStrong};
-  font-family: ${uiTypography.sans};
-  font-size: 0.92rem;
-  line-height: 1.3;
 
   span:last-child {
-    font-size: 1.02rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    ${typography.label}
   }
 `;
 
@@ -173,9 +165,6 @@ export const DrawerPrimaryButton = styled(Button).attrs({
   fullWidth: true,
 })`
   min-height: 48px;
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 `;
 
 export const DrawerSecondaryButton = styled(Button).attrs({
@@ -184,7 +173,4 @@ export const DrawerSecondaryButton = styled(Button).attrs({
   fullWidth: true,
 })`
   min-height: 48px;
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 `;

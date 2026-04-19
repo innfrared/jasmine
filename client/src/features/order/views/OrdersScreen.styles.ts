@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 
 export const OrdersContainer = styled.div`
   min-height: calc(100vh - 200px);
   padding: 10rem 2rem;
   background: #fafafa;
-  font-family: var(--font-ui);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 2rem 1rem;
   }
 `;
@@ -21,15 +22,9 @@ export const OrdersHeader = styled.div`
 `;
 
 export const OrdersTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
+  ${typography.pageHeading}
   color: #1a1a1a;
   margin: 0;
-  font-family: var(--font-ui);
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
 `;
 
 export const EmptyState = styled.div`
@@ -47,13 +42,13 @@ export const EmptyStateIcon = styled.div`
 `;
 
 export const EmptyStateText = styled.div`
-  font-size: 1.1rem;
+  ${typography.bodyStrong}
   color: #666;
-  font-family: var(--font-ui);
 `;
 
-export const EmptyStateSubtext = styled(EmptyStateText)`
-  font-size: 0.9rem;
+export const EmptyStateSubtext = styled.div`
+  ${typography.bodySmall}
+  color: #666;
   margin-top: 0.5rem;
 `;
 
@@ -87,26 +82,20 @@ export const OrderHeader = styled.div`
 `;
 
 export const OrderId = styled.div`
-  font-size: 1.1rem;
-  font-weight: 600;
+  ${typography.bodyStrong}
   color: #1a1a1a;
   margin-bottom: 0.25rem;
-  font-family: var(--font-ui);
 `;
 
 export const OrderDate = styled.div`
-  font-size: 0.9rem;
+  ${typography.bodySmall}
   color: #666;
-  font-family: var(--font-ui);
 `;
 
 export const OrderStatus = styled.div<{ $status: string }>`
+  ${typography.bodySmallCapitalized}
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
-  text-transform: capitalize;
   background: ${({ $status }) => {
     switch ($status?.toLowerCase()) {
       case 'completed':
@@ -159,17 +148,14 @@ export const OrderItemDetails = styled.div`
 `;
 
 export const OrderItemName = styled.div`
-  font-size: 0.95rem;
-  font-weight: 500;
+  ${typography.bodySmallStrong}
   color: #1a1a1a;
   margin-bottom: 0.25rem;
-  font-family: var(--font-ui);
 `;
 
 export const OrderItemPrice = styled.div`
-  font-size: 0.85rem;
+  ${typography.bodySmall}
   color: #666;
-  font-family: var(--font-ui);
 `;
 
 export const OrderTotal = styled.div`
@@ -181,15 +167,11 @@ export const OrderTotal = styled.div`
 `;
 
 export const OrderTotalLabel = styled.div`
-  font-size: 1rem;
-  font-weight: 600;
+  ${typography.bodyStrong}
   color: #1a1a1a;
-  font-family: var(--font-ui);
 `;
 
 export const OrderTotalValue = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
+  ${typography.sectionHeading}
   color: #001f3f;
-  font-family: var(--font-ui);
 `;

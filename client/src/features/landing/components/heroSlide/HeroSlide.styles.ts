@@ -1,10 +1,11 @@
 import { ReactSVG } from 'react-svg';
 import styled, { css, keyframes } from 'styled-components';
+import { down, media } from '@/shared/styles/breakpoints';
 
 export const HeroContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: var(--viewport-height);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,8 +30,8 @@ export const HeroContainer = styled.div`
     z-index: 2;
   }
 
-  @media (max-width: 768px) {
-    height: 100vh;
+  ${down.tablet} {
+    height: var(--viewport-height);
     padding-left: 2rem;
   }
 `;
@@ -41,14 +42,16 @@ const liftShrinkFade = keyframes`
     opacity: 1;
   }
   100% {
-    transform: translate3d(0, -45vh, 0) scale(0.06);
+    transform: translate3d(0, calc(var(--viewport-height) * -0.45), 0)
+      scale(0.06);
     opacity: 1;
   }
 `;
 
 const appearBack = keyframes`
   0% {
-    transform: translate3d(0, -45vh, 0) scale(0.06);
+    transform: translate3d(0, calc(var(--viewport-height) * -0.45), 0)
+      scale(0.06);
     opacity: 1;
   }
   100% {
@@ -90,7 +93,8 @@ export const CentralImage = styled(ReactSVG)<{
         `;
       case 'done':
         return css`
-          transform: translate3d(0, -50vh, 0) scale(0.1);
+          transform: translate3d(0, calc(var(--viewport-height) * -0.5), 0)
+            scale(0.1);
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
@@ -99,7 +103,7 @@ export const CentralImage = styled(ReactSVG)<{
     }
   }}
 
-  @media (prefers-reduced-motion: reduce) {
+  ${media.motionReduce} {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 export const CheckoutPageContainer = styled.div`
@@ -16,19 +17,17 @@ export const CheckoutContent = styled.div`
   padding: 10rem 1.5rem 6rem;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 1.5rem 1rem 3rem;
   }
 `;
 
 export const CheckoutTitle = styled.h1`
   ${typography.pageHeading};
-  font-size: clamp(2.35rem, 2vw + 1.6rem, 3.1rem);
   color: #1a1a1a;
   margin: 3rem 0 2rem;
 
-  @media (max-width: 768px) {
-    font-size: 2rem;
+  ${down.tablet} {
     margin: 2rem 0 1.5rem;
   }
 `;
@@ -38,7 +37,7 @@ export const CheckoutGrid = styled.div`
   grid-template-columns: 1fr 420px;
   gap: 2rem;
 
-  @media (max-width: 968px) {
+  ${down.laptop} {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -50,7 +49,7 @@ export const CustomerDetailsSection = styled.div`
   padding: 2rem;
   box-shadow: 0 10px 28px rgba(24, 16, 12, 0.05);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 1.5rem;
   }
 `;
@@ -204,10 +203,8 @@ export const OrderItemDetails = styled.div`
 `;
 
 export const OrderItemName = styled.div`
-  ${typography.bodySmall};
+  ${typography.bodySmallStrong};
   color: #1a1a1a;
-  font-weight: 500;
-  line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -216,9 +213,8 @@ export const OrderItemName = styled.div`
 `;
 
 export const OrderItemPrice = styled.div`
-  ${typography.bodySmall};
+  ${typography.bodySmallStrong};
   color: #666;
-  font-weight: 500;
 `;
 
 export const OrderItemQuantity = styled.div`
@@ -229,6 +225,7 @@ export const OrderItemQuantity = styled.div`
   ${typography.bodySmall};
 
   button {
+    ${typography.bodyStrong}
     background: none;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 6px;
@@ -239,10 +236,7 @@ export const OrderItemQuantity = styled.div`
     justify-content: center;
     cursor: pointer;
     color: #666;
-    font-size: 1.2rem;
-    font-weight: 400;
     transition: all 0.2s ease;
-    line-height: 1;
 
     &:hover {
       background: rgba(0, 31, 63, 0.05);
@@ -256,9 +250,9 @@ export const OrderItemQuantity = styled.div`
   }
 
   span {
+    ${typography.bodyStrong}
     min-width: 24px;
     text-align: center;
-    font-weight: 500;
     color: #1a1a1a;
   }
 `;
@@ -307,16 +301,13 @@ export const OrderSummaryRow = styled.div`
 `;
 
 export const OrderSummaryTotal = styled.div`
+  ${typography.bodyStrong}
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.15rem;
-  font-weight: 600;
   color: #1a1a1a;
   padding-top: 0.75rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  font-family: var(--font-ui);
-  letter-spacing: 0.02em;
 `;
 
 export const PaymentSection = styled.div`
@@ -334,8 +325,7 @@ export const PlaceOrderButton = styled.button`
   color: white;
   border: none;
   border-radius: 10px;
-  ${typography.button};
-  font-weight: 600;
+  ${typography.buttonBold};
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 

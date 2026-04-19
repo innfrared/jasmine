@@ -18,11 +18,14 @@ const LocaleLayout = async ({ children, params }: LocaleLayoutProps) => {
   return (
     <div className="storefront-shell">
       <LocaleSync />
-      <div className="storefront-page-surface">
-        {children}
-        <div className="storefront-footer-reveal-spacer" aria-hidden="true" />
+      <div className="storefront-main-layer">
+        <div className="storefront-page-surface">{children}</div>
       </div>
-      <Footer />
+      <div className="storefront-footer-reveal-layer">
+        <div className="storefront-footer-reveal-inner">
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 };

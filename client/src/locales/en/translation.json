@@ -98,6 +98,60 @@
       "gridNew": "Campaign image highlighting new arrivals."
     }
   },
+  "landingHome": {
+    "curated": {
+      "dominantTitle": "Handbags",
+      "dominantDescriptor": "The heart of the collection",
+      "dominantImage": "Editorial portrait with a sculptural handbag silhouette.",
+      "supportShoulder": "Shoulder bags in soft studio light.",
+      "supportCrossbody": "Crossbody line and quiet movement.",
+      "supportEvening": "Evening silhouettes and refined proportion.",
+      "supportTitles": {
+        "shoulder": "Shoulder",
+        "crossbody": "Crossbody",
+        "evening": "Evening"
+      }
+    },
+    "manifesto": {
+      "kicker": "Our house",
+      "headline": "Made to be carried, remembered, kept.",
+      "line": "Sculpted handbags for the ritual of leaving beautifully.",
+      "cta": "Explore the edit",
+      "image": "Quiet editorial still for the brand manifesto."
+    },
+    "featured": {
+      "eyebrow": "First to see",
+      "heading": "Pieces we want you to notice",
+      "empty": "The collection is unfolding. Explore all bags while we prepare this edit."
+    },
+    "craft": {
+      "kicker": "By hand. By feel.",
+      "one": "Close detail of hardware and stitching.",
+      "two": "Texture of leather in soft light.",
+      "three": "Silhouette and proportion study."
+    },
+    "mixed": {
+      "eyebrow": "Signature story",
+      "signatureTitle": "The top-handle line",
+      "signatureSubtitle": "Architecture for the hand. A single silhouette, carried like a thought.",
+      "supportOneTitle": "Shoulder world",
+      "supportTwoTitle": "New arrivals",
+      "image": "Campaign still for the signature top-handle silhouette.",
+      "supportA": "Secondary story frame for the shoulder collection.",
+      "supportB": "Secondary story frame for new arrivals."
+    },
+    "closing": {
+      "eyebrow": "Craft, quietly considered",
+      "headline": "Built through texture, structure, and hand-finished detail.",
+      "supporting1": "Each piece is shaped through deliberate repetition — every stitch, every pull, every join creating a surface that feels tactile, grounded, and unmistakably made by hand.",
+      "supporting2": "We focus on the details that stay with you: the rhythm of the weave, the softness of the texture, the firmness of the build, and the small finishing elements that give each form its quiet presence.",
+      "note": "What you see is not decoration alone, but structure, patience, and material character brought into balance.",
+      "cta": "Our craft",
+      "hardware": "Close study of hardware and metal.",
+      "logoDetail": "Mark and emblem in quiet focus.",
+      "stitching": "Thread and leather in fine detail."
+    }
+  },
   "common": {
     "close": "Close"
   },

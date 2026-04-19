@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 import Button from '../button';
 import IconButton from '../icon-button';
-import { uiColors, uiShadows, uiTypography } from '../tokens';
+import { uiColors, uiShadows } from '../tokens';
 
 export const DrawerProductCard = styled.article`
   position: relative;
@@ -41,7 +43,7 @@ export const DrawerProductCardButton = styled.button`
     transform: scale(1.04);
   }
 
-  @media (max-width: 520px) {
+  ${down.tablet} {
     grid-template-columns: 82px minmax(0, 1fr);
     gap: 0.85rem;
   }
@@ -61,7 +63,7 @@ export const DrawerProductMedia = styled.div`
     #f1e9de;
   box-shadow: inset 0 0 0 1px rgba(44, 31, 20, 0.04);
 
-  @media (max-width: 520px) {
+  ${down.tablet} {
     width: 82px;
     height: 104px;
   }
@@ -85,22 +87,14 @@ export const DrawerProductContent = styled.div`
 `;
 
 export const DrawerProductEyebrow = styled.span`
+  ${typography.utility}
   color: #89715c;
-  font-family: ${uiTypography.sans};
-  font-size: 0.64rem;
-  letter-spacing: 0.2em;
-  line-height: 1.2;
-  text-transform: uppercase;
 `;
 
 export const DrawerProductTitle = styled.h3`
+  ${typography.sectionHeading}
   margin: 0;
   color: ${uiColors.ink};
-  font-family: ${uiTypography.serif};
-  font-size: 1.28rem;
-  font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: 0.02em;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -109,21 +103,14 @@ export const DrawerProductTitle = styled.h3`
 `;
 
 export const DrawerProductMeta = styled.span`
+  ${typography.bodySmall}
   color: ${uiColors.inkMuted};
-  font-family: ${uiTypography.sans};
-  font-size: 0.8rem;
-  line-height: 1.5;
 `;
 
 export const DrawerProductPrice = styled.span`
+  ${typography.label}
   margin-top: 0.22rem;
   color: ${uiColors.inkStrong};
-  font-family: ${uiTypography.sans};
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  line-height: 1.1;
-  text-transform: uppercase;
 `;
 
 export const DrawerProductRailAction = styled(IconButton).attrs<{
@@ -153,7 +140,7 @@ export const DrawerProductActionGroup = styled.div`
   flex: 1;
   width: 100%;
 
-  @media (max-width: 520px) {
+  ${down.tablet} {
     flex-wrap: wrap;
   }
 `;
@@ -161,9 +148,6 @@ export const DrawerProductActionGroup = styled.div`
 export const DrawerProductActionButton = styled(Button)`
   flex: 1 1 auto;
   min-height: 44px;
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 `;
 
 export const DrawerProductQuantityControl = styled.div`
@@ -179,13 +163,12 @@ export const DrawerProductQuantityControl = styled.div`
 `;
 
 export const DrawerProductQuantityStep = styled.button`
+  ${typography.bodyStrong}
   width: 40px;
   height: 44px;
   border: none;
   background: transparent;
   color: #3f3026;
-  font-family: ${uiTypography.sans};
-  font-size: 1rem;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -198,13 +181,9 @@ export const DrawerProductQuantityStep = styled.button`
 `;
 
 export const DrawerProductQuantityValue = styled.span`
+  ${typography.label}
   min-width: 86px;
   padding-inline: 0.35rem;
   color: ${uiColors.ink};
-  font-family: ${uiTypography.sans};
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  line-height: 1;
   text-align: center;
-  text-transform: uppercase;
 `;

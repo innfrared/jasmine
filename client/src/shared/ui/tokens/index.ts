@@ -31,6 +31,18 @@ export const uiColors = {
   navyMuted: 'rgba(0, 31, 63, 0.7)',
   white: '#ffffff',
   whiteSoft: 'rgba(255, 255, 255, 0.12)',
+  footerReveal: '#0b1231',
+  surfaceHomeLightA: '#ece9e3',
+  surfaceHomeLightB: '#dbd5c9',
+  surfaceHomeDark: '#1c1a19',
+  surfaceHomeDarkElevated: '#252220',
+} as const;
+
+export const uiMotion = {
+  easeSoft: 'cubic-bezier(0.33, 1, 0.68, 1)',
+  hover: '520ms cubic-bezier(0.33, 1, 0.68, 1)',
+  hoverSlow: '620ms cubic-bezier(0.33, 1, 0.68, 1)',
+  drift: '7.5s ease-in-out',
 } as const;
 
 export const uiRadii = {

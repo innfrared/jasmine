@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 export const PolicyPageContainer = styled.div`
@@ -16,14 +17,13 @@ export const PolicyContent = styled.div`
   padding: 10rem 1.5rem 6rem;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 2rem 1rem 3rem;
   }
 `;
 
 export const PolicyTitle = styled.h1`
   ${typography.pageHeading};
-  font-size: clamp(2.4rem, 2vw + 1.7rem, 3.4rem);
   color: #1a1a1a;
   margin: 0 0 1.75rem;
 `;

@@ -2,20 +2,28 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { ListingProduct } from '@/entities/catalog/listingProduct';
+import CuratedEntry from '@/features/landing/components/home/CuratedEntry';
+import EditorialClosing from '@/features/landing/components/home/EditorialClosing';
+import EditorialCraft from '@/features/landing/components/home/EditorialCraft';
+import EditorialManifesto from '@/features/landing/components/home/EditorialManifesto';
+import FeaturedProducts from '@/features/landing/components/home/FeaturedProducts';
+import MixedCommerce from '@/features/landing/components/home/MixedCommerce';
 import Header from '@/shared/layout/header/Header';
-import GridEditorial from '@/features/landing/components/editorial/GridEditorial';
-import HeroEditorial from '@/features/landing/components/editorial/HeroEditorial';
-import SplitEditorial from '@/features/landing/components/editorial/SplitEditorial';
 import HeroSlide from '@/features/landing/components/heroSlide/HeroSlide';
-import { buildLandingEditorialContent } from '@/shared/config/landingEditorial';
+import { buildLandingHomeContent } from '@/shared/config/landingHome';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
 import { LandingScreenContainer } from './LandingScreen.styles';
 
-function LandingScreen() {
+type LandingScreenProps = {
+  featuredProducts: ListingProduct[];
+};
+
+function LandingScreen({ featuredProducts }: LandingScreenProps) {
   const { t } = useTranslation<'translation'>();
   const { getLocalizedPath } = useLocalizedRouting();
-  const editorialContent = useMemo(
-    () => buildLandingEditorialContent(t, getLocalizedPath),
+  const homeContent = useMemo(
+    () => buildLandingHomeContent(t, getLocalizedPath),
     [getLocalizedPath, t]
   );
 
@@ -23,9 +31,12 @@ function LandingScreen() {
     <LandingScreenContainer>
       <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
       <HeroSlide />
-      <SplitEditorial {...editorialContent.split} />
-      <HeroEditorial {...editorialContent.hero} />
-      <GridEditorial {...editorialContent.grid} />
+      <CuratedEntry {...homeContent.curatedEntry} />
+      <EditorialManifesto {...homeContent.editorialManifesto} />
+      <FeaturedProducts products={featuredProducts} />
+      <EditorialCraft slides={homeContent.editorialCraft.slides} />
+      <MixedCommerce {...homeContent.mixedCommerce} />
+      <EditorialClosing {...homeContent.editorialClosing} />
     </LandingScreenContainer>
   );
 }

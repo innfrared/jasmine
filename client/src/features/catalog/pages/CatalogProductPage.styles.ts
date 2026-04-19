@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 export const ProductPageContainer = styled.div`
@@ -13,7 +14,7 @@ export const ProductContent = styled.div`
   padding: 132px 0.5rem 4.25rem;
   width: 100%;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 116px 0.45rem 3.5rem;
   }
 `;
@@ -30,7 +31,7 @@ export const ProductGrid = styled.section`
   gap: 2.6rem;
   margin-top: 1.75rem;
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     grid-template-columns: 1fr;
     gap: 2.25rem;
   }
@@ -107,16 +108,12 @@ export const DetailsColumn = styled.div`
 export const BrandLabel = styled.p`
   margin: 0;
   ${typography.label};
-  letter-spacing: 0.12em;
   color: #646464;
-  text-transform: uppercase;
 `;
 
 export const ProductTitle = styled.h1`
   margin: 0;
   ${typography.pageHeading};
-  font-size: clamp(2rem, 1.4vw + 1.3rem, 2.7rem);
-  line-height: 1.05;
   color: #101010;
 `;
 
@@ -124,7 +121,6 @@ export const ProductDescription = styled.p`
   margin: 0;
   ${typography.body};
   color: #363636;
-  line-height: 1.6;
 `;
 
 export const PriceRow = styled.div`
@@ -146,10 +142,8 @@ export const PreviousPrice = styled.span`
 `;
 
 export const AvailabilityPill = styled.span<{ $available: boolean }>`
+  ${typography.label}
   margin-left: auto;
-  ${typography.bodySmall};
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: ${({ $available }) => ($available ? '#225c34' : '#782222')};
   background: ${({ $available }) => ($available ? '#e8f3eb' : '#f8ecec')};
   border: 1px solid ${({ $available }) => ($available ? '#c9dfcf' : '#e8cdcd')};
@@ -168,8 +162,6 @@ export const SectionTitle = styled.h2`
   margin: 0;
   ${typography.label};
   color: #272727;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 `;
 
 export const SwatchGrid = styled.div`
@@ -215,7 +207,7 @@ export const VariantMetaGrid = styled.div`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.7rem 1rem;
 
-  @media (max-width: 640px) {
+  ${down.tablet} {
     grid-template-columns: 1fr;
   }
 `;
@@ -227,16 +219,13 @@ export const VariantMetaItem = styled.div`
 `;
 
 export const VariantMetaLabel = styled.span`
-  ${typography.bodySmall};
+  ${typography.label};
   color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 `;
 
 export const VariantMetaValue = styled.span`
   ${typography.body};
   color: #101010;
-  line-height: 1.4;
 `;
 
 export const QuantityRow = styled.div`
@@ -281,7 +270,7 @@ export const ActionsRow = styled.div`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
 
-  @media (max-width: 640px) {
+  ${down.tablet} {
     grid-template-columns: 1fr;
   }
 `;
@@ -334,16 +323,14 @@ export const SpecRow = styled.div`
   border-bottom: 1px solid #f1f1f1;
   padding: 0.55rem 0;
 
-  @media (max-width: 680px) {
+  ${down.tablet} {
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
 `;
 
 export const SpecLabel = styled.span`
-  ${typography.bodySmall};
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  ${typography.label};
   color: #6c6c6c;
 `;
 

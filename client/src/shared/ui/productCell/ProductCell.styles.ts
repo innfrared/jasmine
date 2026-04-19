@@ -53,13 +53,10 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.p`
-  ${typography.bodySmall};
+  ${typography.bodySmallCaps};
   grid-area: title;
   margin: 0;
   color: rgba(29, 29, 28, 0.82);
-  letter-spacing: 0.075em;
-  line-height: 1.34;
-  text-transform: uppercase;
 `;
 
 export const PriceContainer = styled.div`
@@ -70,12 +67,9 @@ export const PriceContainer = styled.div`
 `;
 
 export const Price = styled.p`
+  ${typography.bodyStrong};
   margin: 0;
-  font-family: var(--font-ui);
-  font-size: 0.94rem;
-  font-weight: 520;
   color: #1b1b1a;
-  letter-spacing: 0.015em;
 `;
 
 export const Swatches = styled.div`

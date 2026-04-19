@@ -6,6 +6,9 @@ import '../style.css';
 export const metadata: Metadata = {
   title: 'Jasmine Crafted',
   description: 'Jasmine Crafted storefront',
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  },
 };
 
 type RootLayoutProps = {

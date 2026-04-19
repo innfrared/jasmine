@@ -1,4 +1,10 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  CSSProperties,
+  ReactNode,
+} from 'react';
+import Link from 'next/link';
 import {
   ButtonBase,
   ButtonContent,
@@ -12,7 +18,7 @@ import type {
   ButtonVariant,
 } from './button.types';
 
-type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+type ButtonSharedProps = {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -21,8 +27,47 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
   iconPlacement?: ButtonIconPlacement;
   loading?: boolean;
   fullWidth?: boolean;
-  type?: 'button' | 'submit' | 'reset';
 };
+
+type ButtonAsButtonProps = ButtonSharedProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+    href?: undefined;
+    type?: 'button' | 'submit' | 'reset';
+  };
+
+type LinkPassthrough = Pick<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  | 'className'
+  | 'id'
+  | 'style'
+  | 'title'
+  | 'target'
+  | 'rel'
+  | 'download'
+  | 'onClick'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onMouseEnter'
+  | 'onMouseLeave'
+  | 'onKeyDown'
+  | 'aria-label'
+  | 'aria-describedby'
+  | 'aria-current'
+  | 'tabIndex'
+> & {
+  style?: CSSProperties;
+};
+
+type ButtonAsLinkProps = ButtonSharedProps &
+  LinkPassthrough & {
+    href: string;
+    type?: never;
+    prefetch?: boolean;
+    replace?: boolean;
+    scroll?: boolean;
+  };
+
+export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
 
 function LinkArrowIcon() {
   return (
@@ -45,35 +90,33 @@ function LinkArrowIcon() {
   );
 }
 
-export default function Button({
-  children,
-  variant = 'primary',
-  size = 'md',
-  iconLeft,
-  iconRight,
-  iconPlacement = 'left',
-  loading = false,
-  fullWidth = false,
-  disabled = false,
-  type = 'button',
-  ...rest
-}: ButtonProps) {
+function isHrefButton(props: ButtonProps): props is ButtonAsLinkProps {
+  return typeof props.href === 'string' && props.href.length > 0;
+}
+
+export default function Button(props: ButtonProps) {
+  const {
+    children,
+    variant = 'primary',
+    size = 'md',
+    iconLeft,
+    iconRight,
+    iconPlacement = 'left',
+    loading = false,
+    fullWidth = false,
+  } = props;
+
+  const isDisabled =
+    loading ||
+    ('disabled' in props && props.disabled) ||
+    ('aria-disabled' in props && props['aria-disabled'] === true);
+
   const trailingIcon =
     iconRight ??
     (variant === 'link' && !iconLeft && !iconRight ? <LinkArrowIcon /> : null);
 
-  return (
-    <ButtonBase
-      type={type}
-      disabled={disabled || loading}
-      aria-busy={loading || undefined}
-      $variant={variant}
-      $size={size}
-      $fullWidth={fullWidth}
-      $iconPlacement={iconPlacement}
-      $isLoading={loading}
-      {...rest}
-    >
+  const inner = (
+    <>
       {loading ? <ButtonLoader aria-hidden="true" /> : null}
       <ButtonContent $iconPlacement={iconPlacement} $isLoading={loading}>
         {iconLeft ? (
@@ -88,11 +131,67 @@ export default function Button({
           </ButtonIcon>
         ) : null}
       </ButtonContent>
+    </>
+  );
+
+  if (isHrefButton(props)) {
+    const p = props;
+    return (
+      <ButtonBase
+        as={Link}
+        href={p.href}
+        prefetch={p.prefetch}
+        replace={p.replace}
+        scroll={p.scroll}
+        className={p.className}
+        id={p.id}
+        style={p.style}
+        title={p.title}
+        target={p.target}
+        rel={p.rel}
+        download={p.download}
+        onClick={p.onClick}
+        onFocus={p.onFocus}
+        onBlur={p.onBlur}
+        onMouseEnter={p.onMouseEnter}
+        onMouseLeave={p.onMouseLeave}
+        onKeyDown={p.onKeyDown}
+        aria-label={p['aria-label']}
+        aria-describedby={p['aria-describedby']}
+        aria-current={p['aria-current']}
+        tabIndex={p.tabIndex}
+        aria-busy={loading || undefined}
+        aria-disabled={isDisabled || undefined}
+        $variant={variant}
+        $size={size}
+        $fullWidth={fullWidth}
+        $iconPlacement={iconPlacement}
+        $isLoading={loading}
+      >
+        {inner}
+      </ButtonBase>
+    );
+  }
+
+  const { disabled = false, type = 'button', ...rest } = props;
+
+  return (
+    <ButtonBase
+      type={type}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      $variant={variant}
+      $size={size}
+      $fullWidth={fullWidth}
+      $iconPlacement={iconPlacement}
+      $isLoading={loading}
+      {...rest}
+    >
+      {inner}
     </ButtonBase>
   );
 }
 
-export type { ButtonProps };
 export type {
   ButtonIconPlacement,
   ButtonSize,

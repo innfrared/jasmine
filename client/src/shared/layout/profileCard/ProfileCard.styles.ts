@@ -1,4 +1,6 @@
 import styled, { keyframes } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 
 const slideDown = keyframes`
   from {
@@ -24,9 +26,8 @@ export const ProfileCardContainer = styled.div<{ $isScrolled: boolean }>`
   animation: ${slideDown} 0.2s ease-out;
   border: 1px solid rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  font-family: var(--font-ui);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     right: 0;
     left: auto;
     min-width: 260px;
@@ -47,6 +48,7 @@ export const ProfileHeader = styled.div`
 `;
 
 export const ProfileIcon = styled.div`
+  ${typography.bodyStrong}
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -55,10 +57,7 @@ export const ProfileIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  font-weight: 600;
   flex-shrink: 0;
-  font-family: var(--font-ui);
 `;
 
 export const ProfileInfo = styled.div`
@@ -67,23 +66,20 @@ export const ProfileInfo = styled.div`
 `;
 
 export const ProfileName = styled.div`
-  font-size: 0.95rem;
-  font-weight: 600;
+  ${typography.bodySmallStrong}
   color: #1a1a1a;
   margin-bottom: 0.25rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: var(--font-ui);
 `;
 
 export const ProfileEmail = styled.div`
-  font-size: 0.85rem;
+  ${typography.bodySmall}
   color: #666;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: var(--font-ui);
 `;
 
 export const ProfileArrow = styled.div`
@@ -106,6 +102,7 @@ export const ProfileMenuDivider = styled.div`
 `;
 
 export const ProfileMenuItem = styled.button`
+  ${typography.bodySmallStrong}
   width: 100%;
   display: flex;
   align-items: center;
@@ -115,9 +112,6 @@ export const ProfileMenuItem = styled.button`
   border: none;
   cursor: pointer;
   color: #1a1a1a;
-  font-size: 0.95rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   border-radius: 0;
   transition: all 0.2s ease;
   text-align: left;
@@ -145,6 +139,7 @@ export const ProfileMenuItem = styled.button`
 `;
 
 export const LogoutButton = styled.button`
+  ${typography.bodySmallStrong}
   width: 100%;
   display: flex;
   align-items: center;
@@ -154,9 +149,6 @@ export const LogoutButton = styled.button`
   border: none;
   cursor: pointer;
   color: #cc0c5c;
-  font-size: 0.95rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   border-radius: 0;
   transition: all 0.2s ease;
   text-align: left;
@@ -183,15 +175,15 @@ export const LogoutButton = styled.button`
 `;
 
 export const NotLoggedInMessage = styled.div`
-  font-size: 0.9rem;
+  ${typography.bodySmall}
   color: #666;
   text-align: center;
   margin: 0;
   padding: 1rem;
-  font-family: var(--font-ui);
 `;
 
 export const LoginSignupButton = styled.button`
+  ${typography.bodySmallStrong}
   width: 100%;
   display: flex;
   align-items: center;
@@ -201,9 +193,6 @@ export const LoginSignupButton = styled.button`
   border: none;
   cursor: pointer;
   color: #1a1a1a;
-  font-size: 0.95rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   border-radius: 0;
   transition: all 0.2s ease;
   text-align: left;

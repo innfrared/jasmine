@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 
 export const VisuallyHiddenLabel = styled.span`
   position: absolute !important;
@@ -13,10 +14,10 @@ export const VisuallyHiddenLabel = styled.span`
 export const Container = styled.div<{ $width?: string }>`
   position: relative;
   width: ${({ $width }) => $width ?? '240px'};
-  font-family: inherit;
 `;
 
 export const Trigger = styled.button<{ $isScrolled?: boolean }>`
+  ${typography.bodySmall}
   width: 100%;
   height: 28px;
   padding: 0;
@@ -43,8 +44,6 @@ export const Trigger = styled.button<{ $isScrolled?: boolean }>`
 
 export const ValueText = styled.span<{ $isScrolled?: boolean }>`
   color: ${({ $isScrolled }) => ($isScrolled ? '#001f3f' : '#ffffff')};
-  font-weight: 400;
-  font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -53,14 +52,12 @@ export const ValueText = styled.span<{ $isScrolled?: boolean }>`
 export const PlaceholderText = styled.span<{ $isScrolled?: boolean }>`
   color: ${({ $isScrolled }) =>
     $isScrolled ? '#8a8f98' : 'rgba(255, 255, 255, 0.7)'};
-  font-size: 0.875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 export const Chevron = styled.span<{ $isScrolled?: boolean }>`
-  font-size: 0.7rem;
   transform: rotate(0deg);
   transition:
     transform 0.2s ease,
@@ -112,6 +109,7 @@ export const Menu = styled.ul<{ $maxHeight?: string; $minWidth?: string }>`
 `;
 
 export const SearchInput = styled.input`
+  ${typography.bodySmall}
   width: 100%;
   height: 32px;
   margin: 2px 2px 4px;
@@ -120,7 +118,6 @@ export const SearchInput = styled.input`
   border: 1px solid #e2e2e2;
   background: #fafafa;
   color: #001f3f;
-  font-size: 0.875rem;
   &:focus {
     outline: 2px solid #9a8300;
     outline-offset: 1px;
@@ -128,6 +125,7 @@ export const SearchInput = styled.input`
 `;
 
 export const OptionRow = styled.div`
+  ${typography.bodySmall}
   display: flex;
   align-items: center;
   gap: 8px;
@@ -136,7 +134,6 @@ export const OptionRow = styled.div`
   margin-bottom: 2px;
   border-radius: 6px;
   color: #001f3f;
-  font-size: 0.875rem;
   cursor: pointer;
   user-select: none;
   transition:
@@ -149,9 +146,9 @@ export const OptionRow = styled.div`
   }
 
   &[aria-selected='true'] {
+    ${typography.bodyStrong}
     background: rgba(154, 131, 0, 0.08);
     color: #9a8300;
-    font-weight: 500;
   }
 
   &[data-highlighted] {

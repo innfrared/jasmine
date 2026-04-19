@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { uiColors, uiFocusRing, uiTypography } from '../tokens';
+import { typography } from '@/shared/styles/typography';
+import { uiColors, uiFocusRing } from '../tokens';
 
 export type NavActionTone = 'default' | 'wishlist' | 'shoppingBag';
 
@@ -118,15 +119,13 @@ export const NavActionIcon = styled.span`
 `;
 
 export const NavActionLabel = styled.span`
+  ${typography.bodySmall}
   position: relative;
   z-index: 1;
-  font-family: ${uiTypography.sans};
-  font-size: 0.74rem;
-  font-weight: 500;
-  line-height: 1;
 `;
 
 export const NavActionBadge = styled.span`
+  ${typography.badgeNumeric}
   position: absolute;
   top: 2px;
   right: 2px;
@@ -138,10 +137,6 @@ export const NavActionBadge = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: ${uiTypography.sans};
-  font-size: 0.7rem;
-  font-weight: 600;
-  line-height: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
 `;

@@ -1,6 +1,7 @@
 import { keyframes } from 'styled-components';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
+import { down } from '@/shared/styles/breakpoints';
 import { uiColors } from '@/shared/ui/tokens';
 import { typography } from '@/shared/styles/typography';
 
@@ -100,7 +101,7 @@ export const HeaderShell = styled.div<HeaderStateProps>`
   padding: ${({ $isScrolled }) =>
     $isScrolled ? '0.75rem 0 0.55rem' : '1.2rem 0 0.9rem'};
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     width: calc(100vw - 32px);
     padding: ${({ $isScrolled }) =>
       $isScrolled ? '0.7rem 0 0.5rem' : '0.95rem 0 0.75rem'};
@@ -114,7 +115,7 @@ export const HeaderMainContainer = styled.div<HeaderStateProps>`
   min-height: ${({ $isScrolled }) => ($isScrolled ? '60px' : '82px')};
   transition: min-height 0.3s ease;
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     min-height: ${({ $isScrolled }) => ($isScrolled ? '54px' : '68px')};
   }
 `;
@@ -132,7 +133,7 @@ export const HeaderLogo = styled.button`
   padding: 0;
   cursor: pointer;
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     width: 116px;
     height: 56px;
   }
@@ -167,7 +168,7 @@ export const AnimatedLogo = styled.div<{
           transform: translateX(-50%);
           opacity: 1;
 
-          @media (max-width: 768px) {
+          ${down.tablet} {
             width: 70vw;
           }
         `;
@@ -176,7 +177,7 @@ export const AnimatedLogo = styled.div<{
           position: fixed;
           animation: ${toHeaderDesktop} 0.5s ease forwards;
 
-          @media (max-width: 768px) {
+          ${down.tablet} {
             animation: ${toHeaderMobile} 0.5s ease forwards;
           }
         `;
@@ -185,7 +186,7 @@ export const AnimatedLogo = styled.div<{
           position: fixed;
           animation: ${fromHeaderDesktop} 0.5s ease forwards;
 
-          @media (max-width: 768px) {
+          ${down.tablet} {
             animation: ${fromHeaderMobile} 0.5s ease forwards;
           }
         `;
@@ -196,7 +197,7 @@ export const AnimatedLogo = styled.div<{
           transform: translate(-50%, -50%);
           width: ${HEADER_LOGO_WIDTH_DESKTOP};
 
-          @media (max-width: 768px) {
+          ${down.tablet} {
             top: ${HEADER_CENTER_MOBILE};
             width: ${HEADER_LOGO_WIDTH_MOBILE};
           }
@@ -212,7 +213,7 @@ export const HeaderActions = styled.div`
   gap: 0.55rem;
   min-width: 0;
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     gap: 0.35rem;
   }
 `;
@@ -286,7 +287,7 @@ export const NavigationList = styled.ul`
   justify-content: center;
   gap: clamp(1.05rem, 1.7vw, 2rem);
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     justify-content: flex-start;
     width: max-content;
     min-width: 100%;
@@ -316,7 +317,6 @@ export const NavigationLink = styled(Link)<{
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0.82)};
   padding: 0.4rem 0;
   white-space: nowrap;
-  font-weight: 600;
   transition:
     color 0.24s ease,
     opacity 0.24s ease;
@@ -346,7 +346,7 @@ export const NavigationLink = styled(Link)<{
     transform: scaleX(1);
   }
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     padding: 0.35rem 0;
   }
 `;
@@ -360,7 +360,7 @@ export const UtilityCaption = styled.span<HeaderStateProps>`
   justify-content: flex-start;
   min-height: 1rem;
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     display: none;
   }
 `;

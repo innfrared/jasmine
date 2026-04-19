@@ -1,4 +1,6 @@
 import styled, { keyframes } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 
 const fadeIn = keyframes`
   from {
@@ -24,9 +26,8 @@ export const ShippingContainer = styled.div`
   min-height: calc(100vh - 200px);
   padding: 10rem 2rem;
   background: #fafafa;
-  font-family: var(--font-ui);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 2rem 1rem;
   }
 `;
@@ -42,7 +43,7 @@ export const ShippingHeader = styled.div`
   align-items: center;
   margin-bottom: 2rem;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
@@ -50,18 +51,13 @@ export const ShippingHeader = styled.div`
 `;
 
 export const ShippingTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
+  ${typography.pageHeading}
   color: #1a1a1a;
   margin: 0;
-  font-family: var(--font-ui);
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
 `;
 
 export const AddButton = styled.button`
+  ${typography.bodyStrong}
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -70,9 +66,6 @@ export const AddButton = styled.button`
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -88,7 +81,7 @@ export const AddressList = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     grid-template-columns: 1fr;
   }
 `;
@@ -117,20 +110,16 @@ export const AddressHeader = styled.div`
 `;
 
 export const AddressLabel = styled.div`
-  font-size: 1.1rem;
-  font-weight: 600;
+  ${typography.bodyStrong}
   color: #1a1a1a;
-  font-family: var(--font-ui);
 `;
 
 export const AddressDefaultBadge = styled.div`
+  ${typography.utility}
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
   background: #e8f5e9;
   color: #2e7d32;
-  font-family: var(--font-ui);
 `;
 
 export const AddressDetails = styled.div`
@@ -141,9 +130,8 @@ export const AddressDetails = styled.div`
 `;
 
 export const AddressLine = styled.div`
-  font-size: 0.95rem;
+  ${typography.bodySmall}
   color: #666;
-  font-family: var(--font-ui);
 `;
 
 export const AddressActions = styled.div`
@@ -154,15 +142,13 @@ export const AddressActions = styled.div`
 `;
 
 export const EditButton = styled.button`
+  ${typography.bodySmallStrong}
   flex: 1;
   padding: 0.5rem 1rem;
   background: #f5f5f5;
   color: #333;
   border: none;
   border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -172,15 +158,13 @@ export const EditButton = styled.button`
 `;
 
 export const DeleteButton = styled.button`
+  ${typography.bodySmallStrong}
   flex: 1;
   padding: 0.5rem 1rem;
   background: #fee;
   color: #cc0c5c;
   border: 1px solid #fcc;
   border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -204,13 +188,13 @@ export const EmptyStateIcon = styled.div`
 `;
 
 export const EmptyStateText = styled.div`
-  font-size: 1.1rem;
+  ${typography.bodyStrong}
   color: #666;
-  font-family: var(--font-ui);
 `;
 
-export const EmptyStateSubtext = styled(EmptyStateText)`
-  font-size: 0.9rem;
+export const EmptyStateSubtext = styled.div`
+  ${typography.bodySmall}
+  color: #666;
   margin-top: 0.5rem;
 `;
 
@@ -242,7 +226,6 @@ export const ModalContent = styled.div`
   max-height: 90vh;
   overflow-y: auto;
   animation: ${slideUp} 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: var(--font-ui);
 `;
 
 export const ModalHeader = styled.div`
@@ -254,11 +237,9 @@ export const ModalHeader = styled.div`
 `;
 
 export const ModalTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
+  ${typography.sectionHeading}
   color: #1a1a1a;
   margin: 0;
-  font-family: var(--font-ui);
 `;
 
 export const CloseButton = styled.button`
@@ -293,18 +274,15 @@ export const FormGroup = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: 0.95rem;
-  font-weight: 500;
+  ${typography.bodyStrong}
   color: #333;
-  font-family: var(--font-ui);
 `;
 
 export const Input = styled.input`
+  ${typography.body}
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-family: var(--font-ui);
   transition: all 0.3s ease;
   outline: none;
   background: #fafafa;
@@ -317,11 +295,10 @@ export const Input = styled.input`
 `;
 
 export const Select = styled.select`
+  ${typography.body}
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-family: var(--font-ui);
   transition: all 0.3s ease;
   outline: none;
   background: #fafafa;
@@ -340,15 +317,13 @@ export const FormActions = styled.div`
 `;
 
 export const SaveButton = styled.button`
+  ${typography.buttonBold}
   flex: 1;
   padding: 0.875rem 1.5rem;
   background: #001f3f;
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -360,15 +335,13 @@ export const SaveButton = styled.button`
 `;
 
 export const CancelButton = styled.button`
+  ${typography.button}
   flex: 1;
   padding: 0.875rem 1.5rem;
   background: white;
   color: #666;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.3s ease;
 

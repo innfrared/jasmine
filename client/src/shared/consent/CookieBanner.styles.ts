@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled, { keyframes } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 const riseIn = keyframes`
@@ -24,7 +25,7 @@ export const BannerLayer = styled.div`
   padding: 0 1.25rem 1.5rem;
   pointer-events: none;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 0 1rem 1.25rem;
   }
 `;
@@ -38,14 +39,13 @@ export const BannerPanel = styled.div`
   box-shadow: 0 10px 40px rgba(26, 20, 17, 0.06);
   animation: ${riseIn} 0.45s ease-out both;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 1.15rem 1.1rem 1.05rem;
   }
 `;
 
 export const BannerTitle = styled.h2`
-  ${typography.pageHeading};
-  font-size: clamp(1.35rem, 1.2vw + 1rem, 1.65rem);
+  ${typography.sectionHeading};
   margin: 0 0 0.65rem;
   color: var(--shell-ink);
 `;
@@ -83,7 +83,6 @@ export const PrimaryButton = styled.button`
   background: var(--shell-ink);
   color: var(--shell-ivory);
   padding: 0.65rem 1rem;
-  letter-spacing: 0.1em;
   transition:
     background 0.2s ease,
     border-color 0.2s ease;
@@ -106,7 +105,6 @@ export const GhostButton = styled.button`
   background: transparent;
   color: var(--shell-ink);
   padding: 0.65rem 1rem;
-  letter-spacing: 0.1em;
   transition:
     border-color 0.2s ease,
     background 0.2s ease;
@@ -129,7 +127,6 @@ export const TextButton = styled.button`
   background: none;
   padding: 0.35rem 0;
   color: rgba(34, 24, 19, 0.55);
-  letter-spacing: 0.12em;
   text-decoration: underline;
   text-underline-offset: 0.25em;
   text-decoration-color: rgba(43, 31, 20, 0.25);
@@ -173,7 +170,6 @@ export const PreferenceHint = styled.span`
   display: block;
   margin-top: 0.2rem;
   color: rgba(34, 24, 19, 0.45);
-  letter-spacing: 0.06em;
 `;
 
 export const ToggleButton = styled.button<{ $pressed: boolean }>`
@@ -190,7 +186,6 @@ export const ToggleButton = styled.button<{ $pressed: boolean }>`
     $pressed ? 'var(--shell-ink)' : 'transparent'};
   color: ${({ $pressed }) =>
     $pressed ? 'var(--shell-ivory)' : 'rgba(34, 24, 19, 0.65)'};
-  letter-spacing: 0.12em;
   transition:
     background 0.2s ease,
     border-color 0.2s ease,

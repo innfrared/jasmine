@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 type AboutQuoteProps = {
@@ -45,7 +46,7 @@ export const AboutPageInner = styled.div`
   flex-direction: column;
   gap: clamp(3rem, 5vw, 5rem);
 
-  @media (max-width: 900px) {
+  ${down.laptop} {
     width: calc(100vw - 32px);
     padding: 7.5rem 0 4.5rem;
     gap: 2.5rem;
@@ -69,9 +70,6 @@ export const AboutTitle = styled.h1`
   ${typography.pageHeading};
   margin: 0;
   color: #23374b;
-  font-size: clamp(3rem, 3.5vw + 1.4rem, 5rem);
-  line-height: 0.96;
-  letter-spacing: -0.025em;
   text-wrap: balance;
   max-width: 20ch;
 `;
@@ -82,7 +80,7 @@ export const AboutRow = styled.section`
   column-gap: clamp(2.5rem, 6vw, 7rem);
   align-items: end;
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     grid-template-columns: 1fr;
     row-gap: 1.75rem;
   }
@@ -103,9 +101,6 @@ export const AboutIntro = styled.div`
 export const AboutParagraph = styled.p`
   ${typography.body};
   margin: 0;
-  font-size: clamp(1rem, 0.18vw + 0.98rem, 1.08rem);
-  line-height: 1.75;
-  letter-spacing: 0.01em;
   color: rgba(40, 54, 70, 0.82);
 `;
 
@@ -125,7 +120,7 @@ export const AboutRowQuoteBlock = styled.div<AboutRowQuoteBlockProps>`
           justify-self: start;
         `}
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     align-items: flex-start;
     justify-self: start;
   }
@@ -136,15 +131,12 @@ const heroQuoteStyles = css`
   max-width: none;
   text-align: right;
   white-space: nowrap;
-  font-size: clamp(3.1rem, 2.6vw + 1.4rem, 4.7rem);
-  line-height: 0.9;
   opacity: 0.8;
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     text-align: left;
     white-space: normal;
     text-wrap: balance;
-    font-size: clamp(3rem, 10vw, 4.8rem);
   }
 `;
 
@@ -154,13 +146,10 @@ const asideQuoteStyles = css`
   text-align: left;
   white-space: normal;
   text-wrap: balance;
-  font-size: clamp(3.1rem, 2.4vw + 1.6rem, 4.5rem);
-  line-height: 0.92;
   opacity: 0.92;
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     max-width: 14ch;
-    font-size: clamp(3rem, 10vw, 4.4rem);
   }
 `;
 
@@ -196,7 +185,6 @@ export const AboutCollectionLink = styled(Link)`
   background: #26384b;
   color: #f7f2eb;
   text-decoration: none;
-  letter-spacing: 0.04em;
   transition:
     background-color 0.22s ease,
     color 0.22s ease,

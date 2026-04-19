@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
+import { typography } from '@/shared/styles/typography';
 
 export const ProfileContainer = styled.div`
   min-height: calc(100vh - 200px);
   padding: 4rem 2rem;
   background: #fafafa;
-  font-family: var(--font-ui);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 2rem 1rem;
   }
 `;
@@ -20,7 +21,7 @@ export const ProfileContent = styled.div`
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.04);
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 2rem 1.5rem;
     border-radius: 12px;
   }
@@ -36,6 +37,7 @@ export const ProfileHeader = styled.div`
 `;
 
 export const ProfileIcon = styled.div`
+  ${typography.pageHeading}
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -44,23 +46,14 @@ export const ProfileIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 600;
   margin-bottom: 1.5rem;
   box-shadow: 0 8px 24px rgba(0, 31, 63, 0.2);
-  font-family: var(--font-ui);
 `;
 
 export const ProfileTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
+  ${typography.pageHeading}
   color: #1a1a1a;
   margin: 0;
-  font-family: var(--font-ui);
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
 `;
 
 export const ProfileForm = styled.form`
@@ -76,11 +69,9 @@ export const FormSection = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
+  ${typography.sectionHeading}
   color: #1a1a1a;
   margin: 0 0 0.5rem;
-  font-family: var(--font-ui);
 `;
 
 export const InputGroup = styled.div`
@@ -90,18 +81,15 @@ export const InputGroup = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: 0.95rem;
-  font-weight: 500;
+  ${typography.bodyStrong}
   color: #333;
-  font-family: var(--font-ui);
 `;
 
 export const Input = styled.input`
+  ${typography.body}
   padding: 0.875rem 1rem;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-family: var(--font-ui);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   background: #fafafa;
@@ -134,21 +122,19 @@ export const ButtonGroup = styled.div`
   gap: 1rem;
   margin-top: 1rem;
 
-  @media (max-width: 480px) {
+  ${down.tablet} {
     flex-direction: column;
   }
 `;
 
 export const SaveButton = styled.button`
+  ${typography.buttonBold}
   flex: 1;
   padding: 0.875rem 1.5rem;
   background: #001f3f;
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -169,15 +155,13 @@ export const SaveButton = styled.button`
 `;
 
 export const CancelButton = styled.button`
+  ${typography.button}
   flex: 1;
   padding: 0.875rem 1.5rem;
   background: white;
   color: #666;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: var(--font-ui);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -193,21 +177,19 @@ export const CancelButton = styled.button`
 `;
 
 export const ErrorMessage = styled.div`
+  ${typography.bodySmall}
   color: #e74c3c;
-  font-size: 0.875rem;
   padding: 0.75rem 1rem;
   background: #fee;
   border-radius: 8px;
   border: 1px solid #fcc;
-  font-family: var(--font-ui);
 `;
 
 export const SuccessMessage = styled.div`
+  ${typography.bodySmall}
   color: #27ae60;
-  font-size: 0.875rem;
   padding: 0.75rem 1rem;
   background: #efe;
   border-radius: 8px;
   border: 1px solid #cfc;
-  font-family: var(--font-ui);
 `;

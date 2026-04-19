@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 export const PlaceholderPageContainer = styled.div`
@@ -14,7 +15,7 @@ export const PlaceholderContent = styled.main`
   margin: 0 auto;
   padding: 11rem 0 6rem;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     width: calc(100vw - 32px);
     padding: 8.5rem 0 4rem;
   }

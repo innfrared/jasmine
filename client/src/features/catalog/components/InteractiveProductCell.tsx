@@ -16,6 +16,7 @@ import {
 import { shoppingBagRepository } from '@/shared/repositories/shoppingBagRepository';
 import { wishlistRepository } from '@/shared/repositories/wishlistRepository';
 import { getResponsiveImageSet } from '@/shared/media/imageUtils';
+import { imageSizes } from '@/shared/styles/breakpoints';
 import { useLocalizedRouting } from '@/shared/routing/localeRouting';
 import { getProductDetailPath } from '@/shared/routing/productPaths';
 import { sanitizeCssColor } from '@/shared/security/inputSanitizers';
@@ -200,7 +201,7 @@ function InteractiveProductCell({
           <img
             src={productImage.src}
             srcSet={productImage.srcSet}
-            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            sizes={imageSizes.interactiveProductCell}
             alt={product.name}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"

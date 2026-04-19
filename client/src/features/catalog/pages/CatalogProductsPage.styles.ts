@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 
 export const ProductsPageContainer = styled.div`
@@ -16,7 +17,7 @@ export const ProductsContent = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     padding: 120px 0 3rem;
   }
 `;
@@ -29,23 +30,17 @@ export const ProductsHeader = styled.div`
   align-items: center;
   text-align: center;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     width: calc(100% - 3rem);
     margin: 2rem auto 2.4rem;
   }
 `;
 
 export const ProductsTitle = styled.h1`
-  ${typography.pageHeading};
-  font-size: clamp(2.35rem, 2vw + 1.7rem, 3.4rem);
+  ${typography.pageHeadingCapitalized};
   color: #1a1a1a;
   margin: 0;
   max-width: 46rem;
-  text-transform: capitalize;
-
-  @media (max-width: 768px) {
-    font-size: 2.1rem;
-  }
 `;
 
 export const ProductsSubtitle = styled.p`
@@ -53,10 +48,6 @@ export const ProductsSubtitle = styled.p`
   margin: 1.35rem auto 0;
   max-width: 50rem;
   color: rgba(34, 31, 28, 0.58);
-  font-size: clamp(0.92rem, 0.28vw + 0.86rem, 1.08rem);
-  letter-spacing: 0.075em;
-  line-height: 1.68;
-  text-transform: none;
 `;
 
 export const ProductsToolbarSentinel = styled.div`
@@ -74,11 +65,11 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PaginationButton = styled.button`
+  ${typography.bodyStrong}
   background: none;
   border: none;
   color: #1a1a1a;
   padding: 0.5rem 0.75rem;
-  font-size: 1rem;
   cursor: pointer;
   border-radius: 6px;
   transition: all 0.2s ease;
@@ -87,7 +78,6 @@ export const PaginationButton = styled.button`
   justify-content: center;
   min-width: 40px;
   height: 40px;
-  font-family: var(--font-ui);
 
   &:hover:not(:disabled) {
     background: rgba(0, 0, 0, 0.05);
@@ -99,20 +89,20 @@ export const PaginationButton = styled.button`
     cursor: not-allowed;
   }
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     min-width: 36px;
     height: 36px;
-    font-size: 0.9rem;
   }
 `;
 
 export const PageButton = styled.button<{ $isActive?: boolean }>`
+  ${({ $isActive }) =>
+    $isActive ? typography.bodySmallStrong : typography.bodySmall}
   background: ${({ $isActive }) => ($isActive ? '#1a1a1a' : 'transparent')};
   border: 1px solid
     ${({ $isActive }) => ($isActive ? '#1a1a1a' : 'rgba(0, 0, 0, 0.1)')};
   color: ${({ $isActive }) => ($isActive ? '#ffffff' : '#1a1a1a')};
   padding: 0.5rem 0.75rem;
-  font-size: 0.95rem;
   cursor: pointer;
   border-radius: 6px;
   transition: all 0.2s ease;
@@ -121,8 +111,6 @@ export const PageButton = styled.button<{ $isActive?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-ui);
-  font-weight: ${({ $isActive }) => ($isActive ? '500' : '400')};
 
   &:hover:not(:disabled) {
     background: ${({ $isActive }) =>
@@ -138,10 +126,9 @@ export const PageButton = styled.button<{ $isActive?: boolean }>`
     color: #999;
   }
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     min-width: 36px;
     height: 36px;
-    font-size: 0.85rem;
     padding: 0.4rem 0.6rem;
   }
 `;
@@ -176,7 +163,7 @@ export const ControlsContainer = styled.div`
   flex-wrap: wrap;
   width: 100%;
 
-  @media (max-width: 968px) {
+  ${down.laptop} {
     flex-direction: column;
   }
 `;
@@ -205,17 +192,14 @@ export const SubcategoriesGrid = styled.div`
   gap: 0.75rem;
   justify-content: start;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     grid-template-columns: repeat(auto-fill, minmax(90px, 120px));
     gap: 0.5rem;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
 export const SubcategoryCard = styled.a`
+  ${typography.bodySmallCapitalized}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,17 +209,14 @@ export const SubcategoryCard = styled.a`
   border-radius: 10px;
   text-decoration: none;
   color: #1a1a1a;
-  ${typography.bodySmall};
   transition: all 0.2s ease;
   text-align: center;
-  text-transform: capitalize;
   aspect-ratio: 1.3;
   min-height: 60px;
 
-  @media (max-width: 768px) {
+  ${down.tablet} {
     min-height: 50px;
     padding: 0.4rem 0.3rem;
-    font-size: 0.85rem;
     aspect-ratio: 1.2;
   }
 

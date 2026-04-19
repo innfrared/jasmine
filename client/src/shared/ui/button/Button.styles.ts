@@ -1,11 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
-import {
-  uiColors,
-  uiFocusRing,
-  uiRadii,
-  uiShadows,
-  uiTypography,
-} from '../tokens';
+import { typography } from '@/shared/styles/typography';
+import { uiColors, uiFocusRing, uiRadii, uiShadows } from '../tokens';
 import type {
   ButtonIconPlacement,
   ButtonSize,
@@ -39,24 +34,22 @@ const sizeStyles: Record<ButtonSize, ReturnType<typeof css>> = {
   sm: css`
     min-height: 38px;
     padding: 0.72rem 1rem;
-    font-size: 0.76rem;
     gap: 0.45rem;
   `,
   md: css`
     min-height: 44px;
     padding: 0.85rem 1.2rem;
-    font-size: 0.84rem;
     gap: 0.55rem;
   `,
   lg: css`
     min-height: 50px;
     padding: 0.95rem 1.4rem;
-    font-size: 0.92rem;
     gap: 0.65rem;
   `,
 };
 
 export const ButtonBase = styled.button<ButtonBaseProps>`
+  ${typography.button}
   position: relative;
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
   border-radius: ${({ $variant }) => ($variant === 'link' ? '0' : uiRadii.sm)};
@@ -67,11 +60,6 @@ export const ButtonBase = styled.button<ButtonBaseProps>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-family: ${uiTypography.sans};
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   text-decoration: none;
   transition:
     transform 0.2s ease,
@@ -133,7 +121,6 @@ export const ButtonBase = styled.button<ButtonBaseProps>`
       padding: 0.35rem 0;
       color: ${uiColors.navySoft};
       gap: 0.45rem;
-      letter-spacing: 0.12em;
 
       &:hover:not(:disabled) {
         color: ${uiColors.navyElevated};
@@ -162,11 +149,13 @@ export const ButtonBase = styled.button<ButtonBaseProps>`
     box-shadow: ${uiFocusRing};
   }
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: 0.56;
     transform: none;
     box-shadow: none;
+    pointer-events: none;
   }
 `;
 
@@ -187,9 +176,6 @@ export const ButtonContent = styled.span<{
 export const ButtonLabel = styled.span<{
   $iconPlacement: ButtonIconPlacement;
 }>`
-  font-size: inherit;
-  line-height: ${({ $iconPlacement }) =>
-    $iconPlacement === 'top' ? '1.18' : '1'};
   text-align: center;
   white-space: ${({ $iconPlacement }) =>
     $iconPlacement === 'top' ? 'normal' : 'nowrap'};

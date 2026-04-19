@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 
 export const ProductListingGridRoot = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ export const ProductListingRowRoot = styled.div`
     min-width: 0;
   }
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
@@ -44,7 +45,7 @@ export const EditorialImageBlock = styled.div<{
     object-position: ${({ $objectPosition }) => $objectPosition};
   }
 
-  @media (max-width: 1024px) {
+  ${down.laptop} {
     grid-column: 1 / -1;
     aspect-ratio: 5 / 3;
   }

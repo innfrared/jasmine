@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 import {
   DrawerCloseButton,
   DrawerContainer,
@@ -22,8 +23,6 @@ export const CartTotal = DrawerSummaryRow;
 export const CheckoutButton = DrawerPrimaryButton;
 
 export const CartSubtotalLabel = styled.span`
+  ${typography.label}
   color: #8b755e;
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
 `;

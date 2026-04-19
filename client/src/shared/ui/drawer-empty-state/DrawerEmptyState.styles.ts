@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 import Button from '../button';
-import { uiColors, uiShadows, uiTypography } from '../tokens';
+import { uiColors, uiShadows } from '../tokens';
 
 export const DrawerEmptyStateShell = styled.div`
   flex: 1;
@@ -102,33 +103,23 @@ export const DrawerEmptyStateIconWrap = styled.div<{
 `;
 
 export const DrawerEmptyStateLabel = styled.span`
+  ${typography.label}
   margin-bottom: 0.65rem;
   color: #8e7863;
-  font-family: ${uiTypography.sans};
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
-  line-height: 1;
-  text-transform: uppercase;
 `;
 
 export const DrawerEmptyStateTitle = styled.h3`
+  ${typography.sectionHeading}
   max-width: 10ch;
   margin: 0;
   color: ${uiColors.inkStrong};
-  font-family: ${uiTypography.serif};
-  font-size: clamp(1.95rem, 3vw, 2.35rem);
-  font-weight: 400;
-  line-height: 0.98;
-  letter-spacing: 0.02em;
 `;
 
 export const DrawerEmptyStateDescription = styled.p`
+  ${typography.body}
   max-width: 300px;
   margin: 0.85rem 0 1.5rem;
   color: ${uiColors.inkMuted};
-  font-family: ${uiTypography.sans};
-  font-size: 0.92rem;
-  line-height: 1.65;
 `;
 
 export const DrawerEmptyStateButton = styled(Button).attrs({
@@ -139,8 +130,5 @@ export const DrawerEmptyStateButton = styled(Button).attrs({
   min-width: 218px;
   min-height: 48px;
   padding-inline: 1.65rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
   box-shadow: ${uiShadows.button};
 `;

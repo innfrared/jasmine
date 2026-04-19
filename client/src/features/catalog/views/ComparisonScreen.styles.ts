@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { typography } from '@/shared/styles/typography';
 
 export const ComparisonPage = styled.div`
   display: flex;
@@ -8,8 +9,7 @@ export const ComparisonPage = styled.div`
 `;
 
 export const ComparisonText = styled.div`
-  font-weight: bold;
-  font-size: 2rem;
+  ${typography.pageHeading}
   color: #cc0c5c;
 `;
 
@@ -33,10 +33,10 @@ export const TableLeft = styled.div`
 `;
 
 export const FeatureRow = styled.div`
+  ${typography.bodySmall}
   display: flex;
   align-items: center;
   color: #ffffff;
-  font-size: 0.9rem;
   padding: 10px;
   border-bottom: 2px solid #ffffff;
 
@@ -61,13 +61,12 @@ export const ProductColumn = styled.div`
 `;
 
 export const ProductHeader = styled.div`
-  font-size: 0.9rem;
+  ${typography.bodySmall}
   margin-bottom: 10px;
   cursor: pointer;
 
   > div {
-    font-weight: bold;
-    font-size: 1.6rem;
+    ${typography.sectionHeading}
     margin-bottom: 20px;
   }
 
@@ -98,10 +97,10 @@ export const FeatureCellTable = styled.div`
 `;
 
 export const FeatureCell = styled.div`
+  ${typography.bodySmall}
   display: flex;
   flex-direction: column;
   padding: 10px;
-  font-size: 0.9rem;
   border-bottom: 2px solid #b6b6b6;
 
   &:last-child {

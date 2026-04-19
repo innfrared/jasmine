@@ -9,34 +9,3 @@ export type EditorialImage = {
   minHeight?: string;
   sizeVariant?: EditorialImageSizeVariant;
 };
-
-export type HeroEditorialProps = {
-  headline: string;
-  body: string;
-  ctaLabel: string;
-  ctaHref: string;
-  image: EditorialImage;
-};
-
-export type SplitEditorialProps = {
-  headline: string;
-  body: string;
-  ctaLabel: string;
-  ctaHref: string;
-  image: EditorialImage;
-  supportingImages?: EditorialImage[];
-};
-
-export type GridEditorialItem = {
-  id: string;
-  title: string;
-  href: string;
-  image: EditorialImage;
-};
-
-export type GridEditorialProps = {
-  heading: string;
-  ctaLabel: string;
-  ctaHref: string;
-  items: GridEditorialItem[];
-};
