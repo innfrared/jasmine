@@ -15,7 +15,11 @@ export const Section = styled.section`
     padding: clamp(3.5rem, 9vw, 5.5rem) clamp(1.25rem, 5vw, 3.5rem)
       clamp(4rem, 10vw, 6rem);
   }
-  background: linear-gradient(180deg, #fffefe 0%, #dedfed 100%);
+  background: linear-gradient(
+    180deg,
+    ${uiColors.surfaceFeaturedGradientTop} 0%,
+    ${uiColors.surfaceFeaturedGradientBottom} 100%
+  );
 `;
 
 export const Inner = styled.div`

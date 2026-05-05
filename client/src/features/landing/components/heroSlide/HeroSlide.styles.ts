@@ -1,6 +1,7 @@
 import { ReactSVG } from 'react-svg';
 import styled, { css, keyframes } from 'styled-components';
 import { down, media } from '@/shared/styles/breakpoints';
+import { uiColors } from '@/shared/ui/tokens';
 
 export const HeroContainer = styled.div`
   position: relative;
@@ -20,7 +21,7 @@ export const HeroContainer = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(17, 17, 17, 0.4);
+    background: ${uiColors.overlayHeroScrim};
     z-index: 1;
     pointer-events: none;
   }

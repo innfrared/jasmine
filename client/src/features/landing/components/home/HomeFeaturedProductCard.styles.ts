@@ -25,7 +25,7 @@ export const ImageWrap = styled.div<{ $variant: 'featured' | 'support' }>`
   aspect-ratio: ${({ $variant }) =>
     $variant === 'featured' ? '5 / 6' : '3 / 4'};
   overflow: hidden;
-  background: rgba(44, 31, 20, 0.04);
+  background: ${uiColors.surfaceProductCardTint};
 
   ${down.laptop} {
     aspect-ratio: ${({ $variant }) =>

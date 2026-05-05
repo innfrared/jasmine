@@ -79,8 +79,8 @@ export const SignatureMedia = styled.div`
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(26, 20, 17, 0.08) 0%,
-      rgba(26, 20, 17, 0.28) 100%
+      ${uiColors.overlayInk008} 0%,
+      ${uiColors.overlayInk028} 100%
     );
     opacity: 0.85;
     transition: opacity ${uiMotion.hover};
@@ -115,8 +115,8 @@ export const SignatureCopy = styled.div`
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(26, 20, 17, 0.42) 42%,
-    rgba(26, 20, 17, 0.82) 100%
+    ${uiColors.overlayInk042} 42%,
+    ${uiColors.overlayInk082} 100%
   );
 `;
 
@@ -177,7 +177,7 @@ export const SupportMedia = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(26, 20, 17, 0.12);
+    background: ${uiColors.overlayInk012};
     opacity: 0.88;
     transition: opacity ${uiMotion.hover};
     pointer-events: none;
@@ -213,6 +213,6 @@ export const SupportTitle = styled.span`
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(26, 20, 17, 0.65) 100%
+    ${uiColors.overlayInk065} 100%
   );
 `;

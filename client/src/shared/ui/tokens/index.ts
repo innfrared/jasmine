@@ -33,9 +33,40 @@ export const uiColors = {
   whiteSoft: 'rgba(255, 255, 255, 0.12)',
   footerReveal: '#0b1231',
   surfaceHomeLightA: '#ece9e3',
-  surfaceHomeLightB: '#dbd5c9',
+  surfaceHomeLightB: 'rgb(255, 255, 255)',
   surfaceHomeDark: '#1c1a19',
   surfaceHomeDarkElevated: '#252220',
+
+  /** Featured products rail — vertical gradient */
+  surfaceFeaturedGradientTop: '#fffefe',
+  surfaceFeaturedGradientBottom: '#dedfed',
+
+  /** Hero scrim over photography */
+  overlayHeroScrim: 'rgba(17, 17, 17, 0.4)',
+
+  /** Product card image placeholder */
+  surfaceProductCardTint: 'rgba(44, 31, 20, 0.04)',
+
+  /** Editorial closing — radial highlight */
+  overlayClosingRadialGlow: 'rgba(130, 155, 185, 0.08)',
+  overlayClosingRadialTransparent: 'rgba(130, 155, 185, 0)',
+  surfaceClosingTriptychPanel: 'rgba(255, 255, 255, 0.03)',
+  overlayClosingTriptychEdge: 'rgba(18, 22, 30, 0.12)',
+
+  /** Ink scrims on home imagery (mixed commerce, etc.) */
+  overlayInk008: 'rgba(26, 20, 17, 0.08)',
+  overlayInk028: 'rgba(26, 20, 17, 0.28)',
+  overlayInk042: 'rgba(26, 20, 17, 0.42)',
+  overlayInk082: 'rgba(26, 20, 17, 0.82)',
+  overlayInk012: 'rgba(26, 20, 17, 0.12)',
+  overlayInk065: 'rgba(26, 20, 17, 0.65)',
+
+  /** Neutral scrims (e.g. curated category tiles) */
+  overlayNeutral042: 'rgba(0, 0, 0, 0.42)',
+  overlayNeutral014: 'rgba(0, 0, 0, 0.14)',
+  overlayNeutral002: 'rgba(0, 0, 0, 0.02)',
+  overlayNeutral028: 'rgba(0, 0, 0, 0.28)',
+  overlayNeutral008: 'rgba(0, 0, 0, 0.08)',
 } as const;
 
 export const uiMotion = {

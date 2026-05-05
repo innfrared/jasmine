@@ -1,61 +1,41 @@
+'use client';
+
 import type { CuratedEntryProps } from '@/shared/types/landingHome';
+import { EditorialCategoryCard } from '@/shared/ui/editorial-category-card';
+import { ResponsiveSnapRail } from '@/shared/ui/responsive-snap-rail';
 import {
-  ComposeGrid,
-  DominantDescriptor,
-  DominantLabel,
-  DominantLink,
-  DominantMedia,
-  DominantTitle,
+  Description,
+  Header,
   Inner,
   Section,
-  SupportLabel,
-  SupportLink,
-  SupportMedia,
-  SupportStack,
-  VisuallyHiddenHeading,
+  Title,
 } from './CuratedEntry.styles';
 
-function CuratedEntry({ dominant, supporting }: CuratedEntryProps) {
-  return (
-    <Section aria-labelledby="curated-entry-heading">
-      <Inner>
-        <VisuallyHiddenHeading id="curated-entry-heading">
-          {dominant.title}
-        </VisuallyHiddenHeading>
-        <ComposeGrid>
-          <DominantLink href={dominant.href}>
-            <DominantMedia>
-              <img
-                src={dominant.image.src}
-                alt={dominant.image.alt}
-                loading="lazy"
-                decoding="async"
-              />
-            </DominantMedia>
-            <DominantLabel>
-              <DominantTitle>{dominant.title}</DominantTitle>
-              {dominant.descriptor ? (
-                <DominantDescriptor>{dominant.descriptor}</DominantDescriptor>
-              ) : null}
-            </DominantLabel>
-          </DominantLink>
+const headingId = 'curated-entry-heading';
 
-          <SupportStack>
-            {supporting.map(entry => (
-              <SupportLink key={entry.id} href={entry.href}>
-                <SupportMedia>
-                  <img
-                    src={entry.image.src}
-                    alt={entry.image.alt}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </SupportMedia>
-                <SupportLabel>{entry.title}</SupportLabel>
-              </SupportLink>
-            ))}
-          </SupportStack>
-        </ComposeGrid>
+function CuratedEntry({ title, description, categories }: CuratedEntryProps) {
+  return (
+    <Section aria-labelledby={headingId}>
+      <Inner>
+        <Header>
+          <Title id={headingId}>{title}</Title>
+          {description ? <Description>{description}</Description> : null}
+        </Header>
+        <ResponsiveSnapRail
+          items={categories}
+          getItemKey={c => c.id}
+          getIndicatorLabel={c => c.title}
+          indicatorsGroupAriaLabel={title}
+          desktopColumnCount={3}
+          renderItem={(category, index) => (
+            <EditorialCategoryCard
+              href={category.href}
+              title={category.title}
+              image={category.image}
+              overlayVariant={index === 1 ? 'lighter' : 'default'}
+            />
+          )}
+        />
       </Inner>
     </Section>
   );

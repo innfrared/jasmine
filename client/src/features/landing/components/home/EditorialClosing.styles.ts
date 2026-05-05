@@ -23,8 +23,8 @@ export const Section = styled.section`
   background:
     radial-gradient(
       circle at top center,
-      rgba(130, 155, 185, 0.08) 0%,
-      rgba(130, 155, 185, 0) 38%
+      ${uiColors.overlayClosingRadialGlow} 0%,
+      ${uiColors.overlayClosingRadialTransparent} 38%
     ),
     linear-gradient(
       180deg,
@@ -94,7 +94,7 @@ export const TriptychGrid = styled.div`
 export const TriptychPanel = styled.figure<{ $emphasis?: boolean }>`
   margin: 0;
   position: relative;
-  background: rgba(255, 255, 255, 0.03);
+  background: ${uiColors.surfaceClosingTriptychPanel};
   overflow: hidden;
   aspect-ratio: 4 / 5;
 
@@ -128,8 +128,8 @@ export const TriptychPanel = styled.figure<{ $emphasis?: boolean }>`
     pointer-events: none;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(18, 22, 30, 0.12) 100%
+      transparent 0%,
+      ${uiColors.overlayClosingTriptychEdge} 100%
     );
     opacity: 0;
     transition: opacity ${uiMotion.hoverSlow};

@@ -21,10 +21,10 @@ const navButtonType = css`
     font-size: 0.78rem;
   }
   ${up.laptop} {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
   ${up.wide} {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -33,12 +33,12 @@ const pageHeadingCore = css`
   font-weight: 400;
   font-size: 2rem;
   line-height: 1.08;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.01em;
   ${up.tablet} {
     font-size: 2.4rem;
   }
   ${up.laptop} {
-    font-size: 2.9rem;
+    font-size: 2.4rem;
   }
   ${up.wide} {
     font-size: 3.5rem;
@@ -49,16 +49,16 @@ const bodyCore = css`
   font-family: ${fontFamilies.sans};
   font-weight: 400;
   font-size: 0.96rem;
-  line-height: 1.62;
+  line-height: 1.5;
   letter-spacing: 0.005em;
   ${up.tablet} {
     font-size: 0.98rem;
   }
   ${up.laptop} {
-    font-size: 1rem;
+    font-size: 0.93rem;
   }
   ${up.wide} {
-    font-size: 1.02rem;
+    font-size: 1.3rem;
   }
 `;
 
@@ -68,42 +68,41 @@ export const typography = {
     font-weight: 400;
     font-size: 2.8rem;
     line-height: 1.05;
-    letter-spacing: 0.045em;
+    letter-spacing: 0.012em;
     text-transform: none;
     ${up.tablet} {
       font-size: 3.4rem;
     }
     ${up.laptop} {
-      font-size: 4.2rem;
+      font-size: 3.15rem;
     }
     ${up.wide} {
-      font-size: 5.2rem;
+      font-size: 3.5rem;
     }
   `,
   pageHeading: css`
     ${pageHeadingCore}
     text-transform: none;
   `,
-  /** Same scale as page titles; product/category rails that use title case. */
   pageHeadingCapitalized: css`
     ${pageHeadingCore}
     text-transform: capitalize;
   `,
   sectionHeading: css`
-    font-family: ${fontFamilies.serif};
-    font-weight: 400;
+    font-family: ${fontFamilies.sans};
+    font-weight: 500;
     font-size: 1.2rem;
     line-height: 1.14;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
     text-transform: none;
     ${up.tablet} {
       font-size: 1.3rem;
     }
     ${up.laptop} {
-      font-size: 1.45rem;
+      font-size: 1.28rem;
     }
     ${up.wide} {
-      font-size: 1.65rem;
+      font-size: 1.58rem;
     }
   `,
   body: css`
@@ -123,13 +122,12 @@ export const typography = {
       font-size: 0.89rem;
     }
     ${up.laptop} {
-      font-size: 0.92rem;
+      font-size: 0.86rem;
     }
     ${up.wide} {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
   `,
-  /** Uppercase product / compact commerce lines (card titles, metadata rows). */
   bodySmallCaps: css`
     font-family: ${fontFamilies.sans};
     font-weight: 400;
@@ -141,10 +139,10 @@ export const typography = {
       font-size: 0.89rem;
     }
     ${up.laptop} {
-      font-size: 0.92rem;
+      font-size: 0.86rem;
     }
     ${up.wide} {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
   `,
   bodySmallStrong: css`
@@ -157,10 +155,10 @@ export const typography = {
       font-size: 0.89rem;
     }
     ${up.laptop} {
-      font-size: 0.92rem;
+      font-size: 0.86rem;
     }
     ${up.wide} {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
   `,
   bodySmallCapitalized: css`
@@ -174,10 +172,10 @@ export const typography = {
       font-size: 0.89rem;
     }
     ${up.laptop} {
-      font-size: 0.92rem;
+      font-size: 0.86rem;
     }
     ${up.wide} {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
   `,
   label: css`
@@ -191,10 +189,10 @@ export const typography = {
       font-size: 0.72rem;
     }
     ${up.laptop} {
-      font-size: 0.74rem;
+      font-size: 0.71rem;
     }
     ${up.wide} {
-      font-size: 0.76rem;
+      font-size: 0.75rem;
     }
   `,
   utility: css`
@@ -208,7 +206,7 @@ export const typography = {
       font-size: 0.68rem;
     }
     ${up.laptop} {
-      font-size: 0.7rem;
+      font-size: 0.67rem;
     }
     ${up.wide} {
       font-size: 0.72rem;
@@ -226,7 +224,7 @@ export const typography = {
       font-size: 0.68rem;
     }
     ${up.laptop} {
-      font-size: 0.7rem;
+      font-size: 0.67rem;
     }
     ${up.wide} {
       font-size: 0.72rem;
@@ -243,7 +241,7 @@ export const typography = {
       font-size: 0.68rem;
     }
     ${up.laptop} {
-      font-size: 0.7rem;
+      font-size: 0.67rem;
     }
     ${up.wide} {
       font-size: 0.72rem;
@@ -280,10 +278,10 @@ export const typography = {
       font-size: 3.4rem;
     }
     ${up.laptop} {
-      font-size: 4.2rem;
+      font-size: 3.15rem;
     }
     ${up.wide} {
-      font-size: 5.2rem;
+      font-size: 4.75rem;
     }
   `,
 } as const;

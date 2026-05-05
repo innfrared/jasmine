@@ -1,3 +1,4 @@
+import type { ListingProduct } from '@/entities/catalog/listingProduct';
 import type { EditorialImage } from './editorial';
 
 export type EditorialClosingMode = 'statement' | 'triptych' | 'craft';
@@ -11,23 +12,28 @@ export type CuratedCategoryEntry = {
 };
 
 export type CuratedEntryProps = {
-  dominant: CuratedCategoryEntry;
-  /** 2–3 secondary entries; must not compete visually with dominant (layout handles hierarchy). */
-  supporting: CuratedCategoryEntry[];
+  title: string;
+  description?: string;
+  categories: readonly [
+    CuratedCategoryEntry,
+    CuratedCategoryEntry,
+    CuratedCategoryEntry,
+  ];
 };
 
-export type EditorialManifestoProps = {
-  kicker?: string;
+export type EditorialManifestoConfig = {
   headline: string;
   line?: string;
-  layout: 'centered' | 'offset';
   image: EditorialImage;
   ctaLabel?: string;
   ctaHref?: string;
 };
 
+export type EditorialManifestoProps = EditorialManifestoConfig & {
+  products: ListingProduct[];
+};
+
 export type EditorialCraftProps = {
-  /** 1–3 stills; crossfade only when length > 1 */
   slides: EditorialImage[];
 };
 
@@ -84,7 +90,7 @@ export type EditorialClosingProps =
 
 export type LandingHomeContent = {
   curatedEntry: CuratedEntryProps;
-  editorialManifesto: EditorialManifestoProps;
+  editorialManifesto: EditorialManifestoConfig;
   editorialCraft: EditorialCraftProps;
   mixedCommerce: MixedCommerceProps;
   editorialClosing: EditorialClosingProps;

@@ -67,7 +67,7 @@
   },
   "landingEditorial": {
     "hero": {
-      "headline": "Made to be carried, remembered, kept.",
+      "headline": "Made to be carried, kept.",
       "body": "Sculpted handbags and quieter statements for the ritual of leaving beautifully.",
       "cta": "Explore Handbags"
     },
@@ -100,12 +100,11 @@
   },
   "landingHome": {
     "curated": {
-      "dominantTitle": "Handbags",
-      "dominantDescriptor": "The heart of the collection",
-      "dominantImage": "Editorial portrait with a sculptural handbag silhouette.",
-      "supportShoulder": "Shoulder bags in soft studio light.",
-      "supportCrossbody": "Crossbody line and quiet movement.",
-      "supportEvening": "Evening silhouettes and refined proportion.",
+      "title": "Shop by Style",
+      "description": "Curated silhouettes for every mood and moment.",
+      "supportShoulder": "Shoulder bags in soft studio light",
+      "supportCrossbody": "Crossbody line and quiet movement",
+      "supportEvening": "Evening silhouettes and refined proportion",
       "supportTitles": {
         "shoulder": "Shoulder",
         "crossbody": "Crossbody",
@@ -113,8 +112,7 @@
       }
     },
     "manifesto": {
-      "kicker": "Our house",
-      "headline": "Made to be carried, remembered, kept.",
+      "headline": "Made to be carried, kept.",
       "line": "Sculpted handbags for the ritual of leaving beautifully.",
       "cta": "Explore the edit",
       "image": "Quiet editorial still for the brand manifesto."
@@ -158,7 +156,7 @@
   "footer": {
     "brand": {
       "eyebrow": "Jasmine Crafted",
-      "headline": "Made to be carried, remembered, kept.",
+      "headline": "Made to be carried, kept.",
       "description": "Jasmine Crafted shapes handbags with sculpted lines, tactile materials, and a quieter kind of luxury meant to live beautifully in motion.",
       "line": "Handcrafted silhouettes for a quieter kind of luxury."
     },

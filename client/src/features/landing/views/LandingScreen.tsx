@@ -19,6 +19,8 @@ type LandingScreenProps = {
   featuredProducts: ListingProduct[];
 };
 
+const MANIFESTO_PRODUCT_CARD_COUNT = 3;
+
 function LandingScreen({ featuredProducts }: LandingScreenProps) {
   const { t } = useTranslation<'translation'>();
   const { getLocalizedPath } = useLocalizedRouting();
@@ -32,8 +34,13 @@ function LandingScreen({ featuredProducts }: LandingScreenProps) {
       <Header primaryColor="#CC0C5C" secondaryColor="#F2A800" />
       <HeroSlide />
       <CuratedEntry {...homeContent.curatedEntry} />
-      <EditorialManifesto {...homeContent.editorialManifesto} />
-      <FeaturedProducts products={featuredProducts} />
+      <EditorialManifesto
+        {...homeContent.editorialManifesto}
+        products={featuredProducts.slice(0, MANIFESTO_PRODUCT_CARD_COUNT)}
+      />
+      <FeaturedProducts
+        products={featuredProducts.slice(MANIFESTO_PRODUCT_CARD_COUNT)}
+      />
       <EditorialCraft slides={homeContent.editorialCraft.slides} />
       <MixedCommerce {...homeContent.mixedCommerce} />
       <EditorialClosing {...homeContent.editorialClosing} />

@@ -9,18 +9,11 @@ type ConfiguredEditorialImage = Omit<EditorialImage, 'alt'> & {
 type LocalizePath = (path: string) => string;
 
 const ASSETS = {
-  dominantHandbag: {
-    src: '/assets/model/SAR_0969.jpg',
-    altKey: 'landingHome.curated.dominantImage',
-    focalPointDesktop: '52% 38%',
-    focalPointMobile: '48% 32%',
-    aspectRatio: '4 / 5',
-  },
   supportShoulder: {
     src: '/assets/model/split/SAR_0896.jpg',
     altKey: 'landingHome.curated.supportShoulder',
-    focalPointDesktop: '48% 24%',
-    focalPointMobile: '50% 22%',
+    focalPointDesktop: '50% 58%',
+    focalPointMobile: '50% 56%',
     aspectRatio: '1 / 1',
   },
   supportCrossbody: {
@@ -126,14 +119,9 @@ export function buildLandingHomeContent(
 ): LandingHomeContent {
   return {
     curatedEntry: {
-      dominant: {
-        id: 'handbags',
-        title: t('landingHome.curated.dominantTitle'),
-        descriptor: t('landingHome.curated.dominantDescriptor'),
-        href: getLocalizedPath('/bags'),
-        image: resolveImage(ASSETS.dominantHandbag, t),
-      },
-      supporting: [
+      title: t('landingHome.curated.title'),
+      description: t('landingHome.curated.description'),
+      categories: [
         {
           id: 'shoulder',
           title: t('landingHome.curated.supportTitles.shoulder'),
@@ -155,10 +143,8 @@ export function buildLandingHomeContent(
       ],
     },
     editorialManifesto: {
-      kicker: t('landingHome.manifesto.kicker'),
       headline: t('landingHome.manifesto.headline'),
       line: t('landingHome.manifesto.line'),
-      layout: 'offset',
       image: resolveImage(ASSETS.manifesto, t),
       ctaLabel: t('landingHome.manifesto.cta'),
       ctaHref: getLocalizedPath('/bags'),

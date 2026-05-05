@@ -173,10 +173,23 @@ export default function Button(props: ButtonProps) {
     );
   }
 
-  const { disabled = false, type = 'button', ...rest } = props;
+  const {
+    disabled = false,
+    type = 'button',
+    children: _children,
+    variant: _variant,
+    size: _size,
+    iconLeft: _iconLeft,
+    iconRight: _iconRight,
+    iconPlacement: _iconPlacement,
+    loading: _loading,
+    fullWidth: _fullWidth,
+    ...nativeButtonProps
+  } = props as ButtonAsButtonProps;
 
   return (
     <ButtonBase
+      {...nativeButtonProps}
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
@@ -185,7 +198,6 @@ export default function Button(props: ButtonProps) {
       $fullWidth={fullWidth}
       $iconPlacement={iconPlacement}
       $isLoading={loading}
-      {...rest}
     >
       {inner}
     </ButtonBase>
