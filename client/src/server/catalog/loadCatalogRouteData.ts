@@ -56,6 +56,35 @@ function emptyProducts(
   };
 }
 
+async function fetchCatalogCategoriesOrEmpty(): Promise<CategoryNavItem[]> {
+  try {
+    const categoryDtos = await getServerCategoriesWithSubcategories(undefined, {
+      revalidate: 600,
+      tags: ['catalog', 'catalog:categories'],
+    });
+
+    return categoryDtos.map(mapCategoryDtoToNavItem);
+  } catch (error) {
+    console.error('[catalog] Failed to load categories', error);
+
+    return [];
+  }
+}
+
+async function fetchCatalogProductsOrEmpty(
+  query: Record<string, string | number | boolean | undefined>,
+  options: NonNullable<Parameters<typeof getServerCatalogProducts>[1]>,
+  page: number
+): Promise<PaginatedResponse<ProductDto>> {
+  try {
+    return await getServerCatalogProducts(query, options);
+  } catch (error) {
+    console.error('[catalog] Failed to load products', error);
+
+    return emptyProducts(page, CATALOG_PRODUCTS_PAGE_SIZE);
+  }
+}
+
 export type LoadCatalogRouteDataInput = {
   pathname: string;
   page: number;
@@ -75,11 +104,7 @@ export async function loadCatalogRouteData(
     legacySubcategoryId,
   } = input;
 
-  const categoryDtos = await getServerCategoriesWithSubcategories(undefined, {
-    revalidate: 600,
-    tags: ['catalog', 'catalog:categories'],
-  });
-  const categories = categoryDtos.map(mapCategoryDtoToNavItem);
+  const categories = await fetchCatalogCategoriesOrEmpty();
 
   const navKey = getCatalogNavKeyFromPath(pathname);
 
@@ -125,10 +150,16 @@ export async function loadCatalogRouteData(
       colorFilters,
       sortByNewest: false,
     });
-    const productsResponse = await getServerCatalogProducts(query, {
-      revalidate: 180,
-      tags: ['catalog', 'catalog:products'],
-    });
+
+    const productsResponse = await fetchCatalogProductsOrEmpty(
+      query,
+      {
+        revalidate: 600,
+        tags: ['catalog', 'catalog:products'],
+      },
+      page
+    );
+
     return {
       categories,
       productsResponse,
@@ -158,14 +189,18 @@ export async function loadCatalogRouteData(
     sortByNewest: applyNewestSort,
   });
 
-  const productsResponse = await getServerCatalogProducts(query, {
-    revalidate: 180,
-    tags: [
-      'catalog',
-      'catalog:products',
-      navKey ? `catalog:${navKey}` : 'catalog:legacy',
-    ],
-  });
+  const productsResponse = await fetchCatalogProductsOrEmpty(
+    query,
+    {
+      revalidate: 600,
+      tags: [
+        'catalog',
+        'catalog:products',
+        navKey ? `catalog:${navKey}` : 'catalog:legacy',
+      ],
+    },
+    page
+  );
 
   return {
     categories,

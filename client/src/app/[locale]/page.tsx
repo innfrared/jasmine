@@ -32,7 +32,7 @@ const HomePage = async ({ params }: HomePageProps) => {
     });
 
     const response = await getServerCatalogProducts(query, {
-      revalidate: 180,
+      revalidate: 600,
       tags: ['landing', 'catalog:products'],
     });
 

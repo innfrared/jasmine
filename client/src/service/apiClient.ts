@@ -110,15 +110,18 @@ const request = async <T>(
   options: RequestOptions = {}
 ): Promise<T> => {
   const { body, query, skipAuthRetry = false } = options;
+  const hasBody = body !== undefined;
   const headers: Record<string, string> = {
     Accept: 'application/json',
   };
-  if (body) headers['Content-Type'] = 'application/json';
+  if (hasBody) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   const response = await fetch(buildUrl(path, query), {
     method,
     headers,
-    body: body ? JSON.stringify(body) : undefined,
+    body: hasBody ? JSON.stringify(body) : undefined,
     credentials: 'include',
   });
 
@@ -142,7 +145,7 @@ const request = async <T>(
       const retryResponse = await fetch(buildUrl(path, query), {
         method,
         headers,
-        body: body ? JSON.stringify(body) : undefined,
+        body: hasBody ? JSON.stringify(body) : undefined,
         credentials: 'include',
       });
 
@@ -159,7 +162,7 @@ const request = async <T>(
       return retryPayload as T;
     }
 
-    if (refreshResult.status === 401) {
+    if (refreshResult.status === 401 || refreshResult.status === 403) {
       await emitSessionExpired();
     }
   }
