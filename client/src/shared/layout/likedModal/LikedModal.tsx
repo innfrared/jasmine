@@ -19,6 +19,7 @@ import {
   getStoredWishlistProducts,
   removeWishlistProduct,
 } from '../drawerStorage';
+import { useAuth } from '@/context/AuthContext';
 import { useDrawerDismiss } from '../drawerHooks';
 import {
   LikedModalOverlay,
@@ -56,6 +57,7 @@ const LikedModal = ({ isOpen, onClose }: LikedModalProps) => {
     t('wishlist.share')
   );
   const { navigateLocalized } = useLocalizedRouting();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
   const { handleClose, isClosing, shouldRender } = useDrawerDismiss(
     isOpen,
     onClose
@@ -243,15 +245,17 @@ const LikedModal = ({ isOpen, onClose }: LikedModalProps) => {
         ) : (
           <>
             <LikedItemsList>{renderWishlistItems()}</LikedItemsList>
-            <WishlistFooter>
-              <ShareWishlistButton
-                type="button"
-                onClick={handleShareWishlist}
-                iconLeft={shareWishlistIcon}
-              >
-                {shareButtonLabel}
-              </ShareWishlistButton>
-            </WishlistFooter>
+            {isAuthenticated && !isAuthLoading ? (
+              <WishlistFooter>
+                <ShareWishlistButton
+                  type="button"
+                  onClick={handleShareWishlist}
+                  iconLeft={shareWishlistIcon}
+                >
+                  {shareButtonLabel}
+                </ShareWishlistButton>
+              </WishlistFooter>
+            ) : null}
           </>
         )}
       </LikedModalContainer>

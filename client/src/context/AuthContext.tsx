@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const userData = await getMe();
       setUser(userData);
     } catch {
-      logout(true);
+      setUser(null);
     }
   };
 

@@ -2,7 +2,7 @@ import { keyframes } from 'styled-components';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import { down } from '@/shared/styles/breakpoints';
-import { uiColors } from '@/shared/ui/tokens';
+import { uiColors, uiFocusRing } from '@/shared/ui/tokens';
 import { typography } from '@/shared/styles/typography';
 
 export type HeaderStateProps = {
@@ -12,7 +12,7 @@ export type HeaderStateProps = {
 const HEADER_CENTER_DESKTOP = '40px';
 const HEADER_CENTER_MOBILE = '40px';
 const HEADER_LOGO_WIDTH_DESKTOP = '120px';
-const HEADER_LOGO_WIDTH_MOBILE = 'clamp(72px, 20vw, 96px)';
+const HEADER_LOGO_WIDTH_MOBILE = 'clamp(120px, 28vw, 135px)';
 
 const toHeaderDesktop = keyframes`
   0% {
@@ -91,6 +91,11 @@ export const HeaderContainer = styled.header<HeaderStateProps>`
   box-shadow: none;
   backdrop-filter: ${({ $isScrolled }) =>
     $isScrolled ? 'blur(16px)' : 'blur(0px)'};
+
+  ${down.tablet} {
+    border-bottom: ${({ $isScrolled }) =>
+      $isScrolled ? '1px solid rgba(36, 31, 28, 0.08)' : 'none'};
+  }
 `;
 
 export const HeaderShell = styled.div<HeaderStateProps>`
@@ -106,6 +111,12 @@ export const HeaderShell = styled.div<HeaderStateProps>`
     padding: ${({ $isScrolled }) =>
       $isScrolled ? '0.7rem 0 0.5rem' : '0.95rem 0 0.75rem'};
   }
+
+  ${down.tablet} {
+    width: calc(100vw - 32px);
+    padding: ${({ $isScrolled }) =>
+      $isScrolled ? '10px 0 10px' : '14px 0 12px'};
+  }
 `;
 
 export const HeaderMainContainer = styled.div<HeaderStateProps>`
@@ -118,10 +129,72 @@ export const HeaderMainContainer = styled.div<HeaderStateProps>`
   ${down.laptop} {
     min-height: ${({ $isScrolled }) => ($isScrolled ? '54px' : '68px')};
   }
+
+  ${down.tablet} {
+    position: relative;
+    z-index: 1003;
+    grid-template-columns: 44px 1fr auto;
+    min-height: ${({ $isScrolled }) => ($isScrolled ? '52px' : '62px')};
+  }
 `;
 
 export const HeaderBalance = styled.div`
   min-width: 0;
+
+  ${down.tablet} {
+    display: none;
+  }
+`;
+
+export const HeaderLeadingSlot = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+
+  ${down.tablet} {
+    width: 44px;
+    justify-content: center;
+  }
+`;
+
+export const MobileNavToggleButton = styled.button<HeaderStateProps>`
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: transparent;
+  color: ${({ $isScrolled }) =>
+    $isScrolled ? 'var(--shell-nav-dark)' : 'var(--shell-nav-light)'};
+  transition:
+    color 0.24s ease,
+    transform 0.24s ease;
+
+  &:hover {
+    background: transparent;
+    color: ${uiColors.gold};
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: ${uiFocusRing};
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  ${down.tablet} {
+    display: inline-flex;
+  }
 `;
 
 export const HeaderLogo = styled.button`
@@ -136,6 +209,11 @@ export const HeaderLogo = styled.button`
   ${down.laptop} {
     width: 116px;
     height: 56px;
+  }
+
+  ${down.tablet} {
+    width: 135px;
+    height: 54px;
   }
 `;
 
@@ -216,6 +294,10 @@ export const HeaderActions = styled.div`
   ${down.laptop} {
     gap: 0.35rem;
   }
+
+  ${down.tablet} {
+    gap: 9px;
+  }
 `;
 
 export const ActionWrapper = styled.div`
@@ -259,12 +341,29 @@ export const UserIconButton = styled.button<HeaderStateProps>`
     width: 20px;
     height: 20px;
   }
+
+  ${down.tablet} {
+    width: 38px;
+    height: 38px;
+
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
 `;
 
 export const NavigationBar = styled.nav<HeaderStateProps>`
   width: 100%;
   margin-top: ${({ $isScrolled }) => ($isScrolled ? '0.25rem' : '0.45rem')};
   transition: margin-top 0.3s ease;
+
+  ${down.tablet} {
+    display: none;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+  }
 `;
 
 export const NavigationScroller = styled.div`

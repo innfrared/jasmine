@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { down } from '@/shared/styles/breakpoints';
 import { typography } from '@/shared/styles/typography';
 import { uiColors, uiFocusRing } from '../tokens';
 
@@ -93,6 +94,13 @@ export const NavActionButtonBase = styled.button<NavActionButtonBaseProps>`
     cursor: not-allowed;
     opacity: 0.56;
   }
+
+  ${down.tablet} {
+    width: ${({ $hasLabel }) => ($hasLabel ? 'auto' : '38px')};
+    min-width: 38px;
+    height: 38px;
+    padding: ${({ $hasLabel }) => ($hasLabel ? '0 0.65rem' : '0.45rem')};
+  }
 `;
 
 export const NavActionIcon = styled.span`
@@ -115,6 +123,11 @@ export const NavActionIcon = styled.span`
 
   ${NavActionButtonBase}:hover & {
     transform: scale(1.1);
+  }
+
+  ${down.tablet} {
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -139,4 +152,13 @@ export const NavActionBadge = styled.span`
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
+
+  ${down.tablet} {
+    top: -3px;
+    right: -3px;
+    width: 17px;
+    height: 17px;
+    font-size: 0.625rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+  }
 `;

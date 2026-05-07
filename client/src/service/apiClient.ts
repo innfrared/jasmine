@@ -51,7 +51,12 @@ const parseResponse = async <T>(res: globalThis.Response): Promise<T> => {
 
 const isBrowser = () => typeof window !== 'undefined';
 
-let refreshInFlight: Promise<boolean> | null = null;
+type RefreshResult = {
+  ok: boolean;
+  status: number;
+};
+
+let refreshInFlight: Promise<RefreshResult> | null = null;
 let hasBroadcastSessionExpiry = false;
 
 const emitSessionExpired = async () => {
@@ -69,21 +74,25 @@ const emitSessionExpired = async () => {
   window.dispatchEvent(new Event('auth:logout'));
 };
 
-const runRefreshRequest = async () => {
-  const response = await fetch(buildUrl(API_ENDPOINTS.auth.refresh), {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-    credentials: 'include',
-  });
+const runRefreshRequest = async (): Promise<RefreshResult> => {
+  try {
+    const response = await fetch(buildUrl(API_ENDPOINTS.auth.refresh), {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      credentials: 'include',
+    });
 
-  return response.ok;
+    return { ok: response.ok, status: response.status };
+  } catch {
+    return { ok: false, status: 0 };
+  }
 };
 
-const refreshSessionSingleFlight = async () => {
+const refreshSessionSingleFlight = async (): Promise<RefreshResult> => {
   if (!isBrowser()) {
-    return false;
+    return { ok: false, status: 0 };
   }
 
   if (!refreshInFlight) {
@@ -127,9 +136,9 @@ const request = async <T>(
     !skipAuthRetry &&
     !isRefreshRequest
   ) {
-    const hasRefreshed = await refreshSessionSingleFlight();
+    const refreshResult = await refreshSessionSingleFlight();
 
-    if (hasRefreshed) {
+    if (refreshResult.ok) {
       const retryResponse = await fetch(buildUrl(path, query), {
         method,
         headers,
@@ -150,7 +159,9 @@ const request = async <T>(
       return retryPayload as T;
     }
 
-    await emitSessionExpired();
+    if (refreshResult.status === 401) {
+      await emitSessionExpired();
+    }
   }
 
   if (!response.ok) {

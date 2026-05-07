@@ -64,6 +64,15 @@ export interface VariantOptionDto {
   is_current?: boolean;
 }
 
+export interface VariantDetailedImageDto {
+  id: number;
+  url?: string | null;
+  image_url?: string | null;
+  alt: string | null;
+  sort_order: number;
+  is_primary: boolean;
+}
+
 export interface VariantDetailedDto {
   id: number;
   folder?: string | null;
@@ -76,6 +85,7 @@ export interface VariantDetailedDto {
   handles?: string | null;
   image_url?: string | null;
   sort_order?: number | null;
+  images?: VariantDetailedImageDto[] | null;
 }
 
 export interface SpecificationDetailDto {

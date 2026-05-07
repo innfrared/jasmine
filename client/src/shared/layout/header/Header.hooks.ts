@@ -5,6 +5,7 @@ import {
   type MutableRefObject,
   type RefObject,
 } from 'react';
+import { breakpoints } from '@/shared/styles/breakpoints';
 import {
   HEADER_ANIMATION_DURATION_MS,
   getStoredCartCount,
@@ -22,6 +23,28 @@ const clearScheduledAnimation = (
 
   window.clearTimeout(timeoutRef.current);
   timeoutRef.current = null;
+};
+
+export const useIsBelowTablet = () => {
+  const [isBelow, setIsBelow] = useState(false);
+
+  useEffect(() => {
+    const query = `(max-width: ${breakpoints.tablet - 1}px)`;
+    const mediaQueryList = window.matchMedia(query);
+
+    const apply = () => {
+      setIsBelow(mediaQueryList.matches);
+    };
+
+    apply();
+    mediaQueryList.addEventListener('change', apply);
+
+    return () => {
+      mediaQueryList.removeEventListener('change', apply);
+    };
+  }, []);
+
+  return isBelow;
 };
 
 export const useDismissibleLayer = (
@@ -57,6 +80,23 @@ export const useDismissibleLayer = (
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [containerRef, isOpen, onDismiss]);
+};
+
+export const useRestoreFocusAfterClose = (
+  isOpen: boolean,
+  focusTargetRef: RefObject<HTMLElement | null>
+) => {
+  const wasOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (wasOpenRef.current && !isOpen) {
+      window.requestAnimationFrame(() => {
+        focusTargetRef.current?.focus();
+      });
+    }
+
+    wasOpenRef.current = isOpen;
+  }, [isOpen, focusTargetRef]);
 };
 
 export const useHeaderCounts = () => {

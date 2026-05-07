@@ -4,7 +4,10 @@ import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import Header from '@/shared/layout/header/Header';
 import { useTranslation } from 'react-i18next';
 import Breadcrumb from '@/shared/layout/breadcrumb/Breadcrumb';
-import type { Product } from '../../../entities/catalog/product';
+import type {
+  Product,
+  VariantDetailedImage,
+} from '../../../entities/catalog/product';
 import { shoppingBagRepository } from '@/shared/repositories/shoppingBagRepository';
 import { getImageUrl } from '@/shared/media/imageUtils';
 import { sanitizeCssColor } from '@/shared/security/inputSanitizers';
@@ -66,6 +69,7 @@ type VariantOption = {
   colorLabel: string | null;
   colorPalette: string | null;
   imageUrl: string | null;
+  images: VariantDetailedImage[];
   material: string | null;
   cordDiameter: string | null;
   cordType: string | null;
@@ -114,6 +118,62 @@ function normalizeOptionalText(value: string | null | undefined) {
   return normalized.length > 0 ? normalized : null;
 }
 
+function splitImageUrls(raw: string | null | undefined): string[] {
+  const normalized = normalizeOptionalText(raw);
+  if (!normalized) {
+    return [];
+  }
+
+  return normalized
+    .split(/[,;]\s*/)
+    .map(part => normalizeOptionalText(part))
+    .filter((part): part is string => Boolean(part));
+}
+
+function uniqueNormalizedUrls(urls: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const url of urls) {
+    const normalized = normalizeOptionalText(url);
+    if (normalized && !seen.has(normalized)) {
+      seen.add(normalized);
+      result.push(normalized);
+    }
+  }
+
+  return result;
+}
+
+function galleryRawUrlsForSelection(
+  activeVariant: VariantOption | null,
+  product: Product
+): string[] {
+  if (!activeVariant) {
+    return uniqueNormalizedUrls(
+      splitImageUrls(getProductPrimaryImage(product))
+    );
+  }
+
+  const fromGalleryRows = uniqueNormalizedUrls(
+    activeVariant.images.map(entry => entry.url)
+  );
+
+  if (fromGalleryRows.length > 0) {
+    return fromGalleryRows;
+  }
+
+  const fromImageUrl = uniqueNormalizedUrls(
+    splitImageUrls(activeVariant.imageUrl)
+  );
+
+  if (fromImageUrl.length > 0) {
+    return fromImageUrl;
+  }
+
+  return uniqueNormalizedUrls(splitImageUrls(getProductPrimaryImage(product)));
+}
+
 function formatSpecLabel(key: string) {
   return key
     .replace(/_/g, ' ')
@@ -146,6 +206,7 @@ const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
       colorLabel: normalizeOptionalText(variant.color),
       colorPalette: null,
       imageUrl: normalizeOptionalText(variant.image_url),
+      images: variant.images ?? [],
       material: normalizeOptionalText(variant.material),
       cordDiameter: normalizeOptionalText(variant.cord_diameter),
       cordType: normalizeOptionalText(variant.cord_type),
@@ -167,6 +228,7 @@ const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
       colorLabel: normalizeOptionalText(payloadOption.color_name),
       colorPalette: normalizeOptionalText(payloadOption.color_palette),
       imageUrl: normalizeOptionalText(payloadOption.image),
+      images: [],
       material: null,
       cordDiameter: null,
       cordType: null,
@@ -186,6 +248,7 @@ const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
       colorLabel: normalizeOptionalText(variant.color_name ?? variant.color),
       colorPalette: normalizeOptionalText(variant.color_palette),
       imageUrl: getVariantPrimaryImage(variant),
+      images: [],
       material: normalizeOptionalText(variant.material),
       cordDiameter: normalizeOptionalText(variant.cord_diameter),
       cordType: normalizeOptionalText(variant.cord_type),
@@ -205,6 +268,7 @@ const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
       colorLabel: normalizeOptionalText(product.variant_color_name),
       colorPalette: normalizeOptionalText(product.variant_color_palette),
       imageUrl: getProductPrimaryImage(product),
+      images: [],
       material: null,
       cordDiameter: null,
       cordType: null,
@@ -269,29 +333,14 @@ const CatalogProductPage = ({ product }: CatalogProductPageProps) => {
     );
   }, [selectedVariantId, variantOptions]);
 
-  const galleryImages = useMemo(() => {
-    const rawImages = [
-      activeVariant?.imageUrl ?? null,
-      ...variantOptions.map(variant => variant.imageUrl),
-      getProductPrimaryImage(product),
-    ].filter((imageUrl): imageUrl is string => Boolean(imageUrl));
-
-    return Array.from(new Set(rawImages)).map(imageUrl =>
-      getImageUrl(imageUrl)
-    );
-  }, [activeVariant?.imageUrl, product, variantOptions]);
+  const galleryImages = useMemo(
+    () => galleryRawUrlsForSelection(activeVariant, product).map(getImageUrl),
+    [activeVariant, product]
+  );
 
   useEffect(() => {
-    if (galleryImages.length === 0) {
-      setSelectedImage('');
-      return;
-    }
-
-    const activeImage = activeVariant?.imageUrl
-      ? getImageUrl(activeVariant.imageUrl)
-      : null;
-    setSelectedImage(activeImage ?? galleryImages[0]);
-  }, [activeVariant?.imageUrl, galleryImages]);
+    setSelectedImage(galleryImages[0] ?? '');
+  }, [galleryImages]);
 
   const resolvedMainImage = useMemo(() => {
     if (selectedImage) {

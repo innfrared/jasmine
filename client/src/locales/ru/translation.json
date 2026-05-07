@@ -56,6 +56,8 @@
   "welcome_user": "С возвращением",
   "manage_account": "Управление аккаунтом",
   "navigation": {
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
     "new": "Новинки",
     "allBags": "Все сумки",
     "crossbody": "Кроссбоди",

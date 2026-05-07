@@ -1,4 +1,7 @@
-import type { ProductDto } from '@/shared/contracts/api';
+import type {
+  ProductDto,
+  VariantDetailedImageDto,
+} from '@/shared/contracts/api';
 export interface VariantProductPreview {
   id: number;
   product?: number | null;
@@ -30,6 +33,14 @@ export interface VariantOption {
   is_current?: boolean;
 }
 
+export interface VariantDetailedImage {
+  id: number;
+  url: string;
+  alt: string | null;
+  sort_order: number;
+  is_primary: boolean;
+}
+
 export interface VariantDetailed {
   id: number;
   folder?: string | null;
@@ -42,6 +53,7 @@ export interface VariantDetailed {
   handles?: string | null;
   image_url?: string | null;
   sort_order?: number | null;
+  images: VariantDetailedImage[];
 }
 
 export interface SpecificationDetail {
@@ -109,6 +121,33 @@ export const mapProductDtoToCatalogProduct = (
   category: product.category ?? null,
   subcategory: product.subcategory ?? null,
   variants: product.variants ?? [],
+  variants_detailed: product.variants_detailed?.map(variant => ({
+    ...variant,
+    images: (variant.images ?? [])
+      .map(rawImage => {
+        const loose = rawImage as VariantDetailedImageDto & {
+          imageUrl?: string | null;
+        };
+
+        const resolvedUrl =
+          [
+            typeof rawImage.url === 'string' ? rawImage.url : '',
+            typeof rawImage.image_url === 'string' ? rawImage.image_url : '',
+            typeof loose.imageUrl === 'string' ? loose.imageUrl : '',
+          ]
+            .map(segment => segment.trim())
+            .find(segment => segment.length > 0) ?? '';
+
+        return {
+          id: rawImage.id,
+          url: resolvedUrl,
+          alt: rawImage.alt ?? null,
+          sort_order: rawImage.sort_order,
+          is_primary: rawImage.is_primary,
+        };
+      })
+      .filter(image => image.url.length > 0),
+  })),
   specifications: product.specifications ?? {},
   specifications_detailed: product.specifications_detailed ?? [],
 });

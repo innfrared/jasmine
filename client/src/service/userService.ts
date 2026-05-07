@@ -8,7 +8,8 @@ export interface UpdateProfilePayload {
   phone?: string | null;
 }
 
-export const getMe = () => apiClient.get<UserDto>(API_ENDPOINTS.user.me);
+export const getMe = () =>
+  apiClient.get<UserDto>(API_ENDPOINTS.user.me, { skipAuthRetry: true });
 
 export const updateProfile = (payload: UpdateProfilePayload) =>
   apiClient.patch<UserDto>(API_ENDPOINTS.user.me, {

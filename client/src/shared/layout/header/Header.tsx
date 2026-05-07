@@ -1,24 +1,19 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ReactSVG } from 'react-svg';
 import { useTranslation } from 'react-i18next';
+import HeaderActionButtons from './HeaderActionButtons';
+import HeaderDialogs from './HeaderDialogs';
+import HeaderLogoButton from './HeaderLogoButton';
+import MobileNavDrawer from './MobileNavDrawer';
+import MobileMenuButton from './MobileMenuButton';
 import Navigation from './Navigation';
 import { useAuth } from '../../../context/AuthContext';
 import {
-  ActionWrapper,
-  AnimatedLogo,
-  HeaderActions,
-  HeaderBalance,
-  HeaderContainer,
-  HeaderLogo,
-  HeaderMainContainer,
-  HeaderShell,
-  UserIconButton,
-} from './Header.styles';
-import NavActionButton from '@/shared/ui/nav-action-button';
+  HEADER_NAV_ITEMS,
+  isHeaderNavItemActive,
+} from '@/shared/config/navigation';
 import {
   stripLocaleFromPath,
   useLocalizedRouting,
@@ -31,28 +26,19 @@ import {
   useDismissibleLayer,
   useHeaderCounts,
   useHeaderScrollState,
+  useIsBelowTablet,
+  useRestoreFocusAfterClose,
 } from './Header.hooks';
-import { applyCurrentColorToLogo } from './Header.helpers';
+import type { AuthDialog, CommerceDialog } from './headerState';
 import {
-  HEADER_NAV_ITEMS,
-  isHeaderNavItemActive,
-} from '@/shared/config/navigation';
+  HeaderBalance,
+  HeaderContainer,
+  HeaderLeadingSlot,
+  HeaderMainContainer,
+  HeaderShell,
+} from './Header.styles';
 
-const LoginPopup = dynamic(() => import('../loginPopup/LoginPopup'), {
-  ssr: false,
-});
-const RegisterPopup = dynamic(() => import('../registerPopup/RegisterPopup'), {
-  ssr: false,
-});
-const CartModal = dynamic(() => import('../cartModal/CartModal'), {
-  ssr: false,
-});
-const LikedModal = dynamic(() => import('../likedModal/LikedModal'), {
-  ssr: false,
-});
-const ProfileCard = dynamic(() => import('../profileCard/ProfileCard'), {
-  ssr: false,
-});
+const MOBILE_NAV_PANEL_ID = 'mobile-primary-nav';
 
 type HeaderProps = {
   primaryColor: string;
@@ -62,81 +48,70 @@ type HeaderProps = {
 function Header({ primaryColor, secondaryColor }: HeaderProps) {
   void primaryColor;
   void secondaryColor;
+
   const { t } = useTranslation<'translation'>();
   const router = useRouter();
   const { pathname, search, navigateLocalized, getLocalizedPath } =
     useLocalizedRouting();
+
   const forceScrolled = stripLocaleFromPath(pathname) !== '/';
   const strippedPathname = stripLocaleFromPath(pathname);
-  const { isAuthenticated } = useAuth();
-  const accountBoxRef = useRef<HTMLDivElement>(null);
+
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+  const burgerButtonRef = useRef<HTMLButtonElement>(null);
+
   const { cartCount, likedCount } = useHeaderCounts();
   const { isScrolled, phase } = useHeaderScrollState(forceScrolled);
+  const isBelowTablet = useIsBelowTablet();
 
-  const [isAccountBoxVisible, setIsAccountBoxVisible] = useState(false);
-  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-  const [isRegisterPopupOpen, setIsRegisterPopupOpen] = useState(false);
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const [isLikedModalOpen, setIsLikedModalOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const [authDialog, setAuthDialog] = useState<AuthDialog>(null);
+  const [commerceDialog, setCommerceDialog] = useState<CommerceDialog>(null);
 
-  const navigationItems = useMemo(
-    () =>
-      HEADER_NAV_ITEMS.map(item => ({
-        id: item.id,
-        label: t(item.labelKey),
-        href: getLocalizedPath(item.href),
-        isActive: isHeaderNavItemActive(strippedPathname, search, item.navKey),
-      })),
-    [getLocalizedPath, search, strippedPathname, t]
-  );
+  const navigationItems = useMemo(() => {
+    return HEADER_NAV_ITEMS.map(item => ({
+      id: item.id,
+      label: t(item.labelKey),
+      href: getLocalizedPath(item.href),
+      isActive: isHeaderNavItemActive(strippedPathname, search, item.navKey),
+    }));
+  }, [getLocalizedPath, search, strippedPathname, t]);
 
-  const toggleAccountBox = () => {
-    setIsAccountBoxVisible(previousValue => !previousValue);
-  };
+  const closeMobileNav = () => setIsMobileNavOpen(false);
 
-  const closeAccountBox = () => {
-    setIsAccountBoxVisible(false);
-  };
-
-  const handleLogoClick = () => {
-    navigateLocalized('/');
-  };
-
-  const openLoginPopup = () => {
-    setIsLoginPopupOpen(true);
-  };
-
-  const closeLoginPopup = () => {
-    setIsLoginPopupOpen(false);
-  };
-
-  const openRegisterPopup = () => {
-    setIsRegisterPopupOpen(true);
-  };
-
-  const closeRegisterPopup = () => {
-    setIsRegisterPopupOpen(false);
-  };
-
-  const openCartModal = () => {
-    setIsLikedModalOpen(false);
-    setIsCartModalOpen(true);
-  };
-
-  const closeCartModal = () => {
-    setIsCartModalOpen(false);
-  };
-
-  const toggleCartModal = () => {
-    if (isCartModalOpen) {
-      closeCartModal();
+  const toggleMobileNav = () => {
+    if (!isBelowTablet) {
       return;
     }
 
-    openCartModal();
+    setIsMobileNavOpen(value => !value);
   };
 
-  const clearWishlistDialogQuery = () => {
+  const closeAccountMenu = () => setIsAccountMenuOpen(false);
+
+  const toggleAccountMenu = () => setIsAccountMenuOpen(value => !value);
+
+  const openLoginDialog = () => setAuthDialog('login');
+
+  const openRegisterDialog = () => setAuthDialog('register');
+
+  const closeAuthDialog = () => setAuthDialog(null);
+
+  const switchAuthDialogToRegister = () => setAuthDialog('register');
+
+  const switchAuthDialogToLogin = () => setAuthDialog('login');
+
+  const toggleCartDialog = () =>
+    setCommerceDialog(current => (current === 'cart' ? null : 'cart'));
+
+  const toggleLikedDialog = () =>
+    setCommerceDialog(current => (current === 'liked' ? null : 'liked'));
+
+  const closeCartDialog = () => setCommerceDialog(null);
+
+  const removeWishlistDialogQueryFromUrl = () => {
     if (!hasWishlistDialogQuery(search)) {
       return;
     }
@@ -145,38 +120,16 @@ function Header({ primaryColor, secondaryColor }: HeaderProps) {
     router.replace(nextPath, { scroll: false });
   };
 
-  const openLikedModal = () => {
-    setIsCartModalOpen(false);
-    setIsLikedModalOpen(true);
+  const closeLikedDialog = () => {
+    setCommerceDialog(null);
+    removeWishlistDialogQueryFromUrl();
   };
 
-  const closeLikedModal = () => {
-    setIsLikedModalOpen(false);
-    clearWishlistDialogQuery();
-  };
-
-  const toggleLikedModal = () => {
-    if (isLikedModalOpen) {
-      closeLikedModal();
-      return;
-    }
-
-    openLikedModal();
-  };
-
-  const handleOpenRegisterFromLogin = () => {
-    closeLoginPopup();
-    openRegisterPopup();
-  };
-
-  const handleOpenLoginFromRegister = () => {
-    closeRegisterPopup();
-    openLoginPopup();
-  };
+  const handleLogoClick = () => navigateLocalized('/');
 
   useEffect(() => {
     if (isAuthenticated) {
-      closeAccountBox();
+      closeAccountMenu();
     }
   }, [isAuthenticated]);
 
@@ -185,125 +138,102 @@ function Header({ primaryColor, secondaryColor }: HeaderProps) {
       return;
     }
 
-    openLikedModal();
-  }, [search]);
+    if (isAuthLoading) {
+      return;
+    }
 
-  useDismissibleLayer(isAccountBoxVisible, accountBoxRef, closeAccountBox);
+    if (isAuthenticated) {
+      setCommerceDialog('liked');
+      return;
+    }
+
+    router.replace(clearWishlistDialogPath(pathname, search), {
+      scroll: false,
+    });
+  }, [isAuthenticated, isAuthLoading, pathname, router, search]);
+
+  useDismissibleLayer(isAccountMenuOpen, accountMenuRef, closeAccountMenu);
+
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isBelowTablet) {
+      setIsMobileNavOpen(false);
+    }
+  }, [isBelowTablet]);
+
+  useEffect(() => {
+    if (commerceDialog !== null || isAccountMenuOpen) {
+      setIsMobileNavOpen(false);
+    }
+  }, [commerceDialog, isAccountMenuOpen]);
+
+  useRestoreFocusAfterClose(isMobileNavOpen, burgerButtonRef);
 
   return (
     <HeaderContainer $isScrolled={isScrolled} id="site-header">
       <HeaderShell $isScrolled={isScrolled}>
         <HeaderMainContainer $isScrolled={isScrolled}>
-          <HeaderBalance />
-          <HeaderLogo onClick={handleLogoClick} aria-label="Jasmine Crafted">
-            <AnimatedLogo $phase={phase}>
-              <ReactSVG
-                src="/assets/logobig.svg"
-                beforeInjection={applyCurrentColorToLogo}
-              />
-            </AnimatedLogo>
-          </HeaderLogo>
-          <HeaderActions>
-            <ActionWrapper>
-              <NavActionButton
-                onClick={toggleLikedModal}
-                aria-label={t('wishlist.name')}
-                active={isLikedModalOpen}
-                count={likedCount}
-                isScrolled={isScrolled}
-                tone="wishlist"
-                icon={
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                }
-              />
-              {isLikedModalOpen ? (
-                <LikedModal
-                  isOpen={isLikedModalOpen}
-                  onClose={closeLikedModal}
-                />
-              ) : null}
-            </ActionWrapper>
-            <ActionWrapper>
-              <NavActionButton
-                onClick={toggleCartModal}
-                aria-label={t('shoppingBag.name')}
-                active={isCartModalOpen}
-                count={cartCount}
-                isScrolled={isScrolled}
-                tone="shoppingBag"
-                icon={
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 0 1-8 0" />
-                  </svg>
-                }
-              />
-              {isCartModalOpen ? (
-                <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
-              ) : null}
-            </ActionWrapper>
-            <ActionWrapper ref={accountBoxRef}>
-              <UserIconButton
-                onClick={toggleAccountBox}
-                $isScrolled={isScrolled}
-                aria-label="Account"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </UserIconButton>
-              {isAccountBoxVisible ? (
-                <ProfileCard
-                  onClose={closeAccountBox}
-                  isScrolled={isScrolled}
-                  onOpenLogin={openLoginPopup}
-                  onOpenRegister={openRegisterPopup}
-                />
-              ) : null}
-            </ActionWrapper>
-          </HeaderActions>
+          <HeaderLeadingSlot>
+            <MobileMenuButton
+              ref={burgerButtonRef}
+              ariaLabelClose={t('navigation.closeMenu')}
+              ariaLabelOpen={t('navigation.openMenu')}
+              isNavOpen={isMobileNavOpen}
+              isScrolled={isScrolled}
+              panelId={MOBILE_NAV_PANEL_ID}
+              onToggle={toggleMobileNav}
+            />
+            <HeaderBalance />
+          </HeaderLeadingSlot>
+
+          <HeaderLogoButton onClick={handleLogoClick} phase={phase} />
+
+          <HeaderActionButtons
+            accountMenuRef={accountMenuRef}
+            actions={{
+              closeAccountMenu,
+              closeCartDialog,
+              closeLikedDialog,
+              openLoginDialog,
+              openRegisterDialog,
+              toggleAccountMenu,
+              toggleCartDialog,
+              toggleLikedDialog,
+            }}
+            commerceDialog={commerceDialog}
+            counts={{ cart: cartCount, liked: likedCount }}
+            isAccountMenuOpen={isAccountMenuOpen}
+            isScrolled={isScrolled}
+            labels={{
+              cart: t('shoppingBag.name'),
+              wishlist: t('wishlist.name'),
+            }}
+          />
         </HeaderMainContainer>
 
         <Navigation isScrolled={isScrolled} items={navigationItems} />
       </HeaderShell>
 
-      {isLoginPopupOpen ? (
-        <LoginPopup
-          onClose={closeLoginPopup}
-          onOpenRegister={handleOpenRegisterFromLogin}
+      {isBelowTablet ? (
+        <MobileNavDrawer
+          ariaLabelClose={t('navigation.closeMenu')}
+          isOpen={isMobileNavOpen}
+          items={navigationItems}
+          isScrolled={isScrolled}
+          panelId={MOBILE_NAV_PANEL_ID}
+          onClose={closeMobileNav}
         />
       ) : null}
-      {isRegisterPopupOpen ? (
-        <RegisterPopup
-          onClose={closeRegisterPopup}
-          onOpenLogin={handleOpenLoginFromRegister}
-        />
-      ) : null}
+
+      <HeaderDialogs
+        authDialog={authDialog}
+        onCloseAuthDialog={closeAuthDialog}
+        onSwitchFromLoginToRegister={switchAuthDialogToRegister}
+        onSwitchFromRegisterToLogin={switchAuthDialogToLogin}
+      />
     </HeaderContainer>
   );
 }
