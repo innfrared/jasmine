@@ -5,7 +5,6 @@ export const Card = styled.div`
   width: 100%;
   min-width: 0;
   height: 100%;
-  background: #fff;
   position: relative;
   box-sizing: border-box;
   cursor: pointer;

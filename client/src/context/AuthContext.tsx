@@ -90,7 +90,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       window.cancelAnimationFrame(frame1);
       window.cancelAnimationFrame(frame2);
     };
-    // Mount-only session bootstrap; omit deps to avoid re-subscribing each render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

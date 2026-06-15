@@ -81,6 +81,12 @@ export const ProductRow = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
+  align-items: start;
+
+  > * {
+    min-width: 0;
+  }
+
   ${up.tablet} {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;

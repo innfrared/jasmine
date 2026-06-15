@@ -1,12 +1,15 @@
 import type { TFunction } from 'i18next';
 import type { EditorialImage } from '@/shared/types/editorial';
 import type { LandingHomeContent } from '@/shared/types/landingHome';
+import { getProductDetailPath } from '@/shared/routing/productPaths';
 
 type ConfiguredEditorialImage = Omit<EditorialImage, 'alt'> & {
   altKey: string;
 };
 
 type LocalizePath = (path: string) => string;
+
+export const MANIFESTO_VION_PRODUCT_ID = 68;
 
 const ASSETS = {
   supportShoulder: {
@@ -31,11 +34,11 @@ const ASSETS = {
     aspectRatio: '6 / 7',
   },
   manifesto: {
-    src: '/assets/model/split/secondary/SAR_0185.jpg',
+    src: '/assets/editorialManifesto/IMG_9084.jpeg',
     altKey: 'landingHome.manifesto.image',
-    focalPointDesktop: '50% 22%',
-    focalPointMobile: '52% 20%',
-    aspectRatio: '4 / 5',
+    focalPointDesktop: '42% 50%',
+    focalPointMobile: '45% 48%',
+    aspectRatio: '10 / 2',
     minHeight: '28rem',
   },
   craftOne: {
@@ -147,7 +150,12 @@ export function buildLandingHomeContent(
       line: t('landingHome.manifesto.line'),
       image: resolveImage(ASSETS.manifesto, t),
       ctaLabel: t('landingHome.manifesto.cta'),
-      ctaHref: getLocalizedPath('/bags'),
+      ctaHref: getLocalizedPath(
+        getProductDetailPath({
+          id: MANIFESTO_VION_PRODUCT_ID,
+          name: 'Vion',
+        })
+      ),
     },
     editorialCraft: {
       slides: [

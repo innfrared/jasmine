@@ -10,7 +10,6 @@ export type EditorialCategoryCardProps = {
   href: string;
   title: string;
   image: EditorialImage;
-  /** Middle tile in a trio often reads darker — use lighter overlay scrim */
   overlayVariant?: 'default' | 'lighter';
 };
 

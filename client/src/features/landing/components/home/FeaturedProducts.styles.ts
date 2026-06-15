@@ -45,6 +45,11 @@ export const EditorialGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.1rem, 2.6vw, 1.65rem) clamp(0.95rem, 2.2vw, 1.5rem);
+  align-items: start;
+
+  > * {
+    min-width: 0;
+  }
 
   ${down.laptop} {
     & > *:nth-child(1) {
@@ -79,30 +84,9 @@ export const EditorialGrid = styled.div`
   }
 `;
 
-export const ProductCell = styled.div<{ $stagger: 'up' | 'down' | 'none' }>`
-  ${up.laptop} {
-    transform: ${({ $stagger }) =>
-      $stagger === 'up'
-        ? 'translateY(-0.85rem)'
-        : $stagger === 'down'
-          ? 'translateY(1.1rem)'
-          : 'none'};
-  }
-
-  ${down.wide} {
-    ${up.laptop} {
-      transform: ${({ $stagger }) =>
-        $stagger === 'up'
-          ? 'translateY(-0.45rem)'
-          : $stagger === 'down'
-            ? 'translateY(0.65rem)'
-            : 'none'};
-    }
-  }
-
-  &:nth-child(1) {
-    transform: none;
-  }
+export const ProductCell = styled.div`
+  min-width: 0;
+  height: 100%;
 `;
 
 export const Heading = styled.h2`

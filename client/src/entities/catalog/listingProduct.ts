@@ -51,7 +51,6 @@ function mapVariantToPreview(
   };
 }
 
-/** Expands a grid-only product into a full `Product` for wishlist / bag localStorage. */
 export function listingProductToStorageProduct(
   listing: ListingProduct
 ): Product {
@@ -111,4 +110,47 @@ export function mapProductDtoToListingProduct(dto: ProductDto): ListingProduct {
       image_url: v.image_url ?? v.image ?? null,
     })),
   };
+}
+
+export function mapProductDtoToManifestoVariantCells(
+  dto: ProductDto,
+  maxCells = 3
+): ListingProduct[] {
+  const base = mapProductDtoToListingProduct(dto);
+
+  type VariantSource = {
+    id: number;
+    image_url: string | null;
+    color_name: string | null;
+    color_palette: string | null;
+  };
+
+  const fromVariants: VariantSource[] = (dto.variants ?? []).map(v => ({
+    id: v.id,
+    image_url: v.image_url ?? v.image ?? null,
+    color_name: v.color_name ?? null,
+    color_palette: v.color_palette ?? null,
+  }));
+
+  const fromOptions: VariantSource[] = (dto.variant_options ?? []).map(o => ({
+    id: o.id,
+    image_url: o.image ?? null,
+    color_name: o.color_name ?? null,
+    color_palette: o.color_palette ?? null,
+  }));
+
+  const sources = fromVariants.length > 0 ? fromVariants : fromOptions;
+
+  if (sources.length === 0) {
+    return [base].slice(0, maxCells);
+  }
+
+  return sources.slice(0, maxCells).map(source => ({
+    ...base,
+    id: source.id,
+    name: dto.name,
+    image_url: source.image_url ?? base.image_url,
+    variant_color_name: source.color_name,
+    variant_color_palette: source.color_palette,
+  }));
 }

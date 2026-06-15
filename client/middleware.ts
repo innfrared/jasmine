@@ -68,12 +68,25 @@ const resolveRequestHost = (request: NextRequest) =>
     ?.trim()
     .toLowerCase();
 
+const isLocalHost = (host: string) => {
+  const normalizedHost = host.replace(/^\[|\]$/g, '').split(':')[0];
+  return (
+    normalizedHost === 'localhost' ||
+    normalizedHost === '127.0.0.1' ||
+    normalizedHost === '::1'
+  );
+};
+
 const isRequestHostAllowed = (request: NextRequest) => {
+  const requestHost = resolveRequestHost(request);
+
+  if (requestHost && isLocalHost(requestHost)) {
+    return true;
+  }
+
   if (ALLOWED_HOSTS.length === 0) {
     return !IS_PRODUCTION;
   }
-
-  const requestHost = resolveRequestHost(request);
 
   if (!requestHost) {
     return false;
@@ -311,9 +324,7 @@ const safeRequestId = (request: NextRequest): string => {
     if (typeof uuid === 'string' && uuid.length > 0) {
       return uuid;
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
 
   return `mw-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 14)}`;
 };

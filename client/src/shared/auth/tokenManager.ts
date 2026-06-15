@@ -9,7 +9,6 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 
 export const tokenManager = {
   clearSession: () => {
-    // Cleanup legacy client-side token artifacts from pre-HttpOnly auth.
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     clearCookieValue(ACCESS_TOKEN_COOKIE_KEY);

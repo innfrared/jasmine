@@ -3,7 +3,6 @@ import type { ConsentState } from './cookieConsent';
 
 export type CookieConsentContextValue = {
   ready: boolean;
-  /** Null until first client read; then either valid consent or stays null if absent (banner). */
   consent: ConsentState | null;
   hasStoredConsent: boolean;
   necessary: true;

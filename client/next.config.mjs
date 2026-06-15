@@ -20,7 +20,6 @@ const cspReportOnly = [
   "upgrade-insecure-requests",
 ].join('; ');
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   compiler: {
     styledComponents: true,

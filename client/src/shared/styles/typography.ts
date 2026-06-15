@@ -7,12 +7,10 @@ export const fontFamilies = {
   editorialScript: 'var(--font-editorial-script)',
 } as const;
 
-/** `rem` root; applied on `html` via `GlobalTypography` only. */
 export const documentRoot = css`
   font-size: 100%;
 `;
 
-/** Shared responsive steps for nav + button roles (locked scale). */
 const navButtonType = css`
   font-family: ${fontFamilies.sans};
   font-size: 0.76rem;
@@ -49,7 +47,7 @@ const bodyCore = css`
   font-family: ${fontFamilies.sans};
   font-weight: 400;
   font-size: 0.96rem;
-  line-height: 1.5;
+  line-height: 1.3;
   letter-spacing: 0.005em;
   ${up.tablet} {
     font-size: 0.98rem;
@@ -91,7 +89,7 @@ export const typography = {
   sectionHeading: css`
     font-family: ${fontFamilies.sans};
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.14;
     letter-spacing: 0.01em;
     text-transform: none;
@@ -212,7 +210,6 @@ export const typography = {
       font-size: 0.72rem;
     }
   `,
-  /** Compact numeric glyphs (currency codes, counters) — not uppercase. */
   badgeNumeric: css`
     font-family: ${fontFamilies.sans};
     font-weight: 600;
@@ -259,14 +256,12 @@ export const typography = {
     letter-spacing: 0.12em;
     text-transform: uppercase;
   `,
-  /** Primary CTAs that use heavier weight than default buttons. */
   buttonBold: css`
     ${navButtonType}
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   `,
-  /** Decorative script lines; matches editorial display scale. */
   editorialScriptHeading: css`
     font-family: ${fontFamilies.editorialScript};
     font-weight: 400;

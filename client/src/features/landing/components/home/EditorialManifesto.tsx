@@ -1,6 +1,6 @@
+import InteractiveProductCell from '@/features/catalog/components/InteractiveProductCell';
 import Button from '@/shared/ui/button';
 import type { EditorialManifestoProps } from '@/shared/types/landingHome';
-import HomeFeaturedProductCard from './HomeFeaturedProductCard';
 import {
   CopyBlock,
   CtaWrap,
@@ -38,21 +38,15 @@ function EditorialManifesto({
         </CopyBlock>
       </Inner>
       <Figure>
-        <img
-          src={image.src}
-          alt={image.alt}
-          loading="lazy"
-          decoding="async"
-        />
+        <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
       </Figure>
       {manifestoProducts.length > 0 ? (
         <ProductRow>
           {manifestoProducts.map((product, index) => (
-            <HomeFeaturedProductCard
+            <InteractiveProductCell
               key={product.id}
               product={product}
               priority={index < 2}
-              variant="support"
             />
           ))}
         </ProductRow>

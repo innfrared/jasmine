@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { ListingProduct } from '@/entities/catalog/listingProduct';
-import HomeFeaturedProductCard from './HomeFeaturedProductCard';
+import InteractiveProductCell from '@/features/catalog/components/InteractiveProductCell';
 import {
   EditorialGrid,
   EmptyState,
@@ -15,18 +15,6 @@ import {
 type FeaturedProductsProps = {
   products: ListingProduct[];
 };
-
-const STAGGER_PATTERN: Array<'up' | 'down' | 'none'> = [
-  'none',
-  'down',
-  'up',
-  'down',
-  'none',
-];
-
-function staggerForIndex(index: number): 'up' | 'down' | 'none' {
-  return STAGGER_PATTERN[index % STAGGER_PATTERN.length];
-}
 
 function FeaturedProducts({ products }: FeaturedProductsProps) {
   const { t } = useTranslation<'translation'>();
@@ -47,11 +35,10 @@ function FeaturedProducts({ products }: FeaturedProductsProps) {
         ) : (
           <EditorialGrid>
             {slice.map((product, index) => (
-              <ProductCell key={product.id} $stagger={staggerForIndex(index)}>
-                <HomeFeaturedProductCard
+              <ProductCell key={product.id}>
+                <InteractiveProductCell
                   product={product}
                   priority={index < 2}
-                  variant={index === 0 ? 'featured' : 'support'}
                 />
               </ProductCell>
             ))}

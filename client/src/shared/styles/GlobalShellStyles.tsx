@@ -3,10 +3,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { down } from './breakpoints';
 
-/**
- * Shell layout rules that must apply globally to `.storefront-*` classes.
- * Viewport media queries come only from the shared breakpoint module.
- */
 export const GlobalShellStyles = createGlobalStyle`
   ${down.tablet} {
     .storefront-main-layer {

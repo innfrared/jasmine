@@ -17,11 +17,13 @@ import { LandingScreenContainer } from './LandingScreen.styles';
 
 type LandingScreenProps = {
   featuredProducts: ListingProduct[];
+  manifestoProducts: ListingProduct[];
 };
 
-const MANIFESTO_PRODUCT_CARD_COUNT = 3;
-
-function LandingScreen({ featuredProducts }: LandingScreenProps) {
+function LandingScreen({
+  featuredProducts,
+  manifestoProducts,
+}: LandingScreenProps) {
   const { t } = useTranslation<'translation'>();
   const { getLocalizedPath } = useLocalizedRouting();
   const homeContent = useMemo(
@@ -36,11 +38,9 @@ function LandingScreen({ featuredProducts }: LandingScreenProps) {
       <CuratedEntry {...homeContent.curatedEntry} />
       <EditorialManifesto
         {...homeContent.editorialManifesto}
-        products={featuredProducts.slice(0, MANIFESTO_PRODUCT_CARD_COUNT)}
+        products={manifestoProducts}
       />
-      <FeaturedProducts
-        products={featuredProducts.slice(MANIFESTO_PRODUCT_CARD_COUNT)}
-      />
+      <FeaturedProducts products={featuredProducts} />
       <EditorialCraft slides={homeContent.editorialCraft.slides} />
       <MixedCommerce {...homeContent.mixedCommerce} />
       <EditorialClosing {...homeContent.editorialClosing} />

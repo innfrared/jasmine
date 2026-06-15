@@ -1,9 +1,7 @@
 export const CONSENT_COOKIE_KEY = 'cookie_consent';
 
-/** Schema version; bump when payload shape changes. */
 export const CONSENT_SCHEMA_VERSION = 1;
 
-/** ~10 months — within plan range 6–12 months. */
 export const CONSENT_MAX_AGE_SECONDS = Math.floor((300 * 24 * 60 * 60) / 1);
 
 export type ConsentCategories = {
@@ -104,9 +102,6 @@ export const writeConsentCookie = (state: ConsentState): void => {
   document.cookie = buildConsentCookieString(serializeConsentPayload(state));
 };
 
-/**
- * Extract a single cookie value from a raw `Cookie` header (server / middleware).
- */
 export const getRawCookieValueFromHeader = (
   cookieHeader: string | null | undefined,
   name: string

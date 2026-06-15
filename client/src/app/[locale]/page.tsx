@@ -1,8 +1,13 @@
 import LandingScreen from '@/features/landing/views/LandingScreen';
 import type { ListingProduct } from '@/entities/catalog/listingProduct';
-import { mapProductDtoToListingProduct } from '@/entities/catalog/listingProduct';
+import {
+  mapProductDtoToListingProduct,
+  mapProductDtoToManifestoVariantCells,
+} from '@/entities/catalog/listingProduct';
+import { MANIFESTO_VION_PRODUCT_ID } from '@/shared/config/landingHome';
 import { buildLiveCatalogQuery } from '@/shared/catalog/productQuery';
 import { getServerCatalogProducts } from '@/server/django/catalog';
+import { getServerProductById } from '@/server/catalog/productDetail';
 import { validateLocale, type LocaleRouteParams } from './_route-utils/locale';
 
 type HomePageProps = {
@@ -19,6 +24,14 @@ const HomePage = async ({ params }: HomePageProps) => {
   }
 
   let featuredProducts: ListingProduct[] = [];
+  let manifestoProducts: ListingProduct[] = [];
+
+  try {
+    const vionDto = await getServerProductById(MANIFESTO_VION_PRODUCT_ID);
+    manifestoProducts = mapProductDtoToManifestoVariantCells(vionDto, 3);
+  } catch {
+    manifestoProducts = [];
+  }
 
   try {
     const query = buildLiveCatalogQuery({
@@ -44,7 +57,12 @@ const HomePage = async ({ params }: HomePageProps) => {
     featuredProducts = [];
   }
 
-  return <LandingScreen featuredProducts={featuredProducts} />;
+  return (
+    <LandingScreen
+      featuredProducts={featuredProducts}
+      manifestoProducts={manifestoProducts}
+    />
+  );
 };
 
 export default HomePage;
